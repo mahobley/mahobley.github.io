@@ -1,0 +1,121 @@
+\definecolor{ds1}{HTML}{1F77B4}
+\definecolor{ds2}{HTML}{FF7F0E}
+\definecolor{ds3}{HTML}{2CA02C}
+\definecolor{ds4}{HTML}{D62728}
+\definecolor{ds5}{HTML}{9467BD}
+\definecolor{ds6}{HTML}{8C564B}
+\definecolor{ds7}{HTML}{E377C2}
+\definecolor{ds8}{HTML}{7F7F7F}
+\definecolor{ds9}{HTML}{BCBD22}
+\definecolor{ds10}{HTML}{17BECF}
+\definecolor{blk}{HTML}{000000}
+\begin{tikzpicture}
+\begin{axis}[
+  width=11cm, height=7.2cm,
+  xmode=log, ymode=log,
+  xmajorgrids, ymajorgrids,
+  xminorgrids=false, yminorgrids=false,
+  grid style={line width=0.3pt, dotted},
+  xlabel={Number of Training Samples},
+  ylabel={3D RMSE},
+  title={},
+  legend pos=north east,
+  legend cell align=left,
+]
+
+
+% --- in-distribution (cnn) ---
+\addplot[name path=ds1upper, draw=none, forget plot] table[row sep=\\] {%
+x y \\
+1.0 6.2761678875137505 \\
+10.0 2.264764485778823 \\
+100.0 0.8363415405967946 \\
+1000.0 0.601405598162851 \\
+10000.0 0.442883352155721 \\
+};
+\addplot[name path=ds1lower, draw=none, forget plot] table[row sep=\\] {%
+x y \\
+1.0 1.1804740528309197 \\
+10.0 1.1931449773582334 \\
+100.0 0.7700387148967665 \\
+1000.0 0.5868172736746164 \\
+10000.0 0.43573466698905 \\
+};
+\addplot[fill=ds1, fill opacity=0.2, forget plot] fill between[of=ds1upper and ds1lower];
+\addplot[{ds1}, thick] table[row sep=\\] {%
+x y \\
+1.0 3.218517 \\
+10.0 1.6909732000000002 \\
+100.0 0.802862 \\
+1000.0 0.5940898 \\
+10000.0 0.43930199999999997 \\
+};
+\addlegendentry{In-Distribution (CNN)}
+% --- holoocean (cnn) ---
+\addplot[name path=ds2upper, draw=none, forget plot] table[row sep=\\] {%
+x y \\
+1.0 6.402212704048201 \\
+10.0 3.2607351124639457 \\
+100.0 1.8031339278206613 \\
+1000.0 0.8559764199750425 \\
+10000.0 1.0920224716340774 \\
+};
+\addplot[name path=ds2lower, draw=none, forget plot] table[row sep=\\] {%
+x y \\
+1.0 1.0490848632319167 \\
+10.0 1.9591812386303986 \\
+100.0 0.7240756453294922 \\
+1000.0 0.8092475853024645 \\
+10000.0 1.0403611117407856 \\
+};
+\addplot[fill=ds2, fill opacity=0.2, forget plot] fill between[of=ds2upper and ds2lower];
+\addplot[{ds2}, thick] table[row sep=\\] {%
+x y \\
+1.0 3.1393694 \\
+10.0 2.5740644 \\
+100.0 1.2158598 \\
+1000.0 0.8324556 \\
+10000.0 1.0660409999999998 \\
+};
+\addlegendentry{HoloOcean (CNN)}
+% --- holoocean rough (cnn) ---
+\addplot[name path=ds3upper, draw=none, forget plot] table[row sep=\\] {%
+x y \\
+1.0 6.6800615396591185 \\
+10.0 4.307812496303215 \\
+100.0 4.984460158973107 \\
+1000.0 2.111594988564347 \\
+10000.0 2.019017922366926 \\
+};
+\addplot[name path=ds3lower, draw=none, forget plot] table[row sep=\\] {%
+x y \\
+1.0 2.5213891513397475 \\
+10.0 3.282740788284345 \\
+100.0 1.5476577707962822 \\
+1000.0 2.075171222935963 \\
+10000.0 1.9576098152701882 \\
+};
+\addplot[fill=ds3, fill opacity=0.2, forget plot] fill between[of=ds3upper and ds3lower];
+\addplot[{ds3}, thick] table[row sep=\\] {%
+x y \\
+1.0 4.3533072 \\
+10.0 3.778242 \\
+100.0 3.0896438 \\
+1000.0 2.0933450000000002 \\
+10000.0 1.9881997999999999 \\
+};
+\addlegendentry{HO Rough (CNN)}
+% Add legend entry ONLY (no plot)
+\addlegendimage{black, thick, dashed}
+\addlegendentry{Ours}
+\addplot[{ds1}, thick, dashed] coordinates {(1.0,0.674) (10000.0,0.674)};
+% \addlegendentry{}
+% \addlegendentry{Ours}
+\addplot[{ds2}, thick, dashed] coordinates {(1.0,0.830) (10000.0,0.830)};
+% \addlegendentry{HoloOcean (ours)}
+\addplot[{ds3}, thick, dashed] coordinates {(1.0,2.032) (10000.0,2.032)};
+% \addlegendentry{Rough Terrain (ours)}
+
+
+\end{axis}
+\end{tikzpicture}

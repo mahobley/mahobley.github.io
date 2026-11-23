@@ -1,0 +1,464 @@
+\documentclass[../thesis.tex]{subfiles}
+\begin{document}
+\section{Introduction}
+\label{LTCA__sec__Introduction}
+Counting is an easy task to understand but is time-consuming to perform manually at scale and difficult to automate. 
+Simple though it is, instance counting has diverse applications including crowd-counting, traffic monitoring, conservation, microscopy, and inventory management.
+Significantly, whereas people can generally count objects without a prior understanding of the type of object to be counted, most current automated methods cannot.
+
+
+The work in this chapter is based on the intuition that the ability to count is, at its core, comprised of two components: 
+\begin{itemize}
+    \item Object Detection: Where are object instances we may want to count?
+    \item Repetition Recognition: Is the class
+of this given instance repeated elsewhere?
+\end{itemize}
+
+This intuition is gained from the fact that when presented with a set of novel objects and asked to `count', a person knows what is to be counted. They do not require an exemplar or prior understanding of object type to clarify that we do not want to find the repetitions of, say, a self-similar background.
+
+While the work in \Cref{sec__DMS} addressed the problem of repetition recognition with minimal labels, it would need to be paired with a detection stage to complete the full counting task.
+The work presented in this and the subsequent chapter addresses both stages simultaneously.
+
+Until the publication of `Class-Agnostic Counting' \cite{Lu18} in 2018, methods focused on specific domains and developed feature spaces useful for counting a single or small set of classes of objects. Class-agnostic counting methods aim to learn general features and matching approaches that can then be applied to previously unseen object types. 
+However, \citet{Lu18} and many following works \cite{ranjan2021Famnet, yang2021cfoc,sokhandan2020few} still need human intervention at inference time, in the form of a set of exemplar images. 
+These exemplar images are sometimes called `reference images' \cite{ltcahobley}.
+
+Our work, presented here, as well as a few concurrent or follow-up works \cite{ranjan2022exemplar,liu2022countr, xu2023zsc} aim to minimise the amount of human intervention needed during deployment. 
+Specifically, we all try to demonstrate that class-agnostic counting can be achieved without the need for exemplar images.
+In this chapter, we focus on performing this in settings with only a single class present per image.
+We acknowledge that FSC-147 and FSC-133 guided our, and many others, view of class-agnostic counting significantly. 
+The single-class nature of these datasets allows exemplar-free methods to perform well on it. 
+
+We demonstrate that self-supervised vision transformer features, specifically their use of self-attention with a global receptive field, are a useful tool for meeting both of our conditions for counting and can replicate the behaviour observed in human counting. 
+We prove experimentally that, given general and globally contextual features, enumerating instances is simple, requires only minimal training, and can be achieved using only image-wise scalar supervision rather than instance-wise locational labels.
+We also demonstrate that while using only scalar supervision, the learnt latent features are sufficient to localise the instances of the relevant counted objects. 
+
+
+The key contributions of this chapter are as follows:
+\begin{enumerate}
+    \item We propose RCC, the first exemplar-free class-agnostic counter.
+    \item We show that in single-class settings, using image-wise count supervision rather than instance-wise supervision is beneficial and allows the network to learn its own idea of positional salience.
+    \item We demonstrate that RCC outperforms the exemplar-free class-agnostic counting methods that followed it and that it is competitive with current methods that use exemplar images as a prior and train with full point-level supervision. 
+\end{enumerate}
+
+    
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.66\linewidth]{../files/LTCA/images/pipeline_AAAI_PCA.png}
+        \caption{
+    \textbf{The RCC pipeline.} 
+    Our method learns to count objects of novel classes without exemplar images, using only the ground truth count, $c$, as supervision.
+    We also visualise these features to show they suffice to  localise instances of the counted object.
+    }
+    \label{fig__LTCA__pipeline}
+\end{figure}
+    
+\section{Method}
+\label{LTCA__sec__method}
+In this chapter, we approach the challenging task of counting instances of unseen classes without exemplar images or point-level supervision. 
+Unlike other contemporary methods \cite{ranjan2022exemplar, xu2023zsc} which have separate object discovery and matching stages of counting, we solve these tasks simultaneously.
+Object detection, in a class-agnostic context, requires a general, informative feature space. We identify that self-supervised knowledge distillation is well-suited to learning such a feature space. 
+Repetition recognition requires an understanding of the global context of an image.
+Vision transformers, in particular their use of attention, are perfectly suited to this task.
+
+
+\subsection{Self-supervised knowledge distillation.}\label{LTCA__sec__self-supervised}
+
+As vision transformers generally require large amounts of data to learn a general, informative feature space and the standard counting dataset is small, we wish to train the vision transformer on other datasets first.
+This pretraining means that the backbone will already have a meaningful understanding of general image features and the only learning that is required is the counting-specific information, which is relatively simple.
+For our evaluation on previously unseen classes to be fair, this pretraining needs to take place either on only the training classes from the final dataset or on a wider range of classes but without the use of labels.
+We chose to take the latter approach as it increases the flexibility of our pretraining data requirements which amounts to utilising more data during pretraining.
+
+We use a training methodology of self-supervised knowledge distillation based on \citet{caron2021DINO} for our pretraining stage.
+We learn informative representations of images by encouraging consensus between a `teacher' network, $g_{t}$ parameterised by $\theta_{t}$,  and a `student' network, $g_{s}$ parameterised by $\theta_{s}$.
+The teacher network operates on large `global' crops, $V_G$,  of an image, while the student network operates on a set, $V_L$, of smaller, `local' crops of the same image.
+Both networks generate probability distributions $P_{t}$ and $P_{s}$ respectively, defined in \Cref{eq__LTCA__eq_dino_predictions}.
+These probability distributions function similarly to classification predictions in supervised classification tasks.
+The goal is to have the student, which can only see portions of the image, make the same `prediction' about what is in the image as the teacher, which can see a larger portion of the image.
+Similar to classification tasks, this is achieved by minimising the cross-entropy between the probability distributions of the student network and the `oracle' labels of the teacher network, as in \Cref{eq__LTCA__eq_cross_entropy}.
+
+\begin{equation}
+\label{eq__LTCA__eq_dino_predictions}
+    P_{s}(x)^{(i)} =
+    \frac{e^{g_{s}(x)^{(i)}}/\tau_{s}}{\sum_{d=0}^{d_p}e^{g_{s}(x)^{(d)}}/\tau_{s}} 
+\hspace{5mm}, \hspace{5mm}
+        P_{t}(x)^{(i)} =
+    \frac{(e^{g_{t}(x)^{(i)}}-C)/\tau_{t}}{\sum_{d=0}^{d_p}e^{(g_{t}(x)^{(d)}}-C)/\tau_{t}}
+\end{equation}
+\myequations{Student and Teacher Probability Distributions}
+\begin{equation}
+\label{eq__LTCA__eq_cross_entropy}
+    \min\limits_{\theta_{s}}
+    \sum_{x_g \in V_G}
+    \; \;
+    \sum\limits_{x_l \in V_L}  -P_{t}(x_g) \log P_{s}(x_l)
+\end{equation}
+\myequations{Parent Teacher Cross-Entropy}
+Here, $d_p$ is the dimensionality of the probability distribution,
+$\tau_{s} > 0$ and $\tau_{t} > 0$ are the temperature parameters of the student and teacher, and $C$ is a centring parameter.
+The temperature and centring parameters are used for sharpening and centring the predicted distribution. Sharpening and centring both act to decrease the chance of modal collapse without the need for contrastive losses or batch normalisation, both of which require batch-wise assumptions about the data.
+Sharpening discourages one form of modal collapse; it keeps the network from generating a uniform prediction distribution for all images. 
+However, it encourages the network to generate a single value with a high probability for all images. Centring operates in the other direction, minimising the chance the network will generate an identical prediction for all images. This is achieved by centring the teacher's predicted probabilities around an exponential moving average of all its predictions in a batch.
+
+\begin{equation}
+    C \leftarrow mC + (1-m)\frac{1}{B}\sum_{i=0}^{B}P_t(x_i)
+\end{equation}
+\myequations{Prediction Centring Update}
+where $m>0$ is a rate parameter controlling the momentum of the average, and $B$ is the batch size.
+ 
+Different to standard distillation, the teacher network is constructed from the student model. It is a momentum teacher \cite{he2020momentum} whose weights are iteratively updated with an exponentially moving average of the student’s weights, which are scheduled to increase throughout training.  
+
+\subsection{Count Regression}
+In the context of counting, whether two objects are the same should be independent of their location within an image. 
+A related observation is that if two features are similar and they are far apart, then it is more likely that they are repetitions of a class of objects rather than parts of the same instance, meaning they are more likely to be the desired countable.
+While CNNs have been shown to work well at object detection, we believe their local-first formulation is not well suited to repetition recognition.
+Instead, we believe transformer architectures with their global attention are perfectly suited to counting.
+The crucial global context afforded by transformers stems from their use of an attention mechanism. As discussed in \Cref{LTCA__sec__lit_rev__transformers}, attention generates a new feature from linear projections of all other features based on their similarity.
+This means all features are affected by all other features, rather than prioritising spatially local features as in a convolutional structure.
+Inspired by \citet{vaswani2017attention}, our vision transformers, $g_{t}$ and $g_{s}$, use multiple attention heads to generate informative, diverse features.
+
+In contrast to the established literature and the methods that followed ours, we use this behaviour alone to conduct the counting. We directly regress a single, scalar count prediction, $\hat{c}$, for the whole input image, $x$, from the latent features of $g_s(x)$ using a linear projection, $\mathbf{F}$. 
+
+\begin{equation}
+    \hat{c}= \mathbf{F} \cdot g_s(x)
+\end{equation}
+We train this using scalar count supervision alone, without using point-level annotations.
+Simply put, we ask the method to generate an answer to the question `How many things are there in an image?' and motivate it only by telling it how far off it was from the correct number.
+Although it may seem that a location-based loss should aid in training, we found that point-level annotations and Gaussian density maps were unnecessary and often detrimental in a single-class class-agnostic setting such as that presented in FSC-133/147; see \Cref{sec__ABC123__ablation_losses} for further details.
+The positional annotations in FSC-133/147 are often arbitrarily placed and contain at most limited information about the size and shape of an object. 
+Most methods generate a pseudo-density map from these points by placing Gaussian kernels of a standard size at each one of the annotated points.
+As the point annotations are not necessarily centred on the object and as it is not possible for the Gaussian kernel to  be the correct size and shape to be representative of all the instances in the dataset, the generated density maps are flawed approximations.
+Due to this, teaching this information as `ground-truth' supervision for a regression stage is not helpful. 
+Consider, say, a method which identified a part of each of the correct objects that is different to the part the annotations label such as counting the erasers on pencils rather than their centres or tips.
+This would be severely punished by a positional loss function while being a correct evaluation of the problem. 
+This arbitrary punishment hinders the network's ability to gain an understanding of the counting task, especially in a class-agnostic setting where the labels are more likely to be arbitrarily placed.
+
+Instead, we allow the network to develop its own conceptual representation of the task by regressing an estimate for the count directly. 
+To this end, we use one of the simplest possible loss functions, the Absolute Percentage Error (APE), defined as: 
+\begin{equation}\label{eq__LTCA__mape}
+    \mathcal{L}_{APE} = \frac{\lvert c - \hat{c} \rvert}{c} 
+\end{equation}
+\myequations{Absolute Percentage Error}
+where $c$ is the ground truth count and $\hat{c}$ is the predicted count. This was a slight improvement over Absolute Error when applied to FSC-133/147 as it limits the disproportionate effect of very high-density images on the gradients; see the ablation tests in \Cref{sec__LTCA__ablation_loss_functions}.
+We found that the network, without the imposition of human ideas of positional salience, still learnt to implicitly localise instances of the counted class in a meaningful way in its latent layers. We further discuss this, and its usefulness, in \Cref{LTCA__sec__results_visualisation}.
+
+\subsection{Tiling Augmentation}
+We found that while our method had reasonable performance on most images, it struggled in cases where the objects were small and densely packed. This issue has been noted in many other methods \cite{ranjan2021Famnet, liu2022countr, ranjan2022exemplar}.
+Various approaches have been taken to creating multi-scale systems which can improve the detection of objects of varying sizes. 
+These approaches generally require a complex spatial loss \cite{redmon2016YOLO} or non-maximal suppression \cite{ren2015fasterrcnn}, which have significant computational costs.
+As our method regresses a single count rather than a set of object locations and is trained using only scalar supervision, these approaches are not feasible.
+
+To allow the network to better understand multiple scales and densities, we instead increase the diversity of image densities at training time by tiling resized versions of the input image into a (2$\times$2) grid.
+We apply this augmentation randomly to 50\% of the training instances.  
+This increases the representation of high-density images and improves our method's results; the MAE and RMSE were decreased by $\sim$10\% and $\sim$20\% respectively. The effect of this augmentation is further discussed in the ablation  \cref{sec__LTCA__append_tile}.
+
+A similar adaptation was adopted in a later work by \citet{liu2022countr}, who used it to both increase the number of high-density images but also to create a rudimentary multi-class dataset to increase the discrimination ability of their method.
+
+We also tested cropping areas of images out to increase the number of images with low counts. 
+We found that this had no positive effect on our results and also that it cannot be applied to datasets where the locations of objects are not known.
+
+
+\section{Experiments}
+\label{LTCA__sec__experiments}
+In this section, we discuss the details of our implementation, training, and the metrics we use for evaluation.
+\subsection{Architecture}
+\label{LTCA__sec__experiments_implementationdetails}
+We use a ViT-small backbone inspired by DeiT-S \cite{touvron2021training}. This was chosen due to its efficiency and to provide a good comparison to other counting methods
+which use a ResNet-50 backbone. 
+ViT-S has a similar number of parameters (21M vs 23M), throughput (1237im/sec vs 1007im/sec), and supervised ImageNet performance (79.3\% vs 79.8\%) as ResNet-50 \cite{touvron2021training}, which is used by contemporary counting methods.
+
+As even data-efficient transformers require relatively large amounts of data to train and the datasets on which we evaluate are small, we initialised our transformer backbone, $g_s$, using weights from \citet{caron2021DINO}. As discussed in \Cref{LTCA__sec__self-supervised}, this self-supervised pre-training gives the network an understanding of meaningful image features without supervision and before exposure to our limited datasets, minimising the chance of overfitting. 
+
+Our linear count projection, $F$, projects from a $p\times d_m$ feature space to a scalar count prediction, where $d_m$ is the dimensionality of the transformer features and $p$ is the number of patches of the vision transformer. We found $d_m = 384$ and $p = 28^2$ are sufficient to achieve competitive results while also being lightweight enough to be trainable on a single 1080Ti Nvidia GPU. It should be noted that this vision transformer configuration limits the resolution of our input image to (224$\times$224) as opposed to the $\sim$(384$\times$384) used by contemporary methods with ResNet-50 or larger ViT backbones.
+
+\subsection{Training}
+\label{LTCA__sec__experiments_training}
+We used a batch size of 2 distributed over 2 GPUs (Nvidia 1080Ti). We trained for 80 epochs with a learning rate of $3\mathrm{e}-5$, which takes 2.5 hours.
+To increase the diversity of object densities 
+at training time, we applied our 2 × 2 tiling augmentation to 50\% of the iterations.
+We applied random reflections and rotations to the images and, when tiled, to each tile independently. Colour-based augmentations (colour-jitter, Gaussian blur, and solarisation) had a negligible effect on our results. We did not apply random crops as this would require point-level annotations to adjust the count. 
+
+\subsection{Evaluation Metrics}
+\label{LTCA__sec__experiments_evaluationmetrics}
+In accordance with previous works on class-agnostic counting \cite{shi2022represent, ranjan2022exemplar}, we use Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE) to evaluate our performance, 
+
+\begin{equation}
+    \text{MAE} = \frac{1}{n}\sum_{i=1}^{n} |c_i - \hat{c}_i|
+\end{equation}
+\myequations{Mean Absolute Error}
+\begin{equation}
+    \text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n} (c_i - \hat{c}_i)^2}
+\end{equation}
+\myequations{Root Mean Squared Error}
+where $c_i$ and $\hat{c}_i$ are the ground truth and predicted counts for image $x_i$, and $n$ is the number of images in the validation or test set.
+
+\section{Results}
+In this section, we show that RCC dramatically outperforms other exemplar-free class-agnostic counting methods and is competitive with exemplar-based methods. Since our method does not need exemplar images or point-level annotations, it can be applied to broader real-world applications where the objects to count are ever-changing. 
+We validate this by showing our method's ability to generalise to a novel domain. 
+We also use our learnt latent features to localise instances in an image.
+Not only may this have real-world utility, it also helps substantiate that RCC uses meaningful information to count. We then discuss the failure cases and limitations of our method to inform and motivate possible future research. We finally validate specific components of our method.
+
+\subsection{Benchmark Methods}\label{sec__LTCA__benchmarking_methods}
+We evaluate our method against two trivial baseline methods which predict the same value, $\hat{c}$, for all test images, as follows:
+\begin{equation}
+    \hat{c}_{\text{mean}} = \frac{\sum C_{\text{train}}}{n_{\text{train}}}\hspace{15mm}
+ \hat{c}_{\text{median}} = C_{\text{train}}\left[\frac{n_{\text{train}}}{2}\right]
+ \end{equation}
+ \myequations{Trivial Benchmark Predictions}
+where $C_{train}$ is an ordered list of all ground truth counts for the training set and $n_{train}$ is the number of images in the training set.
+
+We also compare our method to two few-shot detection methods (FR \cite{kang2019few} and FSOD \cite{fan2020few}), seven exemplar-based class-agnostic counting methods (GMN \cite{Lu18}, MAML \cite{finn2017model}, FamNet \cite{ranjan2021Famnet}, CFOCNet  \cite{yang2021cfoc}, BMNet \cite{shi2022represent}, LaoNet \cite{lin2021object} and  CounTR \cite{liu2022countr}), and RepRPN-Counter \cite{ranjan2022exemplar}, a concurrent work which is the only other class-agnostic counting method that does not require exemplar images during training. 
+CounTR was released after our method.
+It trains using a mix of exemplar images and exemplar-free examples applying the learning from the exemplars to the exemplar-free cases.
+
+We also include comparisons to exemplar-free modifications of exemplar-based methods implemented by \citet{ranjan2022exemplar}, denoted by a * in the results tables \ref{fig__LTCA__FSC147_results_table} and \ref{fig__LTCA__FSC133_results_table}. 
+Since \citet{ranjan2022exemplar} have not released the implementations of either their method or the modified exemplar-based methods they evaluate, the experiments we could run comparing to them were limited.
+To ensure a fair comparison, we also train recent, high-performing methods with released implementations using the same vision transformer backbone, ViT-S, as our method, denoted by $\dag$ in the results tables \ref{fig__LTCA__FSC147_results_table} and \ref{fig__LTCA__FSC133_results_table}.
+
+\subsection{FSC-147 and FSC-133.}
+As seen in \Cref{fig__LTCA__FSC147_results_table}, we achieve significantly better results than the concurrent work RepRPN and all exemplar-free versions of exemplar-based methods on FSC-147 without the need for point-level annotations. We are also competitive with previous few-shot or exemplar-based methods on FSC-147 and FSC-133 without the need for exemplar images, point-level annotations, or test-time adaptation; see Tables \ref{fig__LTCA__FSC147_results_table} and \ref{fig__LTCA__FSC133_results_table}. 
+
+These results demonstrate that the combination of an architecture well-suited for counting and a simple, count-centred objective function can learn a meaningful conceptual representation of counting without any location-based information and so does not require exemplar images.
+As will be discussed in \Cref{LTCA__sec__failure_cases}, we believe that the discrepancy in FSC-147 test-set RMSE is due to poor performance on the high-density images in the test set, as these outliers have a greater effect on RMSE than MAE. 
+This is likely caused by our network operating at a lower resolution than the other methods as well as the fact that we cannot use the test-time adaptation tricks they utilise due to a lack of exemplar data.
+
+We found that methods that were modified to use  a ViT-S backbone in place of their ResNet-50 backbones performed worse;
+this is likely due to the significant decrease in the resolution of both the input image and the latent features.
+Since FamNet previously used features from two sequential layers of a ResNet backbone, this modification also halved the dimensionality of the features used to regress the count, decreasing their scale-invariant performance.
+
+In general, the methods perform better on FSC-133 than on FSC-147 with the exception of the validation MAE. The greater validation MAE is likely due to the removal of duplicate images and similar classes that allowed the network to `cheat', having seen these images during training. The other metric improvements are likely due to a few high-density images being moved to the training set in the dataset reformulation.
+
+\begin{table}
+    \centering
+    \subfile{../files/LTCA/tables/FSC147_results_table}
+    \caption{Comparison to state-of-the-art methods on FSC-147. We outperform other exemplar-free methods and achieve competitive results with methods which use exemplar images and test-time adaptation. We highlight the best results for few-shot and zero-shot exemplar-based-training and exemplar-free-training methods. $\dag$ denotes methods trained using the same backbone as ours. 
+    * indicates an exemplar-free modification of an exemplar-based method. Methods in grey were made public after this work.
+    }
+    \label{fig__LTCA__FSC147_results_table}
+\end{table}
+\begin{table}
+    \centering
+    \subfile{../files/LTCA/tables/FSC133_results_table}
+    \caption{Comparison to available state-of-the-art methods on FSC-133.  We are competitive with exemplar-based methods without  exemplar images or test-time adaptation.
+    $\dag$ denotes methods trained using the same backbone as ours.
+    Methods in grey were made public after this work.
+    }
+    \label{fig__LTCA__FSC133_results_table}
+\end{table}
+ \subsection{Cross-Dataset Generalisability}
+To confirm our method was domain invariant and had strong generalisability, we evaluate it on CARPK \cite{hsieh2017drone}. CARPK is a car counting dataset comprised of birds-eye views of car parks. These aerial views significantly differ in appearance from any objects found in FSC-147 or FSC-133. To ensure we are fairly testing the generalisability of the methods, we exclude the `car' class from our FSC-133 pretaining. 
+
+We significantly outperform FamNet with and without fine-tuning, and we are competitive with BMNet and CounTR without fine-tuning. We believe the fine-tuning result discrepancy with BMNet and CounTR results from
+ out-of-distribution high-density images.
+This is because 70\% of the test images in CARPK have more instances than the maximum count seen during training.
+
+The other methods use exemplar images which aid in the cross-dataset generalisation and with issues of out-of-distribution high-density test images. 
+This ability to deal with high-density images is significantly improved by the test-time adaptation schemes utilised in FamNet+ and BMNet+. Both methods make adjustments to their count based on knowledge about the exemplar patch, namely that the exemplar patch must contain at minimum one instance; if less than one instance is predicted the whole density map is scaled until this is the case, increasing the overall count in high-density cases.
+
+Further, while our method improves after fine-tuning, showing the benefit of task-specific information, the improvements are smaller than with the other methods. 
+This indicates our method's generalisability is relatively optimised for other tasks before fine-tuning.
+
+\begin{table}
+    \centering
+    \subfile{../files/LTCA/tables/carpk}
+    \caption{Generalisation performance on CARPK. ``Pretrained'' models were trained on FSC-147 or, for our method, FSC-133. ``Fine-tuned'' models were further trained on the CARPK dataset. 
+    We highlight the top results with and without exemplar images and with and without fine-tuning.
+    Methods in grey were made public after this work.
+    \label{table__LTCA__table_carpk}
+}
+\end{table}
+
+\begin{figure*}
+    \centering
+    \input{../files/LTCA/figures/localisation_vis}
+    \caption{Localisation of latent counting features on unseen dataset classes from FSC-133. (a) Patch-wise principal components of the counting backbone features. (b) Pixel-wise localisation predictions of unseen dataset classes from FSC-133. The latent counting feature density maps are generated by a localisation head trained on FSC-133.
+The count and prediction of each image are in the top left and the top right, respectively.}
+    \label{fig__LTCA__figure_visualisation}
+\end{figure*}
+\subsection{Feature Visualisation}
+\label{LTCA__sec__results_visualisation}
+
+
+
+
+
+
+\begin{figure*}
+    \centering
+    \input{../files/LTCA/figures/localisation_vis/shanghai_and_carpk}
+    \caption{Localisation of latent counting features on unseen datasets.  Pixel-wise localisation predictions of unseen classes from unseen datasets CARPK and ShanghaiTech respectively. The latent counting feature density maps are generated by a localisation head trained on FSC-133.
+    The count and prediction of each image are in the top left and the top right, respectively. }
+    \label{fig__LTCA__figure_vis_local_shanghaiandcarpk}
+\end{figure*}
+
+To validate that our network is learning to recognise meaningful information, we visualise the most significant value from a singular value decomposition of the latent features from the final transformer layer weighted by the linear projection weights; see \Cref{fig__LTCA__PCA_Feaures}.
+It is clear from these visualisations that the features are localised around the objects which have been counted. The network is attending to a single type of object rather than just all objects present.
+This behaviour makes sense as given the limited ground truth counts from the training dataset, the network must find `the most obvious' thing to count, ignoring other, unlabelled, classes.
+As our patch-wise counting features are relatively low resolution and there may be utility in more accurately localising instances in an image, we trained a lightweight localisation head. This head, comprised of 3 Conv-ReLU-Upsample blocks, increases the patch-wise resolution of the trained counting features (28$\times$28) to a pixel-wise density map prediction (224$\times$224); see \Cref{fig__LTCA__Localisation_head} for examples. This head is trained using the pixel-wise mean squared error of the predicted density map and a ground truth Gaussian density map as is standard in the field \cite{ranjan2021Famnet, shi2022represent}. 
+
+Since this training is not weakly-supervised, we freeze the feature backbone to ensure we are testing if the weakly-supervised features are sufficient for high-resolution localisation. 
+This training takes 10 epochs and has significantly better results than the same process conducted on a backbone frozen after the self-supervised pretraining. 
+This further validates that our network is learning the ability to count rather than just detect objects as happens after only the self-supervised pretraining. 
+We also show that the backbone and localisation head trained on FSC-133 are generalisable to other domains by testing it on the CARPK and ShanghaiTech \cite{zhang2016single} datasets; see \Cref{fig__LTCA__figure_vis_local_shanghaiandcarpk}.
+
+\subsection{Ablation Studies}
+\label{LTCA__sec__results_ablationstudies}
+
+In this section, we validate the various components of our method, namely that the global context of a vision transformer
+backbone is crucial, that the counting head is effective without the need for a complex architecture, that our loss function is more effective than the commonly used loss functions, 
+and that our tiling augmentation has a positive effect on our system's performance.
+
+\subsubsection{Attention-less Features}
+To demonstrate that the global context provided by the attention mechanism present in vision transformers is a critical component to exemplar-free class-agnostic counting, we evaluate RCC with ResNet-50 \cite{he2016resnet} and ConvNeXt \cite{liu2022convnext} backbones in place of our transformer. 
+We initialised both architectures with standard weights learnt from classification pre-training on ImageNet \cite{deng2009imagenet}. 
+While using weights generated by training on a supervised task that overlaps classes with our test and validation sets means that the results are not directly comparable to our self-supervised method, this comparison serves as a best-case for these architectures.
+
+When trained comparably, Resnet-50 has a comparable accuracy to our vision transformer backbone and ConvNeXt has a higher classification accuracy than our architecture on image classification tasks  \cite{liu2022convnext}.
+To enable comparison across backbones, we use the same input feature size (224$\times$224) and take latent features at the same (28$\times$28) resolution as the patched features used in our backbone. 
+As seen in \Cref{table__LTCA__ablation_arch}, even with the advantageous supervised pretraining, the attention-less features perform significantly worse than the self-supervised vision transformer, validating the idea that the attention mechanism is more significant in counting than in classification tasks.
+
+
+\subsubsection{Count Regression Complexity}
+We assert that given sufficiently general and globally aware features, regressing an accurate count should be straightforward. To validate this, we compare our linear projection against two count regression heads. These count regression heads are a simple architecture, Conv(3$\times$3)-ReLU-Linear-Relu-Linear, and a more complex architecture comprised of four (3$\times$3) convolutional layers followed by three linear layers with ReLU activations.
+
+We found that more complex counting heads achieved worse results than our linear projection on all three backbones during inference, as shown in \Cref{table__LTCA__ablation_arch}. 
+It appears that the extra computational capacity of the complex architecture is not only unnecessary for the task of counting but is in fact detrimental as it overfits to the training classes. This is validated by both alternatives having a lower counting error than our linear projection during training.
+
+\begin{table}
+    \centering
+    \subfile{../files/LTCA/tables/ablation_table_architecture}
+    \caption{Performance of different feature backbones, and two more complex count regression head architectures on FSC-133.
+    }
+    \label{table__LTCA__ablation_arch}
+\end{table}
+
+
+
+\subsubsection{Loss Function}\label{sec__LTCA__ablation_loss_functions}
+We tested the two most common loss functions, Absolute Error (AE) and Squared Error (SE), against our loss function, Absolute Percentage Error.
+APE has the best performance on FSC-133, as shown in \Cref{table__LTCA__ablation_loss_functions}. We believe the main contributing factor to this is that using the APE decreases the significance of the very high-density images to the training. 
+During training, these images create high gradients during the backpropagation, often an order of magnitude or more above the average. We believe that this gradient disturbance compromises the training significantly.
+The performance increase discrepancy is slightly ($\sim$5\%) more significant on FSC-133 than on FSC-147, which contains more high-density images in its test and validation sets but fewer during training than FSC-133.
+
+
+\begin{table}
+    \centering
+    \subfile{../files/LTCA/tables/ablation_table_loss_functions}
+    \caption{Performance of RCC on FSC-133 with different loss functions.
+    }
+    \label{table__LTCA__ablation_loss_functions}
+\end{table}
+
+
+
+
+
+
+
+
+
+\subsubsection{Tiling Augmentation}\label{sec__LTCA__append_tile}
+We validate the use of our image tiling augmentation by testing various frequencies and tiling configurations, as shown in \Cref{table__LTCA__ablation_tile2}. 
+We found that introducing the denser (4$\times$4) tiling had detrimental effects. 
+At this density of tiling, each object instance is very small within the total image. These very small instances, in the context of our patched features, are no longer interpretable, providing little meaningful training. We also found that when a majority of training instances were tiled, the network's accuracy on lower-count images decreased due to these cases now being under-represented during training. This decrease in performance on the low-density images eventually outweighs the positive gains on the higher-density images as while they generally contribute less to the overall metric per image, they are much more numerous.
+
+\begin{table}
+    \centering
+    \input{../files/LTCA/tables/ablation_table_tiling}
+    \caption{Performance results for varying sizes and frequencies of our tiling augmentation on FSC-147. Images are tiled in either a (2$\times$2) grid or in one of a (4$\times$4) or (2$\times$2) grid with equal probability.
+    }
+    \label{table__LTCA__ablation_tile2}
+\end{table}
+
+
+\subsection{Failure Cases and Limitations}
+\label{LTCA__sec__failure_cases}
+
+The most significant limitations of this work are its poor performance in high-density situations and that it can only generate a single count for a given image. The latter of which is addressed by our proposed method in \Cref{sec__ABC123}.
+
+\subsubsection{High-Density}
+High-density situations are a common failure mode for counting methods, and while this method could be improved by, for example, (a) running upsampled sections of images through the counter, (b) increasing the input resolution of the transformer backbone, or (c) increasing the density of images in the training stage, we have left this as possible future work.
+
+A clear failure case of RCC is its difficulty with high-density images.
+As shown in \Cref{table__LTCA__FSC147_exclusions_table}, the metrics on FSC-133 improve dramatically when the few images with over 1000 objects are removed from the evaluation.
+These images, presented in \Cref{fig__LTCA__FSC147_exclusions_figure}, constitute 0.31\% of the validation set and 0.09\% of the test set.
+This is further verified by the results shown in \Cref{fig__LTCA__FSC133_exclusion_graphs_non_cumulative}, where the effect of excluding higher values is shown more continuously.
+(\Cref{fig__LTCA__FSC133_exclusion_graphs_non_cumulative} also shows that the vast majority of images contain less than 200 images.)
+This failure case is likely because our patch-based approach limits the functional resolution to a $(28\times28)$ feature map.
+
+With many of these high-density images, the same object is found in all patches and across all patch boundaries equally, making the features associated with individual instances indistinguishable. 
+Ideally, we would use a smaller patch size, but due to computational constraints, we could not test this.
+As a proxy for this test, we split the high-density images into multiple sub-images that were processed independently and combined their counts.
+This improved the  MAE and RMSE by 45.6\% and 64.9\% respectively. 
+However, this does not generalise in a principled manner to all cases, especially very low-density cases
+
+This failure case could also be attributed to the underrepresentation of very high-density images in the training data; only 9 (0.23\%) of the 3877 training counts are over 1000. 
+This is supported by the fact that these effects appear more dramatically in FSC-147 where high-density images have even lower representation.
+This is also supported by the improvements found from applying the tiled image augmentation, which artificially inflates the count of some training iterations.
+\begin{table}
+    \centering
+    \subfile{../files/LTCA/tables/FSC133_exclusions}
+    \caption{
+    \textbf{The effect of removing high-density images from FSC-133.}
+    Excluding the small number of very dense images significantly improves our results, showing that these are a weakness of our method.
+    \# and \% denote the total number and percentage of images excluded respectively.
+    }
+    \label{table__LTCA__FSC147_exclusions_table}
+\end{table}
+\begin{figure}
+    \centering
+    \input{../files/LTCA/figures/over_1000}
+    \caption{High-density images from FSC-133. The three images from the validation set (left) and the single test image (right) with associated counts of over 1000. 
+    }
+    \label{fig__LTCA__FSC147_exclusions_figure}
+\end{figure}
+
+
+
+\begin{figure}
+    \centering  
+    \begin{subfigure}{0.49\linewidth}
+        \centering
+                \input{../files/LTCA/figures/exclusions_MAE_graph}
+    \end{subfigure}
+        \begin{subfigure}{0.49\linewidth}
+        \centering
+                \input{../files/LTCA/figures/exclusions_perc_graph}
+    \end{subfigure}
+    \caption{The MAE of RCC when operating on FSC-133, excluding counts above a given value (left), and the percentage of the data split that test includes (right).}
+    \label{fig__LTCA__FSC133_exclusion_graphs_non_cumulative}
+\end{figure}
+
+
+
+\subsubsection{Single-Class}
+While our method performs competitively on FSC-133/147 with exemplar-based methods, this is not reflective of its performance in many deployment situations.
+As discussed in \Cref{sec__Datasets}, one of the significant flaws of FSC-133/147 is that the images are single-class. This enables a method such as our own to assume there will be only objects of a single type present and generate a single count. 
+In reality, many situations will have objects of multiple types present so the assumption, and the performance of methods that utilise it, breaks down.
+As it stands, if multiple types of objects are present in an image, RCC will either count the super-set of all objects, or it will `choose' one class to count; see \Cref{fig__LTCA__figure_multiclass}. This significantly limits its real-world deployability as it is only suitable for applications where it is known only one class will be present.
+It is unlikely this would be known while also not knowing the visual appearance of the class, and so a class-agnostic method would likely not be required.
+
+While this is the case, the core achievement of this work is negating the requirement for exemplar images and point-level annotations. There are also a wide range of applications to singular classes of novel objects, e.g.\ medical imaging and microscopy \cite{xie2018microscopy}.
+\begin{figure}
+    \centering
+       \input{../files/LTCA/figures/vis_multi}
+    \caption{Localisation of counting features with multiple classes present. 
+    The network either ignores all but one class (left and centre) or it groups very similar classes and counts the superset (right). The left and centre images have high levels of occlusion, which leads to low predictions.
+    }
+    \label{fig__LTCA__figure_multiclass}
+\end{figure}
+
+\section{Conclusion}
+\label{LTCA__sec__conclusion}
+In this work, we present RCC, the first exemplar-free class-agnostic counting method,
+and show that it can be trained without point-level annotations.
+This is based on the confirmed intuition that well-trained vision transformer features are both general enough and contextually aware enough to implicitly understand the underlying basis of counting, namely object detection and repetition identification. 
+
+We demonstrate on FSC-133/147 that RCC is superior to the exemplar-free methods that followed it and is competitive with current exemplar-based class-agnostic counting approaches that use full point-level supervision. We also show its cross-domain generalisability on CARPK and that it can localise appropriate object instances without any location-based intervention during training.
+
+There is clear utility in a method which does not have a reliance on object class priors, exemplar images, and positional annotations. RCC proves such a method is possible.
+However, this proof is constrained by there being only a single class present per image during deployment.
+While there are deployment situations where it is known only one class of object will be present while also not knowing the visual appearance of this class, we recognise that they are much less common than tasks where the number of classes is not guaranteed.
+In  \Cref{sec__ABC123}, we build on this method to remove the single-class constraint, creating the first exemplar-free multi-class class-agnostic counter.
+
+\end{document}

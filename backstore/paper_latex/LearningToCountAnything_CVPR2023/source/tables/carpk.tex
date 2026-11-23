@@ -1,0 +1,21 @@
+\begin{tabular}{lccc}
+    \toprule
+    Method    & Fine-Tuned & MAE & RMSE   \\ 
+    \midrule
+    Mean &   N/A  & 65.63 & 72.26 \\
+    Median  & N/A  &   67.88 &  74.58 \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Reference-based}} \\
+    FamNet \cite{ranjan2021Famnet}   &   $\times$ &  28.84 & 44.47 \\
+    BMNet \cite{shi2022represent}    &   $\times$ &  14.61 & 24.60 \\
+    BMNet+  \cite{shi2022represent}  &   $\times$ &  \textbf{10.44} & \textbf{13.77} \\
+    FamNet \cite{ranjan2021Famnet}  &  \checkmark &  18.19 & 33.66 \\
+    BMNet  \cite{shi2022represent}  & \checkmark  &  8.05 & 9.70 \\
+    BMNet+  \cite{shi2022represent}  & \checkmark &  \textbf{5.76}  & \textbf{7.83}  \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Reference-less}} \\
+     RCC (ours)    &  $\times$ &  \textbf{12.31} &
+    \textbf{15.40}\\ 
+    RCC (ours)    & \checkmark & \textbf{9.21} & \textbf{11.33}\\
+    \bottomrule
+\end{tabular}

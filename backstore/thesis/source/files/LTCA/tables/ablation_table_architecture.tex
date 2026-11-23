@@ -1,0 +1,22 @@
+\begin{tabular}{llrrrr}
+\toprule
+ & & \multicolumn{2}{c}{Val Set} & \multicolumn{2}{c}{Test Set} \\
+ \cmidrule(r){3-4} \cmidrule(r){5-6}
+ Backbone & Head & MAE & RMSE & MAE & RMSE \\
+ \midrule
+
+ResNet-50 & Projection & 31.80 & 78.87 & 24.99 & 75.87 \\
+& Simple & 36.21 & 98.74 & 26.51 & 110.36\\
+& Complex & 33.63 & 88.50 & 24.02 & 89.31
+\\
+
+
+ConvNeXt & Projection & 30.30 & 82.16 & 21.58 & 87.21 \\
+ & Simple & 24.41 & 67.26 & 23.07 & 111.70 \\
+ & Complex &  25.94 & 89.48 & 24.60 & 134.66 \\
+ViT-Small & Projection & \textbf{17.87}  & \textbf{41.69} &  \textbf{14.79} & \textbf{34.48} \\
+
+ & Simple & 23.08 & 66.19 & 17.46 & 78.60 \\
+ &  Complex & 20.73 & 57.67 & 15.22 & 52.24 \\
+\bottomrule
+\end{tabular}

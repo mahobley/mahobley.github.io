@@ -1,0 +1,27 @@
+\begin{tabular}{lcccc}
+    \toprule
+    Method  & Shots  & Fine-Tuned & MAE & RMSE   \\ 
+    \midrule
+    Mean &  N/A &   N/A  & 65.63 & 72.26 \\
+    Median  &  N/A & N/A  &   67.88 &  74.58 \\
+    \midrule
+    \multicolumn{4}{l}{\textit{Exemplar-based}} \\
+    FamNet \cite{ranjan2021Famnet}   &   3 &   $\times$ &  28.84 & 44.47 \\
+    BMNet \cite{shi2022represent}    &   3&   $\times$ &  14.61 & 24.60 \\
+    BMNet+  \cite{shi2022represent}  &   3&   $\times$ &  10.44 & 13.77 \\
+    CounTR \cite{liu2022countr} & 3 & $\times$ & \textbf{ 10.20}  & \textbf{12.67}  \\
+    CounTR  \cite{liu2022countr} & 0 & $\times$ &  11.33  & 14.60   \\
+    FamNet \cite{ranjan2021Famnet}  &   3&  \checkmark &  18.19 & 33.66 \\
+    BMNet  \cite{shi2022represent}  &   3& \checkmark  &  8.05 & 9.70 \\
+    BMNet+  \cite{shi2022represent}  &   3& \checkmark &  5.76  & 7.83 \\ 
+    \color{gray}
+    CounTR \cite{liu2022countr} & 3  & \checkmark &  \textbf{5.75}  & 7.45  \\   
+    \color{gray}
+     CounTR \cite{liu2022countr} & 0 & \checkmark &  5.84  & \textbf{7.43}  \\
+    \midrule
+    \multicolumn{4}{l}{\textit{Exemplar-less}} \\
+     RCC (ours)    &   0 &  $\times$ &  \textbf{12.31} &
+    \textbf{15.40}\\ 
+    RCC (ours)    &   0 & \checkmark & \textbf{9.21} & \textbf{11.33}\\
+    \bottomrule
+\end{tabular}

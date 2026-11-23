@@ -1,0 +1,30 @@
+\section{Discussion and Conclusion}
+While \NAME{} is a clear improvement, we recognize that there are further improvements to be made and research directions to be explored.
+\label{sec:discussion}
+% We observe that while motion exists in both the foreground and the background, the motion signature between foreground and background may be distinct. 
+% Our proposed method leverages autoencoder's denoising capabilities while capturing objects' motion to improve downstream task performance resource-efficiently. 
+% Our approach is general and applicable to a range of low SNR video tasks. Our method improves downstream tasks' performance while reducing overall denoising computational costs.
+
+\noindent{}\textbf{Limitations.}\label{sec:limitations}
+% We did not explore handling very small objects (which could get convolved out) and objects of interest that stay stationary (which do not benefit from the motion-augmented target). 
+As the spatiotemporal component of our method relies an object's location to be overlapping in sequential frames, very fast moving objects may decrease performance on downstream tasks using \NAME{}. On the other hand, if objects are stationary, \NAME{} does not improve performance, though it also should not be detrimental.
+
+We recognize that combining noisy frames adds to the noise of the overall signal rather than removing it. Work \cite{bengio2013denoisingautoencoders} has shown that denoising methods capture clean data's underlying structure. Denoising autoencoders purposefully corrupt training data by adding noise or masking some of the input values \cite{tong2022videomae, he2022MAE}. We rely on the autoencoder to remove noise implicitly by focusing on the largest reconstruction areas to minimize loss. This assumes that the objects of interest are larger than the noise signature. Indeed, we found that detection performance occasionally dipped for very small (\eg $\leq$ 10 pixel) objects, when this assumption is not held.
+% We saw that \NAME{} sometimes resulted in lower detection and subsequent tracking performance for very small objects. We saw very small ($\leq$ 10 pixels) objects were occasionally treated as noise and removed by the denoiser. 
+
+We observe a change in frame noise when there is an object of interest vs. when there is no object of interest: namely, when there is no object of interest, the whole frame is bright, vs. when an object is in the frame, the object pops and the background becomes dim: ideally, the background would stay dim regardless. An approach to handle this would be adding a component to the loss to focus on background consistency. 
+
+Despite these challenges, \NAME{}-processed frames outperform other denoising methods on downstream tasks while requiring fewer training resources.  
+
+\noindent{}\textbf{Future work.} 
+We are interested in training end-to-end: combining the representations from the denoiser and the downstream tasks. 
+We are also interested in exploring how to broaden and emphasize the motion signature. 
+% One could also test new imaging modalities which the method has not been tested on and adapt or generalize it to work on them.
+Finally, we recognize the shared qualities of each of these datasets and also understand that self-supervised methods are data-hungry \cite{li2022supervision, singh2024zero}. As such, one could explore the performance benefit of training on all datasets collectively to learn general low-SNR video properties. 
+
+% \section{Conclusion}\label{sec:conclusion}
+\noindent{}\textbf{Conclusion.}
+We present \NAME{}, a self-supervised denoising method that improves downstream performance in low-SNR videos without requiring clean data. Our approach is general and applicable to a range of low-SNR video tasks and domains. It is based on the confirmed intuition that while there is motion in the foreground and background, motion signatures between foreground and background are distinct, and a simple model can separate them to improve the SNR. We also introduce a new metric, $FBD$,  to capture this relationship. \NAME{} enhances object motion while leveraging autoencoders’ denoising capabilities to boost downstream performance efficiently.
+
+\noindent{}\textbf{Acknowledgments.} 
+This work was supported by the Caltech Resnick Sustainability Institute Impact Grant ``Continuous, accurate and cost-effective counting of migrating salmon for conservation and fishery management in the Pacific Northwest.'' We also thank Neehar Kondapaneni, Angela Gao, Sara Beery, Justin Kay, and Laure Delisle for helpful feedback.

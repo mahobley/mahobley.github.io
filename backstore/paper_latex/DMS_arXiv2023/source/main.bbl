@@ -1,0 +1,278 @@
+\begin{thebibliography}{10}
+
+\bibitem{Lloyd1982}
+Lloyd, S.P.:
+\newblock {Least Squares Quantization in PCM}.
+\newblock IEEE Transactions on Information Theory \textbf{28} (1982)  129--137
+
+\bibitem{Sander1998}
+Sander, J., Ester, M., Kriegel, H.P., Xu, X.:
+\newblock {Density-based clustering in spatial databases: The algorithm GDBSCAN
+  and its applications}.
+\newblock Data Mining and Knowledge Discovery \textbf{2} (1998)  169--194
+
+\bibitem{Fukunaga1975}
+Fukunaga, K., Hostetler, L.D.:
+\newblock {The Estimation of the Gradient of a Density Function, with
+  Applications in Pattern Recognition}.
+\newblock IEEE Transactions on Information Theory \textbf{21} (1975)  32--40
+
+\bibitem{Shah2018}
+Shah, S.A., Koltun, V.:
+\newblock {Robust continuous clustering}.
+\newblock Proceedings of the National Academy of Sciences of the United States
+  of America \textbf{114} (2017)  9814--9819
+
+\bibitem{shah2018deep}
+Shah, S.A., Koltun, V.:
+\newblock Deep continuous clustering.
+\newblock arXiv preprint arXiv:1803.01449 (2018)
+
+\bibitem{Chang2017}
+Chang, J., Wang, L., Meng, G., Xiang, S., Pan, C.:
+\newblock {Deep Adaptive Image Clustering}.
+\newblock In: Proceedings of the IEEE International Conference on Computer
+  Vision. (2017)  5880--5888
+
+\bibitem{Yang2017}
+Yang, B., Fu, X., Sidiropoulos, N.D., Hong, M.:
+\newblock {Towards K-means-friendly spaces: Simultaneous deep learning and
+  clustering}.
+\newblock In: 34th International Conference on Machine Learning. Volume~8.
+  (2017)  5888--5901
+
+\bibitem{Xing}
+Xing, E.P., Ng, A.Y., Jordan, M.I., Russell, S.:
+\newblock {Distance metric learning, with application to clustering with
+  side-information}.
+\newblock Advances in neural information processing systems. (2003)
+
+\bibitem{han2020automatically}
+Han, K., Rebuffi, S.A., Ehrhardt, S., Vedaldi, A., Zisserman, A.:
+\newblock Automatically discovering and learning new visual categories with
+  ranking statistics.
+\newblock arXiv preprint arXiv:2002.05714 (2020)
+
+\bibitem{Han}
+Han, K., Vedaldi, A., Zisserman, A.:
+\newblock Learning to discover novel visual categories via deep transfer
+  clustering.
+\newblock In: Proceedings of the IEEE International Conference on Computer
+  Vision. (2019)  8401--8409
+
+\bibitem{Dizaji2017}
+Dizaji, K.G., Herandi, A., Deng, C., Cai, W., Huang, H.:
+\newblock {Deep Clustering via Joint Convolutional Autoencoder Embedding and
+  Relative Entropy Minimization}.
+\newblock In: Proceedings of the IEEE International Conference on Computer
+  Vision. (2017)  5747--5756
+
+\bibitem{Hsu2015}
+Hsu, Y.C., Kira, Z.:
+\newblock {Neural network-based clustering using pairwise constraints}.
+\newblock arXiv preprint, arXiv:1511.06321 (2015)
+
+\bibitem{Liu2015}
+Liu, H., Fu, Y.:
+\newblock {Clustering with Partition Level Side Information}.
+\newblock 2015 IEEE International Conference on Data Mining (2015)
+
+\bibitem{Ceccarelli2008}
+Ceccarelli, M., Maratea, A.:
+\newblock {Improving fuzzy clustering of biological data by metric learning
+  with side information}.
+\newblock International Journal of Approximate Reasoning (2008)
+
+\bibitem{Li2018}
+Li, F., Qiao, H., Zhang, B.:
+\newblock {Discriminatively boosted image clustering with fully convolutional
+  auto-encoders}.
+\newblock Pattern Recognition \textbf{83} (2018)  161--173
+
+\bibitem{VonLuxburg2007}
+{Von Luxburg}, U.:
+\newblock {A tutorial on spectral clustering}.
+\newblock Statistics and Computing \textbf{17} (2007)  395--416
+
+\bibitem{Arthur2007}
+Arthur, D., Vassilvitskii, S.:
+\newblock {K-means++: The advantages of careful seeding}.
+\newblock In: Proceedings of the Annual ACM-SIAM Symposium on Discrete
+  Algorithms. (2007)  1027--1035
+
+\bibitem{ailon2018approximate}
+Ailon, N., Bhattacharya, A., Jaiswal, R.:
+\newblock Approximate correlation clustering using same-cluster queries.
+\newblock In: Latin American Symposium on Theoretical Informatics, Springer
+  (2018)  14--27
+
+\bibitem{choudhury2019top}
+Choudhury, T., Shah, D., Karamchandani, N.:
+\newblock Top-m clustering with a noisy oracle.
+\newblock In: 2019 National Conference on Communications (NCC). (2019)  1--6
+
+\bibitem{kim2017relaxed}
+Kim, T., Ghosh, J.:
+\newblock Relaxed oracles for semi-supervised clustering.
+\newblock arXiv preprint arXiv:1711.07433 (2017)
+
+\bibitem{mazumdar2017clustering}
+Mazumdar, A., Saha, B.:
+\newblock Clustering with noisy queries.
+\newblock In: Advances in Neural Information Processing Systems. (2017)
+  5788--5799
+
+\bibitem{Murtagh2014}
+Murtagh, F., Legendre, P.:
+\newblock {Ward's Hierarchical Agglomerative Clustering Method: Which
+  Algorithms Implement Ward's Criterion?}
+\newblock Journal of Classification \textbf{31} (2014)  274--295
+
+\bibitem{Zhang2012}
+Zhang, W., Wang, X., Zhao, D., Tang, X.:
+\newblock {Graph degree linkage: Agglomerative clustering on a directed graph}.
+\newblock In: Lecture Notes in Computer Science (including subseries Lecture
+  Notes in Artificial Intelligence and Lecture Notes in Bioinformatics). (2012)
+   428--441
+
+\bibitem{Nie2011}
+Nie, F., Zeng, Z., Tsang, I.W., Xu, D., Zhang, C.:
+\newblock {Spectral embedded clustering: A framework for in-sample and
+  out-of-sample spectral clustering}.
+\newblock IEEE Transactions on Neural Networks \textbf{22} (2011)  1796--1808
+
+\bibitem{Shi}
+Shi, J., Malik, J.:
+\newblock {Normalized cuts and image segmentation}.
+\newblock Technical Report~8, IEEE Trans. Pattern Anal. Machine Intell.(PAMI).
+  (2000)
+
+\bibitem{Aggarwal2001}
+Aggarwal, C.C., Hinneburg, A., Keim, D.A.:
+\newblock {On the surprising behavior of distance metrics in high dimensional
+  space}.
+\newblock In: Lecture Notes in Computer Science (including subseries Lecture
+  Notes in Artificial Intelligence and Lecture Notes in Bioinformatics). Volume
+  1973.
+\newblock ICDT (2001)  420--434
+
+\bibitem{Domingos:2012:FUT:2347736.2347755}
+Domingos, P.:
+\newblock {A few useful things to know about machine learning}.
+\newblock Communications of the ACM \textbf{55} (2012)  78--87
+
+\bibitem{Bellman1962}
+Wright, E.M., Bellman, R.:
+\newblock {Adaptive Control Processes: A Guided Tour}.
+\newblock The Mathematical Gazette \textbf{46} (1962)  160
+
+\bibitem{DBLP:journals/corr/abs-1801-07648}
+Aljalbout, E., Golkov, V., Siddiqui, Y., Strobel, M., Cremers, D.:
+\newblock {Clustering with Deep Learning: Taxonomy and New Methods}.
+\newblock CoRR \textbf{abs/1801.0} (2018)
+
+\bibitem{Yang2016}
+Yang, J., Parikh, D., Batra, D.:
+\newblock {Joint unsupervised learning of deep representations and image
+  clusters}.
+\newblock In: Proceedings of the IEEE Computer Society Conference on Computer
+  Vision and Pattern Recognition. (2016)  5147--5156
+
+\bibitem{Xie2016}
+Xie, J., Girshick, R., Farhadi, A.:
+\newblock {Unsupervised deep embedding for clustering analysis}.
+\newblock In: 33rd International Conference on Machine Learning. (2016)
+  740--749
+
+\bibitem{Hu2017}
+Hu, W., Miyato, T., Tokui, S., Matsumoto, E., Sugiyama, M.:
+\newblock {Learning discrete representations via information maximizing
+  self-augmented training}.
+\newblock In: 34th International Conference on Machine Learning. (2017)
+  2467--2481
+
+\bibitem{Hsu2018}
+Hsu, C.C., Lin, C.W.:
+\newblock {CNN-Based joint clustering and representation learning with feature
+  drift compensation for large-scale image data}.
+\newblock IEEE Transactions on Multimedia \textbf{20} (2018)  421--429
+
+\bibitem{VittalPremachandran2017}
+{Vittal Premachandran}, Yuille, A.L.:
+\newblock {Unsupervised Learning Using Generative Adversarial Training and
+  Clustering}.
+\newblock The International Conference on Learning Representations (2017)
+
+\bibitem{Fogel2019}
+Fogel, S., Averbuch-Elor, H., Cohen-Or, D., Goldberger, J.:
+\newblock {Clustering-Driven Deep Embedding With Pairwise Constraints}.
+\newblock IEEE Computer Graphics and Applications (2019)
+
+\bibitem{Kong2018}
+Kong, S., Fowlkes, C.:
+\newblock {Recurrent Pixel Embedding for Instance Grouping}.
+\newblock In: Proceedings of the IEEE Computer Society Conference on Computer
+  Vision and Pattern Recognition. (2018)  9018--9028
+
+\bibitem{unknown}
+Shukla, A., Cheema, G.S., Anand, S.:
+\newblock {Semi-Supervised Clustering with Neural Networks} (2018)
+
+\bibitem{Mazumdar2017}
+Mazumdar, A., Saha, B.:
+\newblock {Query complexity of clustering with side information}.
+\newblock In: Advances in Neural Information Processing Systems. (2017)
+
+\bibitem{Cheng1995}
+Cheng, Y.:
+\newblock {Mean Shift, Mode Seeking, and Clustering}.
+\newblock IEEE Transactions on Pattern Analysis and Machine Intelligence
+  \textbf{17} (1995)  790--799
+
+\bibitem{LeCun1998}
+LeCun, Y., Bottou, L., Bengio, Y., Haffner, P.:
+\newblock {Gradient-based learning applied to document recognition}.
+\newblock Proceedings of the IEEE \textbf{86} (1998)  2278--2323
+
+\bibitem{Nene1996}
+Nene, S., Nayar, S., Murase, H.:
+\newblock {Columbia Object Image Library (COIL-20)}.
+\newblock Technical Report \textbf{95} (1996)  223--303
+
+\bibitem{Wolf2011}
+Wolf, L., Hassner, T., Maoz, I.:
+\newblock {Face recognition in unconstrained videos with matched background
+  similarity}.
+\newblock In: Proceedings of the IEEE Computer Society Conference on Computer
+  Vision and Pattern Recognition. (2011)  529--534
+
+\bibitem{Lewis2004}
+Lewis, D.D., Yang, Y., Rose, T.G., Li, F.:
+\newblock {RCV1: A new benchmark collection for text categorization research}.
+\newblock Journal of Machine Learning Research \textbf{5} (2004)  361--397
+
+\bibitem{Yang2010}
+Yang, Y., Xu, D., Nie, F., Yan, S., Zhuang, Y.:
+\newblock {Image clustering using local discriminant models and global
+  integration}.
+\newblock IEEE Transactions on Image Processing \textbf{19} (2010)  2761--2773
+
+\bibitem{Strehl2002}
+Strehl, A., Ghosh, J.:
+\newblock {Cluster ensembles - A knowledge reuse framework for combining
+  multiple partitions}.
+\newblock Journal of Machine Learning Research \textbf{3} (2003)  583--617
+
+\bibitem{Vinh:2010:ITM:1756006.1953024}
+Vinh, N.X., Epps, J., Bailey, J.:
+\newblock {Information theoretic measures for clusterings comparison: Variants,
+  properties, normalization and correction for chance}.
+\newblock Journal of Machine Learning Research \textbf{11} (2010)  2837--2854
+
+\bibitem{Kuhn1955}
+Kuhn, H.W.:
+\newblock {The Hungarian method for the assignment problem}.
+\newblock 50 Years of Integer Programming 1958-2008: From the Early Years to
+  the State-of-the-Art \textbf{2} (2010)  29--47
+
+\end{thebibliography}

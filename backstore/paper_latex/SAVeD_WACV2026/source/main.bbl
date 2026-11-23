@@ -1,0 +1,456 @@
+\begin{thebibliography}{61}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aiyetigbo et~al.(2024)Aiyetigbo, Korte, Anderson, Chalhoub, Kalivas,
+  Luo, and Li]{UMVD}
+Mary Aiyetigbo, Alexander Korte, Ethan Anderson, Reda Chalhoub, Peter Kalivas,
+  Feng Luo, and Nianyi Li.
+\newblock Unsupervised microscopy video denoising.
+\newblock In \emph{IEEE/CVF Computer Vision and Pattern Recognition
+  Workshop(CVPRW)}, 2024.
+
+\bibitem[Batson and Royer(2019)]{batson2019noise2self}
+Joshua Batson and Loic Royer.
+\newblock Noise2self: Blind denoising by self-supervision.
+\newblock In \emph{Proceedings of the 36th International Conference on Machine
+  Learning}, pages 524--533. PMLR, 2019.
+
+\bibitem[Bengio et~al.(2013)Bengio, Yao, Alain, and
+  Vincent]{bengio2013denoisingautoencoders}
+Yoshua Bengio, Li Yao, Guillaume Alain, and Pascal Vincent.
+\newblock Generalized denoising auto-encoders as generative models.
+\newblock In \emph{Proceedings of the 27th International Conference on Neural
+  Information Processing Systems - Volume 1}, page 899–907, Red Hook, NY,
+  USA, 2013. Curran Associates Inc.
+
+\bibitem[Bernardin and Stiefelhagen(2008)]{clear}
+Keni Bernardin and Rainer Stiefelhagen.
+\newblock Evaluating multiple object tracking performance: the clear mot
+  metrics.
+\newblock \emph{EURASIP Journal on Image and Video Processing}, 2008:\penalty0
+  1--10, 2008.
+
+\bibitem[Born et~al.(2021{\natexlab{a}})Born, Wiedemann, Cossio, Buhre,
+  Br{\"a}ndle, Leidermann, and Aujayeb]{born2021l2}
+J Born, N Wiedemann, M Cossio, C Buhre, G Br{\"a}ndle, K Leidermann, and A
+  Aujayeb.
+\newblock L2 accelerating covid-19 differential diagnosis with explainable
+  ultrasound image analysis: an ai tool.
+\newblock \emph{Thorax}, 76\penalty0 (Suppl 1):\penalty0 A230--A231,
+  2021{\natexlab{a}}.
+
+\bibitem[Born et~al.(2021{\natexlab{b}})Born, Wiedemann, Cossio, Buhre,
+  Brändle, Leidermann, Aujayeb, Moor, Rieck, and
+  Borgwardt]{born2021accelerating}
+Jannis Born, Nina Wiedemann, Manuel Cossio, Charlotte Buhre, Gabriel Brändle,
+  Konstantin Leidermann, Avinash Aujayeb, Michael Moor, Bastian Rieck, and
+  Karsten Borgwardt.
+\newblock Accelerating detection of lung pathologies with explainable
+  ultrasound image analysis.
+\newblock \emph{Applied Sciences}, 11\penalty0 (2):\penalty0 672,
+  2021{\natexlab{b}}.
+
+\bibitem[Caesar et~al.(2020)Caesar, Bankiti, Lang, Vora, Liong, Xu, Krishnan,
+  Pan, Baldan, and Beijbom]{caesar2020nuscenes}
+Holger Caesar, Varun Bankiti, Alex~H. Lang, Sourabh Vora, Venice~Erin Liong,
+  Qiang Xu, Anush Krishnan, Yu Pan, Giancarlo Baldan, and Oscar Beijbom.
+\newblock nuscenes: A multimodal dataset for autonomous driving.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, pages 11621--11631, 2020.
+
+\bibitem[Chang et~al.(2019)Chang, Lambert, Sangkloy, Singh, Bak, Hartnett,
+  Wang, Carr, Lucey, Ramanan, et~al.]{chang2019argoverse}
+Ming-Fang Chang, John Lambert, Patsorn Sangkloy, Jagjeet Singh, Slawomir Bak,
+  Andrew Hartnett, Dequan Wang, Peter Carr, Simon Lucey, Deva Ramanan, et~al.
+\newblock Argoverse: 3d tracking and forecasting with rich maps.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 8748--8757, 2019.
+
+\bibitem[Choi et~al.(2025)Choi, Milsap, Scholl, Tenore, and Ogg]{Choi2025TADA}
+Benjamin~J. Choi, Griffin Milsap, Clara~A. Scholl, Francesco Tenore, and
+  Mattson Ogg.
+\newblock Targeted adversarial denoising autoencoders (tada) for neural time
+  series filtration.
+\newblock \emph{arXiv preprint arXiv:2501.04967}, 2025.
+
+\bibitem[Dargan et~al.(2020)Dargan, Kumar, Ayyagari, and
+  Kumar]{dargan2020DL4Applications}
+Shaveta Dargan, Munish Kumar, Maruthi~Rohit Ayyagari, and Gulshan Kumar.
+\newblock A survey of deep learning and its applications: a new paradigm to
+  machine learning.
+\newblock \emph{Archives of Computational Methods in Engineering}, 27\penalty0
+  (4):\penalty0 1071--1092, 2020.
+
+\bibitem[Dupuy et~al.(2024)Dupuy, Chavent, and Dubois]{mDAE}
+Mariette Dupuy, Marie Chavent, and Rémi Dubois.
+\newblock mdae: modified denoising autoencoder for missing data imputation.
+\newblock In \emph{arXiv preprint arXiv:2411.12847}, 2024.
+
+\bibitem[Everingham et~al.(2010)Everingham, Van~Gool, Williams, Winn, and
+  Zisserman]{map50}
+M. Everingham, L. Van~Gool, C.K. Williams, J. Winn, and A. Zisserman.
+\newblock The pascal visual object classes (voc) challenge.
+\newblock \emph{International Journal of Computer Vision}, 88\penalty0
+  (2):\penalty0 303--338, 2010.
+
+\bibitem[Eyjolfsdottir et~al.(2014)Eyjolfsdottir, Branson, Burgos-Artizzu,
+  Hoopfer, Schor, Anderson, and Perona]{flyvfly}
+Eyrun Eyjolfsdottir, Steve Branson, Xavier~P. Burgos-Artizzu, Eric~D. Hoopfer,
+  Jason Schor, David~J. Anderson, and Pietro Perona.
+\newblock Detecting social actions of fruit flies.
+\newblock In \emph{European Conference on Computer Vision (ECCV)}, 2014.
+
+\bibitem[Geiger et~al.(2013)Geiger, Lenz, Stiller, and
+  Urtasun]{Geiger2013VisionMR}
+Andreas Geiger, Philip Lenz, Christoph Stiller, and Raquel Urtasun.
+\newblock Vision meets robotics: The kitti dataset.
+\newblock \emph{The International Journal of Robotics Research}, 32:\penalty0
+  1231--1237, 2013.
+
+\bibitem[Giese and Poggio(2003)]{giese2003neuro}
+Martin~A. Giese and Tomaso Poggio.
+\newblock Cognitive neuroscience: neural mechanisms for the recognition of
+  biological movements.
+\newblock \emph{Nature Reviews Neuroscience}, 4\penalty0 (3):\penalty0
+  179--192, 2003.
+
+\bibitem[Gonzalez and Woods(2006)]{gonzalez2006meanfilter}
+Rafael~C Gonzalez and Richard~E Woods.
+\newblock \emph{Digital Image Processing}.
+\newblock Prentice-Hall, Inc., Upper Saddle River, 3rd edn. edition, 2006.
+
+\bibitem[He et~al.(2022)He, Chen, Xie, Li, Dollár, and Girshick]{he2022MAE}
+Kaiming He, Xinlei Chen, Saining Xie, Yanghao Li, Piotr Dollár, and Ross
+  Girshick.
+\newblock Masked autoencoders are scalable vision learners.
+\newblock In \emph{2022 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 15979--15988, 2022.
+
+\bibitem[Holste et~al.(2024)Holste, Oikonomou, Mortazavi, Wang, and
+  Khera]{Holste2024}
+Gregory Holste, Evangelos~K. Oikonomou, Bobak~J. Mortazavi, Zhangyang Wang, and
+  Rohan Khera.
+\newblock Efficient deep learning-based automated diagnosis from
+  echocardiography with contrastive self-supervised learning.
+\newblock \emph{Communications Medicine}, 4:\penalty0 133, 2024.
+
+\bibitem[Huang et~al.(2021)Huang, Li, Jia, Lu, and
+  Liu]{huang2021neighbor2neighbor}
+Tao Huang, Songjiang Li, Xu Jia, Huchuan Lu, and Jianzhuang Liu.
+\newblock Neighbor2neighbor: Self-supervised denoising from single noisy
+  images.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, pages 14781--14790, 2021.
+
+\bibitem[Huang et~al.(2020)Huang, Li, and Yuan]{zhou2023sonar_speckle}
+Yifan Huang, Weixiang Li, and Fei Yuan.
+\newblock Speckle noise reduction in sonar image based on adaptive redundant
+  dictionary.
+\newblock \emph{Journal of Marine Science and Engineering}, 8\penalty0
+  (10):\penalty0 761, 2020.
+
+\bibitem[Jakab et~al.(2018)Jakab, Gupta, Bilen, and
+  Vedaldi]{jakab2018conditionalImageGen}
+Tomas Jakab, Ankush Gupta, Hakan Bilen, and Andrea Vedaldi.
+\newblock Unsupervised learning of object landmarks through conditional image
+  generation.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2018.
+
+\bibitem[Jang et~al.(2023)Jang, Lee, Park, Kim, and
+  Cho]{jang2023selfsupervised}
+Yeong~Il Jang, Keuntek Lee, Gu~Yong Park, Seyun Kim, and Nam~Ik Cho.
+\newblock Self-supervised image denoising with downsampled invariance loss and
+  conditional blind-spot network.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision (ICCV)}, pages 12196--12205, 2023.
+
+\bibitem[Jiang et~al.(2025)Jiang, Li, Lu, Cai, Song, and
+  Lu]{jiang2025efficient}
+Bo Jiang, Jinxing Li, Yao Lu, Qing Cai, Huaibo Song, and Guangming Lu.
+\newblock Efficient image denoising using deep learning: A brief survey.
+\newblock \emph{Information Fusion}, 92:\penalty0 1--18, 2025.
+
+\bibitem[Kay et~al.(2022)Kay, Kulits, Stathatos, Deng, Young, Beery, Van~Horn,
+  and Perona]{cfc2022eccv}
+Justin Kay, Peter Kulits, Suzanne Stathatos, Siqi Deng, Erik Young, Sara Beery,
+  Grant Van~Horn, and Pietro Perona.
+\newblock The caltech fish counting dataset: A benchmark for multiple-object
+  tracking and counting.
+\newblock In \emph{European Conference on Computer Vision (ECCV)}, 2022.
+
+\bibitem[Khalil et~al.(2024)Khalil, Liu, Perona, Sun, and
+  Marks]{khalil2024learning}
+Daniel Khalil, Christina Liu, Pietro Perona, Jennifer~J Sun, and Markus Marks.
+\newblock Learning keypoints for multi-agent behavior analysis using
+  self-supervision.
+\newblock \emph{arXiv preprint arXiv:2409.09455}, 2024.
+
+\bibitem[Krull et~al.(2019)Krull, Buchholz, and Jug]{krull2019noise2void}
+Alexander Krull, Tim-Oliver Buchholz, and Florian Jug.
+\newblock Noise2void: Learning denoising from single noisy images.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}, pages 2129--2137, 2019.
+
+\bibitem[Kullback and Leibler(1951)]{Kullback51klDivergence}
+S. Kullback and R.~A. Leibler.
+\newblock On information and sufficiency.
+\newblock \emph{Ann. Math. Statist.}, 1951.
+
+\bibitem[Laine et~al.(2019)Laine, Karras, Lehtinen, and Aila]{laine2019high}
+Samuli Laine, Tero Karras, Jaakko Lehtinen, and Timo Aila.
+\newblock High-quality self-supervised deep image denoising.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2019.
+
+\bibitem[Li et~al.(2022)Li, Liang, Zhao, Cui, Ouyang, Shao, Yu, and
+  Yan]{li2022supervision}
+Yangguang Li, Feng Liang, Lichen Zhao, Yufeng Cui, Wanli Ouyang, Jing Shao,
+  Fengwei Yu, and Junjie Yan.
+\newblock Supervision exists everywhere: A data efficient contrastive
+  language-image pre-training paradigm.
+\newblock In \emph{International Conference on Learning Representations}, 2022.
+
+\bibitem[Li et~al.(2023)Li, Zhang, Timofte, Van~Gool, Tu, Du, Wang, Chen, Li,
+  Wang, Hu, Wang, Kong, Wu, Zhang, Zhang, Liu, Bai, Feng, Wang, Zhang, Shao,
+  Wang, Lei, Xu, Zhang, Chen, Ren, Zuo, Wu, Han, Cheng, Li, Jiang, Jiang, Li,
+  Luo, Lin, Yu, Fan, Liu, Arora, Zamir, Vazquez-Corral, Derpanis, Brown, Li,
+  Zhao, Pan, and Dong]{li2023ntire}
+Yawei Li, Yulun Zhang, Radu Timofte, Luc Van~Gool, Zhijun Tu, Kunpeng Du,
+  Hailing Wang, Hanting Chen, Wei Li, Xiaofei Wang, Jie Hu, Yunhe Wang, Xiangyu
+  Kong, Jinlong Wu, Dafeng Zhang, Jianxing Zhang, Shuai Liu, Furui Bai, Chaoyu
+  Feng, Hao Wang, Yuqian Zhang, Guangqi Shao, Xiaotao Wang, Lei Lei, Rongjian
+  Xu, Zhilu Zhang, Yunjin Chen, Dongwei Ren, Wangmeng Zuo, Qi Wu, Mingyan Han,
+  Shen Cheng, Haipeng Li, Ting Jiang, Chengzhi Jiang, Xinpeng Li, Jinting Luo,
+  Wenjie Lin, Lei Yu, Haoqiang Fan, Shuaicheng Liu, Aditya Arora, Syed~Waqas
+  Zamir, Javier Vazquez-Corral, Konstantinos~G. Derpanis, Michael~S. Brown, Hao
+  Li, Zhihao Zhao, Jinshan Pan, and Jiangxin Dong.
+\newblock Ntire 2023 challenge on image denoising: Methods and results.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition Workshops (CVPRW)}, pages 1905--1921, 2023.
+
+\bibitem[Liang et~al.(2022)Liang, Fan, Xiang, Ranjan, Ilg, Green, Cao, Zhang,
+  Timofte, and Van~Gool]{liang2022rvrt}
+Jingyun Liang, Yuchen Fan, Xiaoyu Xiang, Rakesh Ranjan, Eddy Ilg, Simon Green,
+  Jiezhang Cao, Kai Zhang, Radu Timofte, and Luc Van~Gool.
+\newblock Recurrent video restoration transformer with guided deformable
+  attention.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2022.
+
+\bibitem[Lin et~al.(2022)Lin, Lin, Zhu, Fu, Qin, and Wang]{CVANet}
+Zhi Lin, Junhao Lin, Lei Zhu, Huazhu Fu, Jing Qin, and Liansheng Wang.
+\newblock A new dataset and a baseline model for breast lesion detection in
+  ultrasound videos.
+\newblock In \emph{Medical Image Computing and Computer Assisted Intervention
+  -- MICCAI 2022}, pages 614--623, Cham, 2022. Springer Nature Switzerland.
+
+\bibitem[Liu et~al.(2018)Liu, Luo, Lian, and Gao]{liu2018anom}
+Wen Liu, Weixin Luo, Dongze Lian, and Shenghua Gao.
+\newblock Future frame prediction for anomaly detection–a new baseline.
+\newblock \emph{CVPR}, pages 6536–--6545, 2018.
+
+\bibitem[Luiten et~al.(2021)Luiten, Osep, Dendorfer, Torr, Geiger,
+  Leal-Taix{\'e}, and Leibe]{HOTA}
+Jonathon Luiten, Aljosa Osep, Patrick Dendorfer, Philip Torr, Andreas Geiger,
+  Laura Leal-Taix{\'e}, and Bastian Leibe.
+\newblock Hota: A higher order metric for evaluating multi-object tracking.
+\newblock \emph{International Journal of Computer Vision}, 129\penalty0
+  (2):\penalty0 548--578, 2021.
+
+\bibitem[Marcos~Morales et~al.(2023)Marcos~Morales, Leibovich, Mohan, Vincent,
+  Haluai, Tan, Crozier, and Fernandez‐Granda]{marcosmorales2023evaluating}
+Adri\`{a} Marcos~Morales, Matan Leibovich, Sreyas Mohan, Joshua~Lawrence
+  Vincent, Piyush Haluai, Mai Tan, Peter Crozier, and Carlos
+  Fernandez‐Granda.
+\newblock Evaluating unsupervised denoising requires unsupervised metrics.
+\newblock In \emph{Proceedings of the 40th International Conference on Machine
+  Learning}, pages 23937--23957. PMLR, 2023.
+
+\bibitem[Marks et~al.(2024)Marks, Knott, Kondapaneni, Cole, Defraeye,
+  Perez-Cruz, and Perona]{marks2024closer}
+Markus Marks, Manuel Knott, Neehar Kondapaneni, Elijah Cole, Thijs Defraeye,
+  Fernando Perez-Cruz, and Pietro Perona.
+\newblock A closer look at benchmarking self-supervised pre-training with image
+  classification.
+\newblock \emph{arXiv preprint arXiv:2407.12210}, 2024.
+
+\bibitem[Michailovich and Tannenbaum(2013)]{despeckling2013}
+Oleg~V. Michailovich and Allen Tannenbaum.
+\newblock Despeckling of medical ultrasound images.
+\newblock \emph{IEEE Trans Ultrason Ferroelectr Freq Control}, 1:\penalty0
+  64--78, 2013.
+
+\bibitem[Pan et~al.(2025)Pan, Wen, and Han]{compDAE}
+Fengpu Pan, Jiangtao Wen, and Yuxing Han.
+\newblock Snapshot compressed imaging based single-measurement computer vision
+  for videos.
+\newblock \emph{arXiv preprint arXiv:2501.15122}, 2025.
+
+\bibitem[Recasens et~al.(2021)Recasens, Luc, Alayrac, Wang, Hemsley, Strub,
+  Tallec, Malinowski, Patraucean, Altché, Valko, Grill, van~den Oord, and
+  Zisserman]{recasens2021broaden}
+Adrià Recasens, Pauline Luc, Jean-Baptiste Alayrac, Luyu Wang, Ross Hemsley,
+  Florian Strub, Corentin Tallec, Mateusz Malinowski, Viorica Patraucean,
+  Florent Altché, Michal Valko, Jean-Bastien Grill, Aäron van~den Oord, and
+  Andrew Zisserman.
+\newblock Broaden your views for self-supervised video learning.
+\newblock \emph{ICCV}, pages 1255--1265, 2021.
+
+\bibitem[Ristani et~al.(2016)Ristani, Solera, Zou, Cucchiara, and Tomasi]{IDF1}
+Ergys Ristani, Francesco Solera, Roger Zou, Rita Cucchiara, and Carlo Tomasi.
+\newblock Performance measures and a data set for multi-target, multi-camera
+  tracking.
+\newblock In \emph{European Conference on Computer Vision}, pages 17--35.
+  Springer, 2016.
+
+\bibitem[Ronneberger et~al.(2015{\natexlab{a}})Ronneberger, Fischer, and
+  Brox]{ronneberger2015unet}
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+\newblock U-net: Convolutional networks for biomedical image segmentation.
+\newblock In \emph{International Conference on Medical Image Computing and
+  Computer-Assisted Intervention}, pages 234--241. Springer,
+  2015{\natexlab{a}}.
+
+\bibitem[Ronneberger et~al.(2015{\natexlab{b}})Ronneberger, Fischer, and
+  Brox]{unet}
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+\newblock U-net: Convolutional networks for biomedical image segmentation.
+\newblock In \emph{Medical Image Computing and Computer-Assisted Intervention
+  -- MICCAI 2015}, pages 234--241, 2015{\natexlab{b}}.
+
+\bibitem[Ryou and Perona(2021)]{ryou2021weaksupKPdisco}
+Serim Ryou and Pietro Perona.
+\newblock Weakly supervised keypoint discovery.
+\newblock \emph{arXiv preprint arXiv:2109.13423}, 2021.
+
+\bibitem[Sheth et~al.(2021)Sheth, Mohan, Vincent, Manzorro, Crozier, Khapra,
+  Simoncelli, and Fernandez-Granda]{Sheth_2021_ICCV}
+Dev~Yashpal Sheth, Sreyas Mohan, Joshua Vincent, Ramon Manzorro, Peter~A.
+  Crozier, Mitesh~M. Khapra, Eero~P. Simoncelli, and Carlos Fernandez-Granda.
+\newblock Unsupervised deep video denoising.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision (ICCV)}, 2021.
+
+\bibitem[Shi et~al.(2022)Shi, Daunhawer, Vogt, Torr, and Sanyal]{shi_how_2022}
+Yuge Shi, Imant Daunhawer, Julia~E. Vogt, Philip Torr, and Amartya Sanyal.
+\newblock How robust are pre-trained models to distribution shift?
+\newblock In \emph{{ICML} 2022: {Workshop} on {Spurious} {Correlations},
+  {Invariance}, and {Stability}}, 2022.
+
+\bibitem[Sinha and Singh(2024)]{singh2024zero}
+Abhishek Sinha and Shreya Singh.
+\newblock Zero-shot active learning using self supervised learning.
+\newblock \emph{arXiv preprint arXiv:2401.01690}, 2024.
+
+\bibitem[Sun et~al.(2022)Sun, Ryou, Goldshmid, Weissbourd, Dabiri, Anderson,
+  Kennedy, Yue, and Perona]{sun2022bkind}
+Jennifer~J Sun, Serim Ryou, Roni Goldshmid, Brandon Weissbourd, John Dabiri,
+  David~J Anderson, Ann Kennedy, Yisong Yue, and Pietro Perona.
+\newblock Self-supervised keypoint discovery in behavioral videos.
+\newblock \emph{CVPR}, 2022.
+
+\bibitem[Sundararajan and Woodard(2018)]{sundararajan2018DL4Bio}
+Kalaivani Sundararajan and Damon~L. Woodard.
+\newblock Deep learning for biometrics: A survey.
+\newblock \emph{ACM Computing Survey}, 51\penalty0 (3):\penalty0 1--34, 2018.
+
+\bibitem[Tassano et~al.(2020)Tassano, Delon, and Veit]{tassano2020dvdnet}
+Matias Tassano, Julie Delon, and Thomas Veit.
+\newblock Dvdnet: A fast network for deep video denoising.
+\newblock In \emph{Proceedings of the IEEE International Conference on Image
+  Processing (ICIP)}, pages 1805--1809. IEEE, 2020.
+
+\bibitem[Teed and Deng(2020)]{teed2020RAFT}
+Zachary Teed and Jia Deng.
+\newblock Raft: Recurrent all-pairs field transforms for optical flow.
+\newblock In \emph{ECCV}, pages 402–--419, Berlin, Heidelberg, 2020.
+
+\bibitem[Tong et~al.(2022)Tong, Song, Wang, and Wang]{tong2022videomae}
+Zhan Tong, Yibing Song, Jue Wang, and Limin Wang.
+\newblock Video{MAE}: Masked autoencoders are data-efficient learners for
+  self-supervised video pre-training.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2022.
+
+\bibitem[Ulman et~al.(2017)Ulman, Maška, Magnusson, Ronneberger, Haubold,
+  Harder, Matula, Matula, Svoboda, Radojevic, Smal, Rohr, Jaldén, Blau,
+  Dzyubachyk, Lelieveldt, Xiao, Li, Cho, Dufour, Olivo-Marin, Reyes-Aldasoro,
+  Solis-Lemus, Bensch, Brox, Stegmaier, Mikut, Wolf, Hamprecht, Esteves,
+  Quelhas, Demirel, Malmström, Jug, Tomančák, Meijering, Muñoz-Barrutia,
+  Kozubek, and Ortiz-de Solorzano]{ulman2017objective}
+Vladim{\'i}r Ulman, Martin Maška, Klas E.~G. Magnusson, Olaf Ronneberger,
+  Carsten Haubold, Nathalie Harder, Pavel Matula, Petr Matula, David Svoboda,
+  Miloš Radojevic, Ihor Smal, Karl Rohr, Joakim Jaldén, Helen~M. Blau, Oleh
+  Dzyubachyk, Boudewijn Lelieveldt, Pengdong Xiao, Yuexiang Li, Siu-Yeung Cho,
+  Alexandre~C. Dufour, Jean-Christophe Olivo-Marin, Constantino~Carlos
+  Reyes-Aldasoro, Jose~A. Solis-Lemus, Robert Bensch, Thomas Brox, Johannes
+  Stegmaier, Ralf Mikut, Steffen Wolf, Fred~A. Hamprecht, Tiago Esteves, Pedro
+  Quelhas, Ömer Demirel, Lars Malmström, Florian Jug, Pavel Tomančák, Erik
+  Meijering, Arrate Muñoz-Barrutia, Michal Kozubek, and Carlos Ortiz-de
+  Solorzano.
+\newblock An objective comparison of cell-tracking algorithms.
+\newblock \emph{Nature Methods}, 14:\penalty0 1141--1152, 2017.
+
+\bibitem[Wang et~al.(2004)Wang, Bovik, Sheikh, and Simoncelli]{wang2004ssim}
+Zhou Wang, A.C. Bovik, H.R. Sheikh, and E.P. Simoncelli.
+\newblock Image quality assessment: from error visibility to structural
+  similarity.
+\newblock \emph{IEEE Transactions on Image Processing}, 13\penalty0
+  (4):\penalty0 600--612, 2004.
+
+\bibitem[Wang et~al.(2023)Wang, Fu, Liu, and Zhang]{wang2023lgbpn}
+Zichun Wang, Ying Fu, Ji Liu, and Yulun Zhang.
+\newblock {LG}-{BPN}: Local and global blind-patch network for self-supervised
+  real-world denoising.
+\newblock In \emph{IEEE/CVF Computer Vision and Pattern Recognition (CVPR)},
+  2023.
+
+\bibitem[Weld et~al.(2025)Weld, Faoro, Dixon, Camp, Menciassi, and
+  Giannarou]{weld2025standardisationconvexultrasounddata}
+Alistair Weld, Giovanni Faoro, Luke Dixon, Sophie Camp, Arianna Menciassi, and
+  Stamatia Giannarou.
+\newblock Standardisation of convex ultrasound data through geometric analysis
+  and augmentation.
+\newblock \emph{arXiv preprint arXiv:2502.09482}, 2025.
+
+\bibitem[Xue et~al.(2019)Xue, Chen, Wu, Wei, and Freeman]{xue2019video}
+Tianfan Xue, Baian Chen, Jiajun Wu, Donglai Wei, and William~T Freeman.
+\newblock Video enhancement with task-oriented flow.
+\newblock \emph{International Journal of Computer Vision}, 127\penalty0
+  (8):\penalty0 1106--1125, 2019.
+
+\bibitem[Yan et~al.(2020)Yan, Wu, Xu, Zhang, and Ren]{wang2020vdflow}
+Yanyang Yan, Qingbo Wu, Bo Xu, Jingang Zhang, and Wenqi Ren.
+\newblock Vdflow: Joint learning for optical flow and video deblurring.
+\newblock In \emph{IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition Workshops (CVPRW)}, page 878–879, 2020.
+
+\bibitem[Yang and Yang(2021)]{zhang2021seasonal_ambient_noise}
+Qiulong Yang and Kunde Yang.
+\newblock Seasonal comparison of underwater ambient noise observed in the deep
+  area of the south china sea.
+\newblock \emph{Applied Acoustics}, 172:\penalty0 107672, 2021.
+
+\bibitem[Yang et~al.(2023)Yang, Liu, Wu, Wu, and Liu]{yang2023anom}
+Zhiwei Yang, Jing Liu, Zhaoyang Wu, Peng Wu, and Xiaotao Liu.
+\newblock Video event restoration based on keyframes for video anomaly
+  detection.
+\newblock \emph{CVPR}, 2023.
+
+\bibitem[Zhang et~al.(2017)Zhang, Zuo, Chen, Meng, and Zhang]{zhang2017beyond}
+Kai Zhang, Wangmeng Zuo, Yunjin Chen, Deyu Meng, and Lei Zhang.
+\newblock Beyond a {Gaussian} denoiser: Residual learning of deep {CNN} for
+  image denoising.
+\newblock \emph{IEEE Transactions on Image Processing}, 26\penalty0
+  (7):\penalty0 3142--3155, 2017.
+
+\bibitem[Zhao et~al.(2024)Zhao, Tian, Xiao, Hu, Gou, and Peng]{zhao2024avernet}
+Haiyu Zhao, Lei Tian, Xinyan Xiao, Peng Hu, Yuanbiao Gou, and Xi Peng.
+\newblock Avernet: All‑in‑one video restoration for time‑varying unknown
+  degradations.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2024.
+
+\end{thebibliography}

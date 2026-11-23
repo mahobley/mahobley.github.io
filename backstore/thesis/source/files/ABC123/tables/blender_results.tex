@@ -1,0 +1,35 @@
+
+\begin{tabular}{lcrrrrrrrr}
+ \toprule
+ & & \multicolumn{4}{c}{Val Set} & \multicolumn{4}{c}{Test Set} \\
+ \cmidrule(r){3-6} \cmidrule(r){7-10}
+
+\multicolumn{1}{c}{Method} & \multicolumn{1}{c}{Shots} & \multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} & \multicolumn{1}{c}{NAE} & \multicolumn{1}{c}{SRE} & \multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} & \multicolumn{1}{c}{NAE} & \multicolumn{1}{c}{SRE} \\
+\midrule
+Mean & N/A  &  39.87 & 53.56 & 3.07 & 11.40 & 42.67 & 59.68 & 2.79 & 10.93 \\
+Median & N/A  & 36.25 & 58.15 & 1.51 & 6.70 & 39.81 & 65.36 & 1.38 & 6.73\\
+\midrule
+\textit{Exemplar-based} & & & & \\
+FamNet+ \cite{ranjan2021Famnet} & 3 & 24.76 & 41.12 & 1.12 &  6.86 &  26.40 & 45.52 & 1.04 &  6.87 \\ 
+BMNet+ \cite{shi2022represent} & 3 &   15.83 &  27.07 &  0.71 & 4.97  & 17.29 & 29.83 & 0.75 & 6.08   \\ 
+CounTR \cite{liu2022countr}  & 3 & 15.07 & 26.26 & 0.63 & 4.79 & 16.12 & 29.28 & 0.67 & 5.71 \\
+\midrule
+\textit{Exemplar-free} & & & & \\
+ABC123 \textsmaller[2]{\SnowflakeChevron} & 0 & 14.64 & 23.67 & 0.46 & 2.97 & 15.76 & 25.72 & 0.45 & 3.11 \\
+ABC123 & 0 & \textbf{8.96} & \textbf{15.93} & \textbf{0.29} & \textbf{2.02} & \textbf{9.52} & \textbf{17.64} & \textbf{0.28} & \textbf{2.23}  \\
+
+
+
+\bottomrule
+\end{tabular}
+
+
+
+
+
+
+
+
+
+
+

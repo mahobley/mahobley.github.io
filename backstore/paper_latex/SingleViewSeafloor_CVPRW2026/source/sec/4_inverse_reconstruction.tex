@@ -1,0 +1,59 @@
+\section{Inverse Reconstruction}
+\label{sec:inverse-reconstruction}
+Xie \etal~\cite{Xie2024BathymetryFLSDiff} introduce a rendering equation for sonar, with pixel intensity at \((r,\theta)\) modeled as
+\begin{equation}
+I(r, \theta) = \int_{\phi_{\text{min}}}^{\phi_{\text{max}}} \operatorname{\beta}(\theta, \phi) \operatorname{\sigma}(r, \theta, \phi) \operatorname{T}(r, \theta, \phi)  \operatorname{L}(r, \theta, \phi, \boldsymbol{v}) d \phi
+\end{equation}
+where \(\beta\) is the horizontal/vertical beam pattern, \(\sigma\) is the particle volume density, \(T\) is the accumulated transmittance along the ray path, and \(L\) is a learned radiance term evaluated using a neural network. 
+
+In our setting (single-view FLS), we replace the volumetric radiance \(L\) with our surface backscatter model \(f\) (diffuse + specular) from Eq.~\ref{eq:reflectance}, removing repeated neural field evaluations during rendering. We further assume a separable beam pattern \(\beta(\theta,\phi)=\beta_\Theta(\theta)\beta_\Phi(\phi)\) and treat \(\beta_\Phi\) as uniform, yielding
+\begin{equation}
+I(r, \theta) = \beta_\Theta(\theta) \int_{\phi_{\text{min}}}^{\phi_{\text{max}}}  \operatorname{\sigma}(r, \theta, \phi) \operatorname{T}(r, \theta, \phi)  {f}(r, \theta, \phi) d \phi.
+\end{equation}
+
+
+\subsection{Differentiable Ray Intersections}
+\label{sec:differentiable_intersections}
+\looseness=-1
+Focusing on the polar seafloor representation, we implement differentiable soft-intersections using logits $\phi_{\text{r},\theta}-\phi_\text{ray}$, where \(\phi_{\text{r},\theta}\) is the angular height of our latent seafloor at polar coordinate \((r, \theta)\) and \(\phi_\text{ray}\) is the angular elevation component of a given ray. For each ray, we calculate the logits for every entry down the corresponding column (azimuth beam) of our height field. The collision densities are calculated as
+\begin{equation}
+\sigma(r,\theta,\phi_\text{ray})=\sigmoid\!\big(\alpha(\phi_{\text{r},\theta}-\phi_{\text{ray}})\big),
+\end{equation}
+where \(\alpha\) is a scaling term which controls the sharpness of collision edges. 
+
+With our range broken into discrete bins \(r_k\), the total probability of a ray transmitting to location \(j\) along its path is calculated as the cumulative probability of missing all previous entries down the beam:
+\begin{equation}
+    \operatorname{T}(r_j, \theta, \phi_\text{ray}) = \prod_{i<j}\!\Bigl(1-\sigma(r_i,\theta,\phi_\text{ray})\Bigr).
+\end{equation}
+
+
+\subsection{Beam-Pattern Modeling}
+\label{sec:beam_pattern}
+Beam-pattern effects are parameterized explicitly to model angle-dependent variations not explained by geometry. We find that learning a separate scaling parameter for each beam allows the model to more readily handle flicker effects or offscreen occlusions which can be averaged out in multi-view settings but become problematic for single-view reconstructions. To prevent interference with geometry fitting, we freeze these scalars for an initial warm-up period during optimization.
+
+
+\subsection{Regularization and Priors}
+Due to our Gaussian binning, high-frequency oscillations in the latent geometry can look equivalent to smooth regions. To discourage these artifacts we impose a first-order total-variation prior on the seafloor angular heights (\(\psi\)),
+\begin{equation}
+\mathrm{TV}(\psi)=\frac{1}{\lvert \psi\rvert}\sum_{i,j}\bigl\lvert \psi_{i+1,j}-\psi_{i,j}\bigr\rvert+\bigl\lvert \psi_{i,j+1}-\psi_{i,j}\bigr\rvert.
+\end{equation}
+
+In a single FLS frame, the tilt of the seafloor plane relative to the sensor is inherently ambiguous, since many orientations produce the same observed range support. Specifically, any plane that intersects the sensor arcs at \(r_{\min}\) and \(r_{\max}\) is a feasible orientation of the seafloor. However, the geometry is still locally constrained, since feasible base planes fall in a confined range of orientations and share similar sensor readings. Explanations that only fit the image at a knife-edge alignment from a specific view (\eg, explaining a shadow by just-parallel grazing) are considered non-generic, since other feasible tilts would be unlikely to produce the sensor reading.
+
+Applying the generic viewpoint assumption~\cite{Freeman1994GVA}, we assume {that the rendering from our recovered geometry should remain stable under small perturbations of the base-plane tilt}. This discourages fragile, special-alignment interpretations and favors robust ones (\eg, interpreting stable shadows as depressions). Since this ambiguity is inherent in single-view sonar, we resolve geometry conditioned on known tilts, and use the generic-viewpoint prior to discourage interpretations that only explain the image under a single viewing angle.
+%Since this ambiguity is inherent in single-view sonar, we resolve geometry \red{conditioned on known tilts.}
+
+
+\subsection{Loss and Optimization}
+Given a processed target image, $I$, for a latent height field, \(\psi\), we simulate our differentiable ray logic, apply the learned azimuth gains, and push the result through our differentiable processing unit to get the final prediction $\hat{I}(\psi)$. We calculate the reconstruction loss as the per-pixel mean-squared error:
+\vspace{-2mm}
+\begin{equation}
+\mathcal{L}_{\text{recon}}(\psi)=\frac{1}{HW}\left\lVert \hat{I}(\psi)-I\right\rVert_2^2.
+\end{equation}
+Under the generic viewpoint assumption, our optimization scheme becomes
+\begin{equation}
+\label{eq:main_loss}
+    \min_{\psi} \mathbb{E}_{\phi_{\text{plane}}\sim p(\Phi)}[\mathcal{L}_{\text{recon}}(\psi)+\lambda_{\text{TV}}\operatorname{TV}(\psi)],
+\end{equation}
+where \(\Phi\) denotes the set of feasible base-plane orientations. In practice, we resample \(\phi_{\text{plane}}\) at each optimization step from a uniform distribution over planes which span at least 60\% of the elevation fan (typically representing only a few degrees of tilt range) and present a full ablation in the supplemental materials.
+

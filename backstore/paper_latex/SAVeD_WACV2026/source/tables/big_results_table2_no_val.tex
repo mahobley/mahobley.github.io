@@ -1,0 +1,29 @@
+\begin{tabular}{l c c c c c c c }
+ \toprule
+ & \multicolumn{3}{c}{CFC22 (Test)}& \multicolumn{3}{c}{POCUS (5-fold-CV)} & \multicolumn{1}{c}{BUV(Test)} \\
+ \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-8} 
+ Method & mAP$_{50}$\cite{map50}$\uparrow$ & MOTA\cite{clear}$\uparrow$ & nMAE\cite{cfc2022eccv}$\downarrow$ & AP$\uparrow$ & AR$\uparrow$ & F1$\uparrow$ & mAP$_{50}$\cite{map50}$\uparrow$ \\
+ \hline
+\multicolumn{2}{@{}l}{\textit{Classical}} \\
+Baseline  & 73.8 & 37.4 & 54.8 & 82.6 & 82.0 & 80.4 & 46.4\\
+Median-Filter\cite{gonzalez2006meanfilter} & 73.7 & 37.8 & 53.0 & 86.2 & 85.5 & 85.3 & 52.4\\
+Mean-Filter\cite{gonzalez2006meanfilter} & 76.4 & 44.3 & 41.4 & 84.0 & 84.7 & 83.2 & 52.6 \\
+Gaussian-Filter\cite{gonzalez2006meanfilter} & 74.9 & 27.6 & 56.8 & 84.1 & 84.3 & 83.3 & 46.5 \\
+\hline                    
+\multicolumn{2}{@{}l}{\textit{Deep-Learning-Based Image/Video Denoising/Restoration}}                  \\  
+N2V\cite{krull2019noise2void} & 67.2 & 34.2 & 34.3 & 83.7 & 82.7 & 82.4 & 46.6\\
+UDVD\cite{Sheth_2021_ICCV} & 67.2 & 28.1 & 41.9 & 83.7 & 84.6 & 83.4 & 49.9 \\
+UMVD\cite{UMVD} & 70.4 & 38.2 & 34.0 & 80.4 & 82.6 & 80.7 & 53.9 \\
+LG-BPN\cite{wang2023lgbpn} & 72.6 & 41.9 & 34.2 & 31.9 & 34.3 & 21.5 & 49.7 \\
+% \hline
+% \multicolumn{2}{@{}l}{\textit{General Purpose/Blind Restoration}}   \\  
+RVRT\cite{liang2022rvrt} & 62.9 & 29.3 & 43.8 & 81.8 & 79.8 & 78.7 & 26.0 \\
+AverNet\cite{zhao2024avernet} & 65.4 & 30.3 & 35.7 & 83.7 & 83.4 & 82.6 & 47.0 \\
+
+\hline                   \multicolumn{2}{@{}l}{\textit{DAEs}}          \\ 
+AE & 67.8 & 34.3 & 41.7 & 82.3 & 84.7 & 82.1 & 46.9 \\
+UNet \cite{unet} & 73.9 & 34.1 & 56.3 & 83.7 & 84.6 & 83.4 & 51.0 \\
+UNet3D\cite{unet} & 66.9 & 32.4 & 35.4 & 83.5 & 80.1 & 80.6 & 47.6 \\
+\NAME{} (Ours) & \textbf{77.6} & \textbf{47.4} & \textbf{33.9} & \textbf{87.5} & \textbf{86.7} & \textbf{86.3} & \textbf{59.5} \\
+\bottomrule
+\end{tabular}

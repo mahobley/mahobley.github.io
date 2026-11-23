@@ -1,0 +1,28 @@
+\documentclass[../confirmation.tex]{subfiles}
+\begin{document}
+
+\begin{table}
+	\centering
+ \begin{tabular}{lccccccccc}
+ \toprule
+ 
+ & & \multicolumn{2}{c}{1px (bbox rand)} & \multicolumn{2}{c}{1px} & \multicolumn{2}{c}{4px} & \multicolumn{2}{c}{12px} \\ 
+ Label Used & Num & MAE & RMSE & MAE & RMSE & MAE & RMSE & MAE & RMSE \\ 
+ \midrule
+ Center Point & 1 & 7.08 & 9.39 & 6.96 & 9.32 & \textbf{6.94} & \textbf{9.29} & 7.15 & 9.53 \\
+ Center Point & 3 & \textbf{6.37} & \textbf{8.70} & 6.88 & 9.42 & 6.88 & 9.48 & 7.01 & 9.68 \\
+ Center Point & 6 & 6.38 & 8.68 & \textbf{6.31} & \textbf{8.67} & \textbf{6.31} & 8.68 & 6.44 & 8.93 \\
+ Center Point & 12 & \textbf{5.97} & \textbf{8.03} & 6.00 & 8.08 & 5.98 & 8.04 & 6.00 & 8.05 \\
+ Center Point & All & 6.03 & 8.01 & \textbf{5.91} & \textbf{7.90} & \textbf{5.91} & \textbf{7.90} & 5.93 & 7.93 \\
+ \midrule
+ Density Map & N/A & 5.45 & 7.28 \\
+
+ \bottomrule
+ \end{tabular}
+	\caption{Comparison of using a pixel matching, all 2-normed.
+ \textbf{Centre point pixel matching} takes a square side length n-pixels centered at an instance center of 3d geometry for each prediction and uses 1 - their mean average value as the cost. 
+ \textbf{Random BBox Pixel matching} takes a single random value from each bounding box for each prediction and uses 1 - their mean average value as the cost, this acts as a worst case instance annotation.}
+	\label{tab:centers_matching}
+\end{table}
+
+\end{document}

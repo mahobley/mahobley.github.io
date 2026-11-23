@@ -1,0 +1,14 @@
+\begin{tabular}{lcccc}
+ \toprule
+Method&MAE&RMSE&NAE&SRE\\
+\midrule
+\multicolumn{5}{l}{\textit{Exemplar-based}}\\
+FamNet+&60.53&84.00&1.82&14.58\\
+FSOD &61.31&64.10&1.02&6.94\\
+FSDetView \cite{xiao2022few} &24.89&31.34&0.54&4.46\\
+Counting-DETR &18.51&\textbf{24.48}&0.45&3.99\\
+\midrule
+\multicolumn{5}{l}{\textit{Exemplar-free}} \\
+ABC123 & \textbf{16.63} & 35.30 & \textbf{0.17} & \textbf{3.02}\\
+\bottomrule
+\end{tabular}

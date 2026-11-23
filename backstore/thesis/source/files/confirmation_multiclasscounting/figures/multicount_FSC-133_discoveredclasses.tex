@@ -1,0 +1,35 @@
+\documentclass[../confirmation.tex]{subfiles}
+\begin{document}
+\begin{figure}
+\centering
+\begin{tabular}{ccccc}
+
+\subcaptionbox*{Count Label: 32}{\includegraphics[width = \linewidth/\real{5.3}]{
+../files/confirmation_multiclasscounting/images/multicountfsc133/6927__[32].png
+}} &
+\subcaptionbox*{Prediction: 18.7}{\includegraphics[width = \linewidth/\real{5.3}]{
+ ../files/confirmation_multiclasscounting/images/multicountfsc133/6927_0_2_p:18.7.png
+}}  &
+\subcaptionbox*{Prediction: 12.7}{
+\includegraphics[width = \linewidth/\real{5.3}]{
+ ../files/confirmation_multiclasscounting/images/multicountfsc133/6927_0_4_p:12.7.png
+}}&
+\subcaptionbox*{Prediction:16.6}{\includegraphics[width = \linewidth/\real{5.3}]{
+ ../files/confirmation_multiclasscounting/images/multicountfsc133/6927_0_3_p:16.6.png
+}}\\
+\vspace{2mm}
+\\
+\subcaptionbox*{Count Label: 15}{\includegraphics[width = \linewidth/\real{5.3}]{
+../files/confirmation_multiclasscounting/images/multicountfsc133/4102__[15].png
+}} &
+\subcaptionbox*{Prediction:19.5}{\includegraphics[width = \linewidth/\real{5.3}]{
+ ../files/confirmation_multiclasscounting/images/multicountfsc133/4102_1_3_p:19.5.png
+}} &
+\subcaptionbox*{Prediction: 7.7}{\includegraphics[width = \linewidth/\real{5.3}]{
+ ../files/confirmation_multiclasscounting/images/multicountfsc133/4102_1_0_p:7.7.png
+}}
+\end{tabular}
+\caption{\textbf{Real-World Inference Unlabelled Class Discovery}. A model trained solely on our synthetic dataset is applied to images from FSC-133. In these cases it is finding multiple valid-but-unknown counts, counting objects not labelled in the original dataset}
+\label{fig:synthetictrainingrealinfreencediscovery}
+\end{figure}
+\end{document}

@@ -1,0 +1,332 @@
+\begin{thebibliography}{50}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Arteta et~al.(2014)Arteta, Lempitsky, Noble, and
+  Zisserman]{arteta2014interactive}
+C.~Arteta, V.~Lempitsky, J.~A. Noble, and A.~Zisserman.
+\newblock Interactive object counting.
+\newblock In \emph{European conference on computer vision}, pages 504--518.
+  Springer, 2014.
+
+\bibitem[Bai et~al.(2020)Bai, He, Qiao, Hu, Wu, and Yan]{bai2020adaptive}
+S.~Bai, Z.~He, Y.~Qiao, H.~Hu, W.~Wu, and J.~Yan.
+\newblock Adaptive dilated network with self-correction supervision for
+  counting.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision
+  and pattern recognition}, pages 4594--4603, 2020.
+
+\bibitem[Barinova et~al.(2012)Barinova, Lempitsky, and
+  Kholi]{barinova2012detection}
+O.~Barinova, V.~Lempitsky, and P.~Kholi.
+\newblock On detection of multiple object instances using hough transforms.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 34\penalty0 (9):\penalty0 1773--1784, 2012.
+
+\bibitem[Borstel et~al.(2016)Borstel, Kandemir, Schmidt, Rao, Rajamani, and
+  Hamprecht]{borstel2016gaussian}
+M.~v. Borstel, M.~Kandemir, P.~Schmidt, M.~K. Rao, K.~Rajamani, and F.~A.
+  Hamprecht.
+\newblock Gaussian process density counting from weak supervision.
+\newblock In \emph{European Conference on Computer Vision}, pages 365--380.
+  Springer, 2016.
+
+\bibitem[Cao et~al.(2018)Cao, Wang, Zhao, and Su]{cao2018scale}
+X.~Cao, Z.~Wang, Y.~Zhao, and F.~Su.
+\newblock Scale aggregation network for accurate and efficient crowd counting.
+\newblock In \emph{Proceedings of the European conference on computer vision
+  (ECCV)}, pages 734--750, 2018.
+
+\bibitem[Carion et~al.(2020)Carion, Massa, Synnaeve, Usunier, Kirillov, and
+  Zagoruyko]{carion2020DETR}
+N.~Carion, F.~Massa, G.~Synnaeve, N.~Usunier, A.~Kirillov, and S.~Zagoruyko.
+\newblock End-to-end object detection with transformers.
+\newblock In \emph{European conference on computer vision}, pages 213--229.
+  Springer, 2020.
+
+\bibitem[Caron et~al.(2021)Caron, Touvron, Misra, J{\'e}gou, Mairal,
+  Bojanowski, and Joulin]{caron2021DINO}
+M.~Caron, H.~Touvron, I.~Misra, H.~J{\'e}gou, J.~Mairal, P.~Bojanowski, and
+  A.~Joulin.
+\newblock Emerging properties in self-supervised vision transformers.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 9650--9660, 2021.
+
+\bibitem[Chan and Vasconcelos(2009)]{chan2009bayesian}
+A.~B. Chan and N.~Vasconcelos.
+\newblock Bayesian poisson regression for crowd counting.
+\newblock In \emph{2009 IEEE 12th international conference on computer vision},
+  pages 545--551. IEEE, 2009.
+
+\bibitem[Cholakkal et~al.(2020)Cholakkal, Sun, Khan, Khan, Shao, and
+  Van~Gool]{cholakkal2020towards}
+H.~Cholakkal, G.~Sun, S.~Khan, F.~S. Khan, L.~Shao, and L.~Van~Gool.
+\newblock Towards partial supervision for generic object counting in natural
+  scenes.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 2020.
+
+\bibitem[Deng et~al.(2009)Deng, Dong, Socher, Li, Li, and
+  Fei-Fei]{deng2009imagenet}
+J.~Deng, W.~Dong, R.~Socher, L.-J. Li, K.~Li, and L.~Fei-Fei.
+\newblock Imagenet: A large-scale hierarchical image database.
+\newblock In \emph{2009 IEEE conference on computer vision and pattern
+  recognition}, pages 248--255. Ieee, 2009.
+
+\bibitem[Desai et~al.(2011)Desai, Ramanan, and
+  Fowlkes]{desai2011discriminative}
+C.~Desai, D.~Ramanan, and C.~C. Fowlkes.
+\newblock Discriminative models for multi-class object layout.
+\newblock \emph{International journal of computer vision}, 95\penalty0
+  (1):\penalty0 1--12, 2011.
+
+\bibitem[Do(2021)]{do2021attention}
+P.~T. Do.
+\newblock Attention in crowd counting using the transformer and density map to
+  improve counting result.
+\newblock In \emph{2021 8th NAFOSTED Conference on Information and Computer
+  Science (NICS)}, pages 65--70. IEEE, 2021.
+
+\bibitem[Dosovitskiy et~al.(2020)Dosovitskiy, Beyer, Kolesnikov, Weissenborn,
+  Zhai, Unterthiner, Dehghani, Minderer, Heigold, Gelly,
+  et~al.]{dosovitskiy2020vit}
+A.~Dosovitskiy, L.~Beyer, A.~Kolesnikov, D.~Weissenborn, X.~Zhai,
+  T.~Unterthiner, M.~Dehghani, M.~Minderer, G.~Heigold, S.~Gelly, et~al.
+\newblock An image is worth 16x16 words: Transformers for image recognition at
+  scale.
+\newblock In \emph{International Conference on Learning Representations}, 2020.
+
+\bibitem[Fan et~al.(2020)Fan, Zhuo, Tang, and Tai]{fan2020few}
+Q.~Fan, W.~Zhuo, C.-K. Tang, and Y.-W. Tai.
+\newblock Few-shot object detection with attention-rpn and multi-relation
+  detector.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 4013--4022, 2020.
+
+\bibitem[Finn et~al.(2017)Finn, Abbeel, and Levine]{finn2017model}
+C.~Finn, P.~Abbeel, and S.~Levine.
+\newblock Model-agnostic meta-learning for fast adaptation of deep networks.
+\newblock In \emph{International conference on machine learning}, pages
+  1126--1135. PMLR, 2017.
+
+\bibitem[Go et~al.(2021)Go, Byun, Park, Choi, Yoo, and Kim]{go2021fine}
+H.~Go, J.~Byun, B.~Park, M.-A. Choi, S.~Yoo, and C.~Kim.
+\newblock Fine-grained multi-class object counting.
+\newblock In \emph{2021 IEEE International Conference on Image Processing
+  (ICIP)}, pages 509--513. IEEE, 2021.
+
+\bibitem[He et~al.(2016)He, Zhang, Ren, and Sun]{he2016resnet}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun.
+\newblock Deep residual learning for image recognition.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 770--778, 2016.
+
+\bibitem[Hsieh et~al.(2017)Hsieh, Lin, and Hsu]{hsieh2017drone}
+M.-R. Hsieh, Y.-L. Lin, and W.~H. Hsu.
+\newblock Drone-based object counting by spatially regularized regional
+  proposal network.
+\newblock In \emph{Proceedings of the IEEE international conference on computer
+  vision}, pages 4145--4153, 2017.
+
+\bibitem[Kang et~al.(2019)Kang, Liu, Wang, Yu, Feng, and Darrell]{kang2019few}
+B.~Kang, Z.~Liu, X.~Wang, F.~Yu, J.~Feng, and T.~Darrell.
+\newblock Few-shot object detection via feature reweighting.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 8420--8429, 2019.
+
+\bibitem[Lei et~al.(2021)Lei, Liu, Zhang, and Liu]{lei2021towards}
+Y.~Lei, Y.~Liu, P.~Zhang, and L.~Liu.
+\newblock Towards using count-level weak supervision for crowd counting.
+\newblock \emph{Pattern Recognition}, 109:\penalty0 107616, 2021.
+
+\bibitem[Li et~al.(2018)Li, Zhang, and Chen]{li2018csrnet}
+Y.~Li, X.~Zhang, and D.~Chen.
+\newblock Csrnet: Dilated convolutional neural networks for understanding the
+  highly congested scenes.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 1091--1100, 2018.
+
+\bibitem[Liang et~al.(2021)Liang, Chen, Xu, Zhou, and Bai]{liang2021transcrowd}
+D.~Liang, X.~Chen, W.~Xu, Y.~Zhou, and X.~Bai.
+\newblock Transcrowd: Weakly-supervised crowd counting with transformer.
+\newblock \emph{arXiv preprint arXiv:2104.09116}, 2021.
+
+\bibitem[Liang et~al.(2022)Liang, Xu, and Bai]{liang2022end}
+D.~Liang, W.~Xu, and X.~Bai.
+\newblock An end-to-end transformer model for crowd localization.
+\newblock \emph{arXiv preprint arXiv:2202.13065}, 2022.
+
+\bibitem[Lin et~al.(2021)Lin, Hong, and Wang]{lin2021object}
+H.~Lin, X.~Hong, and Y.~Wang.
+\newblock Object counting: You only need to look at one.
+\newblock \emph{arXiv preprint arXiv:2112.05993}, 2021.
+
+\bibitem[Liu et~al.(2018)Liu, Van De~Weijer, and Bagdanov]{liu2018leveraging}
+X.~Liu, J.~Van De~Weijer, and A.~D. Bagdanov.
+\newblock Leveraging unlabeled data for crowd counting by learning to rank.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 7661--7669, 2018.
+
+\bibitem[Liu et~al.(2022)Liu, Mao, Wu, Feichtenhofer, Darrell, and
+  Xie]{liu2022convnext}
+Z.~Liu, H.~Mao, C.-Y. Wu, C.~Feichtenhofer, T.~Darrell, and S.~Xie.
+\newblock A convnet for the 2020s.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 11976--11986, 2022.
+
+\bibitem[Lu et~al.(2018)Lu, Xie, and Zisserman]{Lu18}
+E.~Lu, W.~Xie, and A.~Zisserman.
+\newblock Class-agnostic counting.
+\newblock In \emph{Asian Conference on Computer Vision}, 2018.
+
+\bibitem[Marana et~al.(1997)Marana, Velastin, Costa, and
+  Lotufo]{marana1997estimation}
+A.~N. Marana, S.~Velastin, L.~Costa, and R.~Lotufo.
+\newblock Estimation of crowd density using image processing.
+\newblock \emph{Image Processing for Security Applications}, pages 1--8, 1997.
+
+\bibitem[Michaelis et~al.(2018)Michaelis, Ustyuzhaninov, Bethge, and
+  Ecker]{michaelis2018one}
+C.~Michaelis, I.~Ustyuzhaninov, M.~Bethge, and A.~S. Ecker.
+\newblock One-shot instance segmentation.
+\newblock \emph{arXiv preprint arXiv:1811.11507}, 2018.
+
+\bibitem[Mundhenk et~al.(2016)Mundhenk, Konjevod, Sakla, and
+  Boakye]{mundhenk2016large}
+T.~N. Mundhenk, G.~Konjevod, W.~A. Sakla, and K.~Boakye.
+\newblock A large contextual dataset for classification, detection and counting
+  of cars with deep learning.
+\newblock In \emph{European conference on computer vision}, pages 785--800.
+  Springer, 2016.
+
+\bibitem[Ranjan and Hoai(2022)]{ranjan2022exemplar}
+V.~Ranjan and M.~Hoai.
+\newblock Exemplar free class agnostic counting.
+\newblock \emph{arXiv preprint arXiv:2205.14212}, 2022.
+
+\bibitem[Ranjan et~al.(2021)Ranjan, Sharma, Nguyen, and Hoai]{ranjan2021Famnet}
+V.~Ranjan, U.~Sharma, T.~Nguyen, and M.~Hoai.
+\newblock Learning to count everything.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 3394--3403, 2021.
+
+\bibitem[Redmon et~al.(2016)Redmon, Divvala, Girshick, and
+  Farhadi]{redmon2016YOLO}
+J.~Redmon, S.~Divvala, R.~Girshick, and A.~Farhadi.
+\newblock You only look once: Unified, real-time object detection.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 779--788, 2016.
+
+\bibitem[Ren et~al.(2015)Ren, He, Girshick, and Sun]{ren2015fasterrcnn}
+S.~Ren, K.~He, R.~Girshick, and J.~Sun.
+\newblock Faster r-cnn: Towards real-time object detection with region proposal
+  networks.
+\newblock \emph{Advances in neural information processing systems}, 28, 2015.
+
+\bibitem[Sam et~al.(2019)Sam, Sajjan, Maurya, and Babu]{sam2019almost}
+D.~B. Sam, N.~N. Sajjan, H.~Maurya, and R.~V. Babu.
+\newblock Almost unsupervised learning for dense crowd counting.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~33, pages 8868--8875, 2019.
+
+\bibitem[Savner and Kanhangad(2022)]{savner2022crowdformer}
+S.~S. Savner and V.~Kanhangad.
+\newblock Crowdformer: Weakly-supervised crowd counting with improved
+  generalizability.
+\newblock \emph{arXiv preprint arXiv:2203.03768}, 2022.
+
+\bibitem[Shi et~al.(2022)Shi, Lu, Feng, Liu, and Cao]{shi2022represent}
+M.~Shi, H.~Lu, C.~Feng, C.~Liu, and Z.~Cao.
+\newblock Represent, compare, and learn: A similarity-aware framework for
+  class-agnostic counting.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 9529--9538, 2022.
+
+\bibitem[Sindagi and Patel(2019)]{sindagi2019ha}
+V.~A. Sindagi and V.~M. Patel.
+\newblock Ha-ccn: Hierarchical attention-based crowd counting network.
+\newblock \emph{IEEE Transactions on Image Processing}, 29:\penalty0 323--335,
+  2019.
+
+\bibitem[Sokhandan et~al.(2020)Sokhandan, Kamousi, Posada, Alese, and
+  Rostamzadeh]{sokhandan2020few}
+N.~Sokhandan, P.~Kamousi, A.~Posada, E.~Alese, and N.~Rostamzadeh.
+\newblock A few-shot sequential approach for object counting.
+\newblock \emph{arXiv preprint arXiv:2007.01899}, 2020.
+
+\bibitem[Sun et~al.(2021)Sun, Liu, Probst, Paudel, Popovic, and
+  Van~Gool]{sun2021boosting}
+G.~Sun, Y.~Liu, T.~Probst, D.~P. Paudel, N.~Popovic, and L.~Van~Gool.
+\newblock Boosting crowd counting with transformers.
+\newblock \emph{arXiv preprint arXiv:2105.10926}, 2021.
+
+\bibitem[Touvron et~al.(2021)Touvron, Cord, Douze, Massa, Sablayrolles, and
+  J{\'e}gou]{touvron2021training}
+H.~Touvron, M.~Cord, M.~Douze, F.~Massa, A.~Sablayrolles, and H.~J{\'e}gou.
+\newblock Training data-efficient image transformers \& distillation through
+  attention.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  10347--10357. PMLR, 2021.
+
+\bibitem[Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez,
+  Kaiser, and Polosukhin]{vaswani2017attention}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez,
+  {\L}.~Kaiser, and I.~Polosukhin.
+\newblock Attention is all you need.
+\newblock \emph{Advances in neural information processing systems}, 30, 2017.
+
+\bibitem[Wang et~al.(2015)Wang, Zhang, Yang, Liu, and Cao]{wang2015deep}
+C.~Wang, H.~Zhang, L.~Yang, S.~Liu, and X.~Cao.
+\newblock Deep people counting in extremely dense crowds.
+\newblock In \emph{Proceedings of the 23rd ACM international conference on
+  Multimedia}, pages 1299--1302, 2015.
+
+\bibitem[Wang et~al.(2022)Wang, Liu, Long, Sang, Xia, and Sang]{wang2022joint}
+F.~Wang, K.~Liu, F.~Long, N.~Sang, X.~Xia, and J.~Sang.
+\newblock Joint cnn and transformer network via weakly supervised learning for
+  efficient crowd counting.
+\newblock \emph{arXiv preprint arXiv:2203.06388}, 2022.
+
+\bibitem[Wang and Wang(2011)]{wang2011automatic}
+M.~Wang and X.~Wang.
+\newblock Automatic adaptation of a generic pedestrian detector to a specific
+  traffic scene.
+\newblock In \emph{CVPR 2011}, pages 3401--3408. IEEE, 2011.
+
+\bibitem[Xie et~al.(2018)Xie, Noble, and Zisserman]{xie2018microscopy}
+W.~Xie, J.~A. Noble, and A.~Zisserman.
+\newblock Microscopy cell counting and detection with fully convolutional
+  regression networks.
+\newblock \emph{Computer methods in biomechanics and biomedical engineering:
+  Imaging \& Visualization}, 6\penalty0 (3):\penalty0 283--292, 2018.
+
+\bibitem[Yang et~al.(2021)Yang, Su, Hsu, and Chen]{yang2021cfoc}
+S.-D. Yang, H.-T. Su, W.~H. Hsu, and W.-C. Chen.
+\newblock Class-agnostic few-shot object counting.
+\newblock In \emph{Proceedings of the IEEE/CVF Winter Conference on
+  Applications of Computer Vision}, pages 870--878, 2021.
+
+\bibitem[Yang et~al.(2020)Yang, Li, Wu, Su, Huang, and Sebe]{yang2020weakly}
+Y.~Yang, G.~Li, Z.~Wu, L.~Su, Q.~Huang, and N.~Sebe.
+\newblock Weakly-supervised crowd counting learns from sorting rather than
+  locations.
+\newblock In \emph{European Conference on Computer Vision}, pages 1--17.
+  Springer, 2020.
+
+\bibitem[Zhang et~al.(2015)Zhang, Li, Wang, and Yang]{zhang2015cross}
+C.~Zhang, H.~Li, X.~Wang, and X.~Yang.
+\newblock Cross-scene crowd counting via deep convolutional neural networks.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 833--841, 2015.
+
+\bibitem[Zhang et~al.(2016)Zhang, Zhou, Chen, Gao, and Ma]{zhang2016single}
+Y.~Zhang, D.~Zhou, S.~Chen, S.~Gao, and Y.~Ma.
+\newblock Single-image crowd counting via multi-column convolutional neural
+  network.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 589--597, 2016.
+
+\end{thebibliography}

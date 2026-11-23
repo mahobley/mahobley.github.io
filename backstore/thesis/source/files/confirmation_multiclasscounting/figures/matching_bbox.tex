@@ -1,0 +1,9 @@
+\documentclass[../confirmation.tex]{subfiles}
+\begin{document}
+\begin{figure}
+\centering
+\includegraphics[width =\linewidth]{../files/confirmation_multiclasscounting/images/matching_multiclass_bbox/bbox_matching_1_2.png}
+\caption{\textbf{An example of the bounding box multi-class matching problem.} It is clear to a human observer that the red and cyan predictions are both trying to count the same object as gt:0 (pr:0/3 $\rightarrow$ gt:0) and that green and blue predictions are both trying to count the same object as gt:1 (pr:1/2 $\rightarrow$ gt:1) and that the magenta prediction is failing at both. However at inference time one would not have the ground truth density map so we need to find the appropriate prediction using less information. One approach would be to require 2 bounding boxes from each class, you can then identify the correlation with each predicted density map and therefore the find the optimal associated count.}
+\label{fig:matching_bboxes}
+\end{figure}
+\end{document}

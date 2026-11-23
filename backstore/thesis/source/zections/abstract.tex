@@ -1,0 +1,20 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\begin{abstractnamed}
+
+    Counting is among the first abstract analysis tasks that we learn. It is the most fundamental way we can quantitatively understand data.
+    From an early age, people are able to accurately count objects with minimal direction, even when the type of object to be counted is completely unknown.
+    While prior machine learning-based methods have addressed the problem of counting previously unseen kinds of objects, known as class-agnostic counting, they have all required both user input during deployment in the form of exemplar images to define the type to be counted and the locations of every object during training to act as supervision.
+    
+    In this thesis, we aim to further automated counting methods with the goal of replicating the human ability to perform completely naive counting.
+    To achieve this, we recognise that counting is composed of, at its heart, two different tasks: instance finding and repetition recognition.
+    We explore these problems first in isolation and then together.
+    Within this exploration, we introduce various paradigms to the field of class-agnostic counting including exemplar-free counting, weak supervision, simultaneous multi-class counting, and more abstract concepts which we believe should be considered such as valid-but-unknown counts and the distinction between intrinsic and non-intrinsic tasks.
+    
+    Over the course of this thesis, we propose three methods which demonstrate that class-agnostic counting can be achieved with less information than previously postulated during both training and deployment. 
+    Specifically, we show that large sets of high dimensional data can be clustered flexibly and accurately using only relational pairwise labels, that robust counting can be achieved on novel classes without the requirement of exemplar images to define type during training or inference, and additionally that under certain conditions, such a method can be trained using only image-wise scalar count supervision.
+    
+    We also propose two datasets to facilitate training and reliably evaluate the performance of said methods alongside other contemporary work.
+    Together, these contributions create a strong base for counting in settings with limited supervision and minimal user input.
+\end{abstractnamed}
+\end{document}

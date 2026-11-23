@@ -1,0 +1,108 @@
+\onecolumn
+\appendices
+\section{FSC-147 and FSC-133}
+\subsection{Similar and Different Images}\label{similaranddifferent}
+\begin{figure*}[!ht]
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{appendicies/FSC-133_teaser}
+    \caption{Examples of some of the 448 identical or close to identical images that appear in FSC-147 with different image IDs and their associated `ground truth' counts . Duplicates can occur with different count labels and/or in different splits.}
+    \label{subset_dupes}
+\end{figure*}
+
+\begin{figure*}[!ht]   
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{appendicies/not_the_same}
+    \caption{Images that have a low pixel-wise difference that we deemed to be different.}
+    \label{no_similar}
+\end{figure*}
+\begin{figure*}[!ht]
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{appendicies/the_same}
+    \caption{Examples of images at the upper bound of pixel-wise difference we considered that we deemed the same image. The pixel-wise differences of the images in each column when resized to 224$\times$224 are 5207, 5403, 7551, 8224 and 9396 respectively.}
+    \label{similar}
+\end{figure*}
+
+\clearpage
+\subsection{Similar Classes}\label{append_similar}
+\begin{figure*}[!ht]    
+    \centering
+    \fontsize{8}{8}\selectfont
+    \input{appendicies/the_same_classes}
+    \caption{Examples of clear overlap or similarity between classes. Each row has a different class label in FSC-147. In FSC-133 these are simplified to Bread Rolls (Train), Kidney Beans (Train) and Birds (Train).}
+    \label{arethesame}
+\end{figure*}
+
+
+\clearpage
+
+% \subsection{Annotation Errors}\label{append_annotation_errors}
+% \begin{figure*}[!ht]    
+%     \centering
+%     \fontsize{8}{8}\selectfont
+%     \input{appendicies/annotation_errors}
+%     \caption{Examples of errors in the FSC-147 annotations. Rows 1 \& 3 show the image and the bounding box annotations, rows 2 \& 4 show the image, the bounding box annotations and the ground truth density map generated from the instance dot annotations.}
+%     \label{Fig_annotation_errors}
+% \end{figure*}
+
+
+\clearpage
+
+\subsection{Duplicate Discrepancies}\label{discrepancies}
+\begin{table*}[!ht]
+    \centering
+    \fontsize{9}{9}\selectfont
+    \resizebox*{0.42\textheight}{!}{
+        \input{appendicies/FSC_SPLIT_LEAK}}
+        \caption{The 17 cases where the same image appears in more than on of the: train set, validation or test set. The right column denotes which of these images, or if a third images appears in FSC-133.}
+    \label{FSC_SPLIT_LEAK}
+\end{table*}
+
+\begin{table*}[!ht]
+    \centering
+    \fontsize{9}{9}\selectfont
+       % \resizebox{0.6\textwidth}{!}{
+    \resizebox*{0.42\textheight}{!}{
+    \input{appendicies/FSC_COUNT_DIFF}}
+     \caption{The 71 cases where the same image appears more than once in FSC-147 with different associated counts. The right column denotes which of these images, or if a third images appears in FSC-133.}
+    \label{FSC_COUNT_DIFF}
+    
+\end{table*}
+\clearpage
+
+\subsection{FSC-147 and FSC-133 Class Split}\label{append_classes}
+\begin{table*}[!ht]
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{appendicies/classes_old_table}
+    \caption{The breakdown of classes in FSC-147. 
+    Note there are identical categories eg. `red beans' and `kidney beans'; `baguette rolls', `buns' and `bread rolls' are semantically the same, there are also hierarchical categories e.g. `cranes', `geese', `pigeons', `seagulls', `crows', `swans' and `flamingos' could also be classified as also `birds'. 
+    We show the classes that are combined in FSC-133 in \textbf{bold} and show the classes that are moved to the training set in FSC-133 in \textcolor{blue}{blue}.}
+    \label{classes_old_table}
+\end{table*}
+
+\clearpage
+
+\subsection{Sets of repeated Images}\label{list_identical}
+\noindent
+\input{appendicies/dupes_list_zero}
+
+% \subsection{Sets Duplicates Images}\label{list_close_to_identical}
+% \noindent
+% \input{appendicies/dupes_list}
+\clearpage
+\section{Tiling Augmentation Ablation.}\label{append_tile}
+We validate the use of our image tiling augmentation by testing various frequencies and tiling configurations, as shown in Table \ref{ablation_tile2}. 
+We found that introducing the denser (4$\times$4) tiling had less effect. 
+At this density of tiling, each object instance is very small within the total image, so it is no longer interpretable, providing little meaningful training. 
+% We also found that when a majority of training instances were tiled, the networks accuracy on lower count images decreased due to them now being under-represented during training.
+\begin{table}[!h]
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{tables/ablation_table_tiling}
+    \caption{Performance results for varying sizes and frequencies of our tiling augmentation on FSC-147. Images are tiled in either a (2$\times$2) grid, or in one of a (4$\times$4) or (2$\times$2) grid with equal probability.
+    }
+    \label{ablation_tile2}
+\end{table}

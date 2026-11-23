@@ -1,0 +1,38 @@
+\begin{tabular}{lcccc}
+ \toprule
+ & & \multicolumn{3}{c}{mAP$_{50}$} \\
+ \cmidrule(r){3-5}
+\multicolumn{1}{c}{Signal Modification} & \multicolumn{1}{c}{AE} & \multicolumn{1}{c}{Train} & \multicolumn{1}{c}{Val} & \multicolumn{1}{c}{Test} \\
+\midrule
+% Option A\\
+% \midrule
+% Raw ($I_t$) & \xmark &  &  &   \\ 
+% Raw ($I_t$) \MAH{Check this} & \cmark & 81.5  & 68.4 & 73.4 \\
+% $\sigma$ & \xmark & 79.8 & 69.4 & 72.5  \\ 
+% $\sigma$ & \cmark &  &  &   \\
+% $\Sigma-5\bar{I}$ & \xmark & 78.3 & 67.6 &  71.17 \\ 
+% $\Sigma-5\bar{I}$ \MAH{Check this} & \cmark & 78.8 & 69.2 &  72.8\\
+% PFDwT1 & \xmark & 80.2 & 66.9 & 68.2\\ 
+% PFDwT1 & \cmark &  & 70.6 & 77.6 \\
+% PFDwT2 & \xmark & 81.2 & 68.1 &  63.0 \\ 
+% PFDwT2  & \cmark & & & \\
+% \bottomrule
+% \\
+% Option B\\
+% \\
+ \toprule
+\multicolumn{5}{l}{\textit{Signal Modification w/o Denoising Network}}\\
+Raw ($I_t$) & \xmark & 79.6 & 69.6 & 54.2  \\ 
+$\sigma$ & \xmark & 79.8 & 69.4 & 72.5  \\ 
+$\Sigma-5\bar{I}$ & \xmark & 78.3 & 67.6 &  71.7 \\ 
+PFDwT1 & \xmark & 80.2 & 66.9 & 68.2\\ 
+PFDwT2 & \xmark & 81.2 & 68.1 &  63.0 \\ 
+\multicolumn{5}{l}{\textit{Signal Modification w/ Denoising Network}}\\
+Raw ($I_t$) & \cmark & 81.5  & 68.4 & 73.4 \\
+$\sigma$ & \cmark & 82.2 & 70.0 & 73.5  \\
+$\Sigma-5\bar{I}$ & \cmark & 79.8 & 68.1 &  71.7 \\
+\rowcolor{lightgray}
+PFDwT1 & \cmark & \textbf{83.5} & \textbf{70.6} & \textbf{77.6} \\
+PFDwT2  & \cmark & 82.2 & 68.5 & 71.4 \\
+\bottomrule
+\end{tabular}

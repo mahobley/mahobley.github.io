@@ -1,0 +1,57 @@
+\begin{tabular}{lcrrrr}
+ \toprule
+ & &\multicolumn{2}{c}{Val Set} & \multicolumn{2}{c}{Test Set} \\
+ \cmidrule(r){3-4} \cmidrule(r){5-6}
+\multicolumn{1}{c}{Method} & \multicolumn{1}{c}{Shots} &\multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} & \multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} \\
+
+\midrule
+Mean & N/A & 54.39 & 112.68 & 44.76 & 104.28 \\
+Median & N/A & 51.29 & 119.29 & 43.15 & 109.83 \\
+    \midrule
+
+\multicolumn{4}{l}{\textit{Exemplar-based Training}} \\
+FamNet 
+ \cite{ranjan2021Famnet} & 3
+& 25.49 & 68.21 & 21.05 & 43.48 \\
+FamNet+ 
+ \cite{ranjan2021Famnet} & 3
+& 24.75 & 67.04
+ &  20.20 & 41.76  \\ 
+FamNet$\dag$ 
+ \cite{ranjan2021Famnet} & 3  &  
+ 36.89 & 92.76 & 30.09 & 90.95 \\ 
+FamNet+$\dag$ 
+ \cite{ranjan2021Famnet} & 3
+ & 36.36 & 89.22 &  30.79 & 90.71\\ 
+BMNet 
+ \cite{shi2022represent} & 3 & 20.16 & 54.83  & 14.61  & 41.11 \\
+BMNet+ 
+ \cite{shi2022represent} & 3
+&\textbf{16.54} &  \textbf{50.65}  & \textbf{13.85}  & \textbf{40.61}  \\
+BMNet$\dag$ 
+ \cite{shi2022represent} & 3
+& 22.06 & 61.01 & 16.38 & 54.13\\ 
+BMNet+$\dag$  
+ \cite{shi2022represent} & 3
+& 18.78 & 59.76  & 13.87  & 47.27  \\
+\color{gray}
+CounTR  \cite{liang2022end} & 3 & 
+\textbf{15.34}  &  52.38   &  \textbf{9.78}  & \textbf{ 35.46}\\
+\color{gray}
+CounTR$\dag$  \cite{liu2022countr} & 3 &
+22.19 & 62.54 & 16.80 & 55.03 \\
+\color{gray}
+CounTR   \cite{liu2022countr} & 0  & 
+20.32  &  69.61   &  11.97  &  38.68\\ 
+\color{gray}
+ CounTR$\dag$  
+ \cite{liu2022countr} & 0 &
+32.69 & 74.10 & 25.62 & 71.86\\
+\midrule
+\multicolumn{4}{l}{\textit{Exemplar-less training}} \\
+\color{gray}
+CounTR$\dag$*  \cite{liu2022countr} & 0 &
+29.80 & 81.06 & 22.07 & 66.47 \\
+RCC (ours) & 0 & \textbf{17.87}  & \textbf{41.69} &  \textbf{14.79} & \textbf{34.48} \\
+\bottomrule
+\end{tabular}

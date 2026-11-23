@@ -1,0 +1,23 @@
+\documentclass[../confirmation.tex]{subfiles}
+\begin{document}
+\begin{figure}
+\centering
+\begin{tabular}{ccc}
+\subcaptionbox*{Training Classes}{\scalebox{0.5}{
+ \input{../files/confirmation_multi_dataset/figures/multi_class_stats_graphs/multi_class_stats_graph_train_numclasses.tex}}}  & 
+\subcaptionbox*{Validation Classes}{\scalebox{0.5}{
+ \input{../files/confirmation_multi_dataset/figures/multi_class_stats_graphs/multi_class_stats_graph_val_numclasses.tex}}}  &  \subcaptionbox*{Testing Classes}{\scalebox{0.5}{
+ \input{../files/confirmation_multi_dataset/figures/multi_class_stats_graphs/multi_class_stats_graph_test_numclasses.tex}}}  \\
+
+ \subcaptionbox*{Training Counts}{\scalebox{0.5}{
+ \input{../files/confirmation_multi_dataset/figures/multi_class_stats_graphs/multi_class_stats_graph_train_counts.tex}}}  & 
+ \subcaptionbox*{Validation  Counts}{\scalebox{0.5}{
+ \input{../files/confirmation_multi_dataset/figures/multi_class_stats_graphs/multi_class_stats_graph_val_counts.tex}}} &
+\subcaptionbox*{Testing Counts}{\scalebox{0.5}{
+ \input{../files/confirmation_multi_dataset/figures/multi_class_stats_graphs/multi_class_stats_graph_test_counts.tex}}}   
+\end{tabular}
+\caption{The distributions of the number of classes in an image and of the number of instances of each class per image across the dataset.}
+\label{fig__multi_class_stats_graphs}
+\end{figure}
+
+\end{document}

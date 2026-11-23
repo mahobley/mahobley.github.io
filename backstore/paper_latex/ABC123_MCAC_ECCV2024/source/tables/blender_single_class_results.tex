@@ -1,0 +1,44 @@
+\begin{tabular}{lcccrrrrrrrr}
+ \toprule
+ & & & & \multicolumn{4}{c}{Val Set} & \multicolumn{4}{c}{Test Set} \\
+ \cmidrule(r){5-8} \cmidrule(r){9-12}
+
+\multicolumn{1}{c}{Method} & \multicolumn{1}{c}{Multi-Class Training} & \multicolumn{1}{c}{Shots} & \multicolumn{1}{c}{$\hat{m}$} & \multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} & \multicolumn{1}{c}{NAE} & \multicolumn{1}{c}{SRE} & \multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} & \multicolumn{1}{c}{NAE} & \multicolumn{1}{c}{SRE} \\
+
+\midrule
+Mean & N/A & N/A & N/A & 
+53.36 & 67.14 & 3.53 & 13.46 & 58.54 & 75.58 & 3.37 & 13.27\\
+Median & N/A & N/A & N/A &
+45.98 & 76.64 & 1.08 & 6.68 &
+51.35 & 86.61 & 1.03 & 7.00\\
+
+\midrule
+\multicolumn{3}{l}{\textit{Exemplar-based Training}}& & \\
+FamNet+ \cite{ranjan2021Famnet} & \cmark & 3 & 1 & 24.97 & 48.63 & 0.36 & 3.79 & 28.31 & 54.88 & 0.35 & 3.97 \\ 
+FamNet+ \cite{ranjan2021Famnet} & \xmark & 3 & 1 & 12.54 & 24.69 & 0.37 & 4.71 & 13.97 & 26.19 & 0.25 & 2.12 \\
+BMNet+ \cite{shi2022represent} & \cmark & 3 & 1 & 11.70 & 23.08 & 0.26 & 2.39 & 11.57 & 22.25 & 0.24 & 1.96 \\ 
+BMNet+ \cite{shi2022represent} & \xmark & 3 & 1 & 6.82 & 12.84 & 0.25 & 2.95 & 8.05 & 14.57 & 0.19 & 1.43 \\ 
+CounTR \cite{liu2022countr} & \cmark & 3 & 1 & 11.44 & 21.37 & 0.33 & 2.36 & 10.91 & 21.70 & 0.29 & 2.01 \\
+CounTR \cite{liu2022countr} & \cmark & 0 & 1 & 13.57 & 25.53 & 0.30 & 2.48 & 13.09 & 25.72 & 0.29 & 2.41 \\
+CounTR \cite{liu2022countr} & \xmark & 3 & 1 & 9.00 & 16.91 & 0.41 & 3.56 & 9.96 & 18.92 & 0.38 & 2.93 \\
+CounTR \cite{liu2022countr} & \xmark & 0 & 1 & 9.16 & 17.13 & 0.42 & 3.56 & 10.10 & 19.10 & 0.40 & 3.02 \\
+
+LOCA \cite{Djukic2023LOCA} & \cmark & 3 & 1 & 5.62 & 12.24 & \textbf{0.15} & \textbf{1.73} & \textbf{6.25} & \textbf{13.09} & \textbf{0.12} & \textbf{1.14} \\
+LOCA \cite{Djukic2023LOCA} & \xmark & 3 & 1 & \textbf{5.01} & \textbf{11.47} & 0.22 & 3.35 & 6.52  & 13.37  & 0.15  & 1.36
+
+ \\
+
+\midrule
+\multicolumn{3}{l}{\textit{Exemplar-free Training}}& & \\
+CounTR\dag \cite{liu2022countr} & \xmark & 0 & 1 & 11.46 & 21.24 & 0.35 & 2.78 & 12.54 & 23.84 & 0.31 & 2.38 \\
+RCC \cite{hobley2023LTCA} & \xmark & 0 & 1 & 7.78 & 15.40 & 0.24 & 2.71 & 8.81 & 16.92 & 0.19 & 1.73 \\
+LOCA \cite{Djukic2023LOCA} & \xmark & 0 & 1 & \textbf{5.46} & \textbf{11.74} & 0.22 & 2.90 & 6.94 & \textbf{14.58} & 0.19 & 1.70 \\
+
+ABC123 \textsmaller[2]{\SnowflakeChevron} & \xmark & 0 & 5 & 10.78 & 18.83 & 0.28 & 1.97 & 13.23 & 24.57 & 0.29 & 2.39 \\
+ABC123 \textsmaller[2]{\SnowflakeChevron} & \xmark & 0 & 1 & 11.38 & 19.73 & 0.40 & 3.51 & 14.31 & 25.40 & 0.37 & 2.79 \\
+ABC123 \textsmaller[2]{\SnowflakeChevron} & \cmark & 0 & 5 & 10.98 & 18.85 & 0.30 & 1.93 & 13.13 & 23.93 & 0.29 & 2.18 \\
+ABC123 & \xmark & 0 & 5 & 5.82 & \textbf{11.74} & \textbf{ 0.15} & \textbf{1.22} & 7.54 & 15.30 &0.21 & 1.87 \\
+ABC123 & \xmark & 0 & 1 & 5.85 & 12.91 &0.24 & 3.37 & 7.53 & 15.69 & 0.22 & 2.19 \\
+ABC123 & \cmark & 0 & 5 & 6.08 & 12.62 & 0.16 & \textbf{1.22} & \textbf{6.82} & 14.70 & \textbf{0.16} & \textbf{1.51} \\
+\bottomrule
+\end{tabular}

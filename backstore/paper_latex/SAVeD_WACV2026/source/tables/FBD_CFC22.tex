@@ -1,0 +1,16 @@
+\begin{tabular}{lcccc}
+\toprule
+&\multicolumn{3}{c}{$FBD$ ($\uparrow$})\\
+    & Train & Val & Test  \\
+    \hline
+    Raw & 1005 & 652 & 860 \\
+    % Background-sub & 1145 & 787.4 & 896.9\\
+    CFC22++\cite{cfc2022eccv} & \textit{63.7} & 368 & 458  \\
+    Median-filtered\cite{gonzalez2006meanfilter} & 523 & 334 & 364 \\
+    Gaussian-filtered\cite{gonzalez2006meanfilter} & 793 & 507 & 756 \\
+    N2V\cite{krull2019noise2void} & 227 & \textit{194} & \textit{180} \\
+    UDVD\cite{Sheth_2021_ICCV} & 402 & 254 & 272 \\
+    % Denoised {\it (framewise)} & 494 & 405 & 548\\
+    \NAME{} (Ours) & \textbf{1366} & \textbf{994} & \textbf{1458}\\
+    \bottomrule
+\end{tabular}

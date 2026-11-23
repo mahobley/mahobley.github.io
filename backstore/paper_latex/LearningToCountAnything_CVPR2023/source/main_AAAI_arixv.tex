@@ -1,0 +1,407 @@
+\documentclass[letterpaper, 11pt]{IEEEtran} 
+\usepackage{graphicx} 
+\usepackage[square, numbers]{natbib}  
+\frenchspacing 
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{amsmath}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{subfig}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{newfloat}
+\floatstyle{ruled}
+\setcounter{secnumdepth}{2} %May be changed to 1 or 2 if section numbers are desired.
+
+% mah
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+\renewcommand{\thetable}{\arabic{table}}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+
+\usepackage{hyperref}
+
+\author{
+    %Authors
+    % All authors must be in the same font size and format.
+    Michael Hobley, Victor Prisacariu \\ Active Vision Laboratory\\
+  University of Oxford\\
+  \texttt{[mahobley, victor]@robots.ox.ac.uk} \\
+}
+\title{Learning to Count Anything: Reference-less \\ Class-agnostic Counting with Weak Supervision}
+
+\begin{document}
+\urlstyle{tt}
+\maketitle
+
+\begin{abstract}
+\looseness=-1
+Current class-agnostic counting methods can generalise to unseen classes but usually require reference images to define the type of object to be counted, as well as instance annotations during training. Reference-less class-agnostic counting is an emerging field that identifies counting as, at its core, a repetition-recognition task. Such methods facilitate counting on a changing set composition. We show that a general feature space with global context can enumerate instances in an image without a prior on the object type present. Specifically, we demonstrate that regression from vision transformer features without point-level supervision or reference images is superior to other reference-less methods and is competitive with methods that use reference images. We show this on the current standard few-shot counting dataset FSC-147. We also propose an improved dataset, FSC-133, which removes errors, ambiguities, and repeated images from FSC-147 and demonstrate similar performance on it. To the best of our knowledge, we are the first weakly-supervised reference-less class-agnostic counting method. 
+\end{abstract}
+
+
+\section{Introduction}
+\label{Introduction}
+
+Counting is one of the first abstract tasks people learn. Once learnt, the concept is simple. Its aim is to find the number of instances of an object class. 
+    Simple though it is, counting has diverse applications including: crowd-counting, traffic-monitoring, conservation, microscopy, and inventory management.
+    Significantly, whereas people can generally count objects without a prior understanding of the type of the object to be counted, most current automated methods cannot.
+    
+    \looseness=-1 Presented with a set of novel objects and asked to `count', a person would know what is to be counted. This does not require a reference example or prior understanding of object type to clarify that we do not want to find the repetitions of a self-similar background.
+    % From this, we can deduce that 
+    The ability to count is thus at its core comprised of two components: an understanding of what could be worth counting and an ability to identify repetitions of those countables.
+    We demonstrate that self-supervised vision transformer features, specifically their use of self-attention with a global receptive field, are crucial for both conditions to be met. 
+    We prove experimentally that, given general and globally contextual features, enumerating instances is simple and  requires only minimal training and supervision. 
+    
+    \begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{images/pipeline_AAAI_PCA.png}
+        \caption{
+    \textbf{The RCC pipeline.} 
+    Our method learns to count objects of novel classes without reference images, using only the ground truth count, $c$, as supervision.
+    We also visualise these features to show they suffice to  localise instances of the counted object.
+    }
+    \label{pipeline}
+\end{figure}
+    
+    Previous methods, whether detection-based, regression-based, or classification-based, generally focus on enumerating the instances of a single or small set of known classes, such as people \cite{wang2015deep, cao2018scale},
+    vehicles \cite{mundhenk2016large},
+    animals \cite{go2021fine}, 
+    or
+    cells \cite{xie2018microscopy}.
+    This requires an individually trained network for each type of object with limited to no capacity to adapt to novel classes.
+    Individually trained networks require gathering new data and retraining whenever a new type is considered, which is difficult and expensive.  
+    Additionally, these methods generally aim to localise instances before enumerating them, requiring point-level annotations to supervise the training. 
+    These class-specific and point-level supervised systems are only feasible when the composition and appearance of object types will remain the same indefinitely and point-level annotations exist, which is often not the case in real-world applications. 
+    In contrast, class-agnostic counting methods \cite{Lu18, ranjan2021Famnet} do not require a static class composition as they adapt an understanding of counting learnt on a set of known classes to objects of unseen classes.
+    However, most class-agnostic methods still require training-time point-level annotations and reference images of the class to count. The only exception is RepRPN \cite{ranjan2022exemplar}, a twostage method that does not need reference images but uses point-level annotations.
+    Weakly-supervised counting methods \cite{lei2021towards, yang2020weakly} relax the need for point-level annotations but do not currently generalise to unseen classes.
+
+    Given the cost of gathering reference images and point annotations in dynamic, real-world applications, we present a method that accurately enumerates instances of an unseen class without using such images or annotations. Our simple method achieves this by creating a general, global-context aware feature space using a vision transformer that can then be enumerated with a linear projection, see Figure \ref{pipeline}.
+
+    Our key contributions are as follows:
+    \begin{enumerate}
+        \item We propose RCC, a reference-less class-agnostic counter, and show
+        it can be trained without instance annotations.
+        \item We demonstrate that RCC outperforms the only other reference-less class-agnostic counting method and is competitive with current methods that use reference images as a prior and train with full point-level supervision. 
+        \item We present FSC-133, an improved dataset for class agnostic counting without the errors, ambiguities, and repeated images present in FSC-147.
+    \end{enumerate}
+\section{Related Work}
+\label{relatedwork}
+
+\textbf{Class-specific counting.}
+\looseness=-1
+Class-specific counting methods enumerate instances of known object types in an image. 
+These approaches can be broadly grouped into detection-based, regression-based, and classification-based methods.
+\textbf{Detection-based} methods use standard detection or segmentation approaches \cite{ren2015fasterrcnn, mundhenk2016large, michaelis2018one} to find all objects of a type \cite{hsieh2017drone} or set of types \cite{desai2011discriminative}, and then enumerate them. 
+Detection is itself a broad field with significant recent developments that can be beneficial for counting applications, such as in handling overlap or occlusion. However, detection-based counting methods are still unsatisfactory in high-density applications.
+\textbf{Classification-based} methods \cite{mundhenk2016large} generate a discrete classification of an image's global count.
+Their most obvious flaw is that they treat all incorrect counts, independent of proximity to the ground-truth count, equally. This makes training difficult, needs large amounts of data, and requires a low maximum count to ensure each discrete count-class is correctly trained.
+\textbf{Regression-based} counting methods aim to regress a single global count \cite{chan2009bayesian, wang2011automatic, wang2015deep} or a pixel-level density map prediction, which can be enumerated by integration \cite{cao2018scale, ranjan2021Famnet, xie2018microscopy} or instance detection \cite{barinova2012detection, arteta2014interactive, cholakkal2020towards}. These can use complex features \cite{zhang2015cross,zhang2016single} or simpler low-level features \cite{chan2009bayesian}, such as texture \cite{marana1997estimation}. 
+A regressed density map can also be used as a rudimentary object detector, followed by cross-correlation with a reference to find instances of the desired class \cite{sokhandan2020few}.
+
+\textbf{Weakly-supervised counting.} While the majority of counting methods above use some form of instance-wise positional information, gathering this information is costly. 
+Weakly-supervised counting methods aim to generate an accurate count with minimal \cite{lei2021towards, sam2019almost} or no point-level annotations \cite{borstel2016gaussian, yang2020weakly, wang2015deep}.
+
+\textbf{Class-agnostic counting.}
+The above methods assume prior understanding of all object classes to be identified. 
+Generally, this requires an individually trained system for each class of objects, with limited capacity to adapt to novel classes. 
+To avoid the cost of retraining these non-generalisable methods to new classes, \citet{Lu18} proposed class-agnostic counting, a framework in which test-time classes are not present during training.
+However, this and most subsequent class-agnostic methods \cite{ranjan2021Famnet, yang2021cfoc,sokhandan2020few} require a prior of object class at test time, in the form of reference images. The exception is a concurrent work  \cite{ranjan2022exemplar}, which uses a two-step process which proposes regions likely to contain an object of interest, and then uses these regions for a reference-based method. 
+Class-agnostic counting has so far been achieved by creating a sufficiently general feature space and applying some form of matching to the whole feature map \cite{yang2021cfoc, shi2022represent} or to proposed regions of interest \cite{ranjan2021Famnet, sokhandan2020few}.
+
+\textbf{Contextual features and vision transformers.}
+\looseness=-1
+Convolutional neural networks, which most of the above methods use, fail to accurately understand global context due to their localised receptive fields. 
+Methods have tried to solve this using dilation \cite{li2018csrnet, bai2020adaptive} or rank-based \cite{liu2018leveraging} systems. 
+Attention-based architectures that model global context inherently have been used to generate more contextually-aware features to aid counting \cite{sindagi2019ha}, to perform feature matching \cite{shi2022represent, lin2021object} and to generate reference image proposals \cite{ranjan2022exemplar}. 
+Inspired by vision transformers such as ViT \cite{dosovitskiy2020vit} and DETR \cite{carion2020DETR}, there have been various counting developments \cite{do2021attention,liang2022end, sun2021boosting}, including some \cite{liang2021transcrowd, savner2022crowdformer, wang2022joint} with a specific focus on weakly-supervised counting. These methods, however, focus on crowd-counting, a class specific task with limited generalisability.
+\section{Method}
+\label{method}
+In this paper, we approach the challenging task of counting instances of unseen classes without reference images or point-level supervision. 
+We believe that reference-less counting can be broken into two fundamental questions: `Where are object instances we may want to count?' and `Is the class of this given instance repeated elsewhere?'. 
+Unlike RepPRN \cite{ranjan2022exemplar}, the only other reference-less method, we solve these questions simultaneously.
+The former, in a class-agnostic context, requires a general, informative feature space. We identify that self-supervised knowledge distillation is well-suited to learning such a feature space. The latter requires an understanding of the global context of an image. Vision transformers, and their use of attention, are perfectly suited to this task.
+Given a feature space that is general and globally aware, we find that regressing a count is simple and can be achieved with minimal training and a single linear projection without point-level supervision.
+
+\textbf{Self-supervised knowledge distillation.}
+In order to learn a general, informative feature space without the use of labels, we use a training methodology of self-supervised knowledge distillation based on \citet{caron2021DINO}. We learn informative representations of images by encouraging consensus between a fixed `teacher' network, $g_{t}$ parameterised by $\theta_{t}$,  which operates on large `global' crops, $x_{1}^{g}$, $x_{2}^{g}$,  of the image and a `student' network, $g_{s}$ parameterised by $\theta_{s}$, which operates on a set, $V$, of smaller, `local' crops of the image.
+This is achieved by minimising the cross-entropy between the probability distributions of these networks, $P_{t}$ and $P_{s}$, as in Equation \ref{eq_cross_entropy}.
+These probability distributions, defined in Equation \ref{eq_dino_predictions}, act as `unsupervised classification predictions'. 
+\begin{equation}
+\label{eq_cross_entropy}
+    \min\limits_{\theta_{s}}
+    \sum_{x \in \{ x_{1}^{g}, x_{2}^{g}\}}
+    \; \;
+    \sum\limits_{\substack{x' \in V \\ x' \neq x}}  H(P_{t}(x), P_{s}(x'))
+\end{equation}
+\begin{equation}
+\label{eq_dino_predictions}
+    P_{s}(x)^{(i)} =
+    \frac{\exp(g_{s}(x)^{(i)}/\tau_{s})}{\sum_{d=0}^{d_p}\exp(g_{s}(x)^{(d)}/\tau_{s})}
+\end{equation}
+
+\noindent 
+Here, $H(a,b) =-a\log b$, $d_p$ is the dimensionality of the probability distribution, and
+$\tau_{s} > 0$ is a temperature parameter that controls the sharpness of the distribution. 
+A similar formula to Equation \ref{eq_dino_predictions} holds for $P_{t}$ with temperature $\tau_{t}$.
+We iteratively update the weights of the teacher network using an exponential moving average of the student network's weights.
+
+\textbf{Vision transformer backbone.}
+The crucial global context afforded by transformers stems from their use of an attention mechanism. Attention generates a new feature from linear projections of all other features based on their similarity.
+Inspired by \citet{vaswani2017attention}, our vision transformers, $g_{t}$ and $g_{s}$, use multiple attention heads to generate informative, diverse features, as in Equation \ref{eq_multihead} and Equation \ref{eq_multihead_2}.
+\begin{equation}
+\label{eq_multihead}
+    g_s(x; \theta_s) = \text{Concat}(head_1, ..., head_h)
+\end{equation}
+\begin{equation}
+\label{eq_multihead_2}
+    head_i =  \text{Attention}(q_i,k_i,v_i; \theta_{s})
+\end{equation}
+where $q_i$, $k_i$, and $v_i$, the queries, keys, and values, are each a linear projection of a patch of $x$. 
+Both $q_i$ and $k_i$ have the dimensionality $d_k$. In the case of self-attention, $q_i = k_i$.
+In practice, each head's attention is calculated simultaneously for $Q_i$, $K_i$, and $V_i$, sets of $q_i$, $k_i$, and $v_i$ respectively, as:
+\begin{equation}
+\label{eq_attention}
+    \text{Attention}(Q_i,K_i,V_i) = \text{softmax}(\frac{Q_iK_i^T}{\sqrt{d_k}})V_i 
+\end{equation}
+
+\textbf{Count regression.}
+\looseness=-1
+We directly regress a single, scalar count prediction
+for the whole input image, $x$, from the latent features of $g_s(x)$ without point-level annotations, which are difficult and expensive to gather.
+Although it may seem that a location-based loss should aid in training, we found that point-level annotations and Gaussian density maps were unnecessary and often detrimental in a class-agnostic setting. 
+Since positional annotations are often arbitrarily placed and contain at most limited information about the size and shape of an object, identifying different parts of all correct objects would be punished by a positional loss function. This arbitrary punishment hinders the network's understanding of the counting task.
+We allow the network to develop its own conceptual representation of the task by regressing an estimate for the count directly. To this end, we use one of the simplest possible loss functions, the absolute percentage error, defined as: $\mathcal{L} = \text{Absolute Percentage Error}= \lvert c - \hat{c} \rvert/c $, where $c$ is the ground truth count and the predicted count $\hat{c} = F \cdot g_s(x)$, where $F$ is a learnt linear projection. This was a slight improvement over Absolute Error as it limited the disproportionate effect of very high-density images on the gradients.
+We found that the network, without the imposition of human ideas of positional salience, learnt to implicitly localise instances of the counted class in a meaningful way, as further discussed in Section \ref{results_visualisation} and seen in Figure \ref{figure_visualisation}.
+
+\textbf{Tiling augmentation.}]
+\looseness=-1
+While multi-scale systems have been used to improve detection for objects of varying size, they require a complex spatial loss \cite{redmon2016YOLO} or non-maximal suppression \cite{ren2015fasterrcnn}, which has a large computational cost.
+As our method regresses a single count rather than a set of object locations, these approaches are not feasible.
+To allow the network to better understand  multiple scales and densities, we instead increase the diversity of image densities at training time by tiling resized versions of the input image into a (2$\times$2) grid for 50\% of instances.  This increased the representation of high-density images.
+This augmentation improved our methods MAE and RMSE by about 10\% and 20\% respectively. See Appendix \ref{append_tile} for details.
+
+\section{FSC-147 and FSC-133}
+FSC-147 \cite{ranjan2021Famnet} is a recent dataset widely used in the field of class-agnostic counting. 
+% !!! more detail on it before poking holes
+It is meant to contain 6135 unique images from 147 distinct classes. To evaluate the generalisability of a method to unseen classes, the classes and images for training, validation, and testing are not meant to  overlap.
+Although our method does not use them, this dataset also includes point annotations for each instance and three random instance bounding box annotations per image. 
+
+We found 159 images that appear 334 times in the dataset with a pixel-wise difference of 0 with at least one other image when compared at a $224 \times 224$ resolution.
+If we include images that are close to identical but do not have a zero pixel-wise difference, these numbers increase to 211 images that appear 448 times.
+See Appendix  \ref{similaranddifferent}, \ref{list_identical} for illustration 
+and the complete lists of duplicates.
+Further, 11 images appear in the training set and one of the validation or testing sets.
+This significant issue undermines the purpose of these splits. In addition, in 71 instances, an image repeats with different counts,  with discrepancies of up to 25\%, including 5 which appear in both the training and the validation sets with 9\%-21\% discrepancy. See Appendix  \ref{discrepancies} for the full list.
+
+\looseness=-1
+We, therefore, propose a revised version of this dataset, FSC-133, which corrects for these issues.
+The data split overlap stems from misclassification. This is likely due  to ambiguous class distinctions (eg. `kidney beans' and `red beans') or hierarchical classes (eg. `cranes', `seagulls', and `geese' could all also be classified as `birds'). In both cases, it can be difficult or even arbitrary to identify which class is most appropriate. 
+`Cranes' and `geese' or `bread rolls', `buns', and `baguette rolls' are similar enough that one might well classify instances of each as of the type with which they are most familiar. See Figure \ref{arethesame} in Appendix  \ref{similaranddifferent} for visual examples of unclear class divisions.
+To disambiguate the dataset and help it more reliably measure a method's generalisability, FSC-133 combines categories that are similar enough to be easily confused, see Appendix  \ref{append_classes} for details.
+The count discrepancies seem to occur when there is occlusion between objects or partial objects appear at the edges of the image, see Appendix  \ref{similaranddifferent} for examples. 
+While these images are difficult for a human to accurately count, we believe that they are of value to the dataset. Instead of removing them, FSC-133 includes only the most accurate count.
+
+FSC-133 has 5898 images in 133 classes. The training, validation, and testing sets have 3877, 954, and 1067 images from 82, 26, and 25 classes respectively.
+When combining classes that overlapped data splits, we merged them into the training split so that methods trained on FSC-147 be tested on FCS-133. While disadvantaged, these tests would still fairly evaluate the method's ability on completely unseen classes.
+
+
+\section{Experiments}
+\label{experiments}
+In this section, we discuss the details of our implementation, training, and the metrics we use for evaluation.
+\subsection{Architecture}
+\label{experiments_implementationdetails}
+We use a ViT-small backbone inspired by DeiT-S \cite{touvron2021training}. This was chosen due to its efficiency and to provide a good comparison to other counting methods.
+% which use a ResNet-50 backbone. 
+ViT-S has a similar number of parameters (21M vs 23M), throughput (1237im/sec vs 1007im/sec), and supervised ImageNet performance (79.3\% vs 79.8\%) as ResNet-50 \cite{touvron2021training}, which is used by contemporary counting methods.
+
+As even data efficient transformers require relatively large amounts of data to train and the datasets on which we evaluate are small, we initialised our transformer backbone, $g_s$, using weights from \citet{caron2021DINO}. This self-supervised pre-training gives the network an understanding of meaningful image features without supervision and prior to exposure to our limited datasets, minimising the chance of overfitting. 
+Our linear count projection $F$, projects from a $p\times d_m$ feature space to a scalar count prediction,
+where $d_m$ is the dimensionality of the transformer features and $p$ is the number of patches of the vision transformer. We found $d_m = 384$ and $p = 28^2$ sufficient to achieve competitive results while also being lightweight enough to be trainable on a single 1080Ti. It should be noted that this vision transformer configuration limits the resolution of our input image to (224$\times$224) as opposed to the $\sim$(384$\times$384) used by contemporary methods with ResNet-50 backbones.
+The code to reproduce our results will be made publicly available at: \url{https://github.com/ActiveVisionLab/LearningToCountAnything}.
+
+\subsection{Training}
+\label{experiments_training}
+We used a batch size of 2, distributed over 2 GPUs (Titan X). We trained for 80 epochs with a learning rate of $3\mathrm{e}-5$, which takes 2.5 hours.
+To increase the diversity of object densities 
+at training time, we applied our 2 × 2 tiling augmentation to 50\% of the iterations.
+We applied random reflections and rotations to the images and, when tiled, to each tile independently. Colour-based augmentations (colour-jitter, Gaussian blur, and solarisation) had negligible effect on our results. We did not apply random crops as this would require point-level annotations to adjust the count. 
+\subsection{Evaluation Metrics and Trivial Baselines}
+\label{experiments_evaluationmetrics}
+In accordance with previous works on class-agnostic counting \cite{shi2022represent, ranjan2022exemplar}, we use Mean Absolute Error ($\text{MAE} = (\sum_{i=1}^{n_{test}} |c_i - \hat{c}_i|)/n_{test}  $) and Root Mean Squared Error ($\text{RMSE} = \sqrt{(\sum_{i=1}^{n_{test}} (c_i - \hat{c}_i)^2)/n_{test}}$) to evaluate our performance, 
+where $c_i$ and $\hat{c}_i$ are the ground truth and predicted count for image $x_i$, and $n_{test}$ is the number of images in the validation or test set.
+
+We compare our method and previous methods to two trivial baselines. Both predict the same value, $\hat{c}$, for all test images, as follows: $\hat{c}_{mean} =(\sum C_{train})/n_{train}$ and $\hat{c}_{median} = C_{train}[n_{train}/2]$, 
+where $C_{train}$ is an ordered list of all ground truth counts for the training set and $n_{train}$ is the number of images in the training set.
+\section{Results}
+In this section, we show that RCC dramatically outperforms other reference-less class-agnostic counting methods and is competitive with reference-based methods. Since our method does not need reference images or point-level annotations, it can be applied to broader real-world applications where the objects to count are ever-changing. We validate this by showing our method's ability to generalise to a novel domain. 
+We also use our learnt latent features to localise instances in an image as this may have real-world utility and to substantiate that RCC uses meaningful information to count. We then discuss the failure cases and limitations of our method to inform and motivate possible future research. We finally validate specific components of our method.
+\subsection{Benchmarking Methods}
+We evaluate our method against two trivial baseline methods, two few-shot detection methods, FR \cite{kang2019few} and FSOD \cite{fan2020few},  six reference-based class-agnostic counting methods, GMN \cite{Lu18}, MAML \cite{finn2017model}, FamNet \cite{ranjan2021Famnet}, CFOCNet  \cite{yang2021cfoc}, BMNet \cite{shi2022represent}, LaoNet \cite{lin2021object}, and the only other  class-agnostic counting method which doesnt require a reference image, RepRPN-Counter \cite{ranjan2022exemplar}, see Table \ref{FSC147_results_table}. We also include reference-less modifications to reference-based methods implemented by \citet{ranjan2022exemplar}, denoted by a *. 
+Since \citet{ranjan2022exemplar} have not yet released the implementations of their method and of the modified reference-based methods they evaluate, the experiments we could run comparing to them were limited.
+To ensure fair comparison, we also train recent, high performing methods with released implementations using the same vision transformer backbone, ViT-S, as our method, denoted by $\dag$ in the results tables.
+\subsection{FSC-147 and FSC-133.}
+We achieve significantly better result than RepRPN and all reference-less versions of reference-based methods on FSC-147 without the need for point-level annotations. We are also competitive with previous few-shot or reference-based methods on FSC-147 and FSC-133 without the need for reference images, point-level annotations, or test-time adaptation, see Tables \ref{FSC147_results_table} and \ref{FSC133_results_table}. 
+This result demonstrates that the combination of an architecture well-suited for counting and a simple, count-centred objective function can learn a meaningful conceptual representation of counting without any location-based information and so does not require reference images.
+As will be discussed in Section \ref{failure_cases}, we believe that the discrepancy in FSC-147 test-set RMSE is due to  poor performance on the high-density images in the test set, as these outliers have a greater effect on RMSE than MAE.
+
+We found that methods that were modified to use  ViT-S in place of their ResNet-50 backbones performed worse;
+this is likely due to the significant decrease in input image resolution.
+Since FamNet was previously using features from two sequential layers of a ResNet backbone, this modification also halved the dimensionality of the features used to regress the count, decreasing their scale invariant performance.
+
+In general, the methods perform better on FSC-133 than FSC-147 with the exception of the validation MAE. The greater validation MAE is likely due to the removal of duplicate images and similar classes. The other metric improvements are likely due to a few high-density images being moved to the training set.
+\begin{table}
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{tables/FSC147_results_table}
+    \caption{\textbf{Comparison to state-of-the-art methods on FSC-147.} We outperform other reference-less methods and achieve competitive results with methods which use reference images and test-time adaptation. We highlight the best results for reference-based and reference-less methods. $\dag$ denotes methods trained using the same backbone as ours. 
+    * indicates a reference-less modification of a reference-based method.
+    }
+    \label{FSC147_results_table}
+\end{table}
+\begin{table}
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{tables/FSC133_results_table}
+    \caption{\textbf{Comparison to available state-of-the-art methods on FSC-133.}  We are competitive with reference-based methods without  reference images or test-time adaptation.
+    $\dag$ denotes methods trained using the same backbone as ours.
+    }
+    \label{FSC133_results_table}
+\end{table}
+ \subsection{Cross-Dataset Generalisability}
+To confirm our cross-dataset generalisability, we test our model on CARPK \cite{hsieh2017drone}, a car counting dataset
+comprised of birds-eye views of parking lots which significantly differ from the appearance of any objects in FSC-147 or FSC-133. To ensure we are fairly testing genrealisability, we exclude the "car" class from our FSC-133 pretraining. 
+We significantly outperform FamNet with and without fine-tuning, and we are competitive with BMNet without fine-tuning. We believe the fine-tuning result discrepancy with BMNet is caused by 
+ out-of-distribution high-density images as
+70\% of the test images have more instances than the maximum count seen during training.
+Both other methods use reference images which  aid in the cross-dataset generalisation and with issues of out of distribution high-density test images. 
+Further, while our method improves after fine-tuning, showing the benefit of task-specific information, the improvements are smaller than with FamNet and BMNet. 
+This indicates our method's generalisability is relatively optimised.
+
+\begin{table}
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{tables/carpk}
+    \caption{\textbf{Generalisation performance on CARPK.} ``Pretrained'' models were trained on FSC-147 or, for our method, FSC-133. ``Fine-tuned'' models were further trained on the CARPK dataset. 
+    We highlight the top results with and without reference images and with and without fine-tuning.
+    \label{table_carpk}
+}
+\end{table}
+
+\begin{figure*}
+    \centering
+    \input{images/localisation_vis}
+    \caption{\textbf{Localisation of latent counting features.} Columns 1-4: patch-wise principal components of the counting backbone features, Columns 5-8, 9, 10: pixel-wise localisation predictions of unseen dataset classes from FSC-133, CARPK and ShanghaiTech respectively. The latent counting feature density maps are generated by a localisation head trained on FSC-133.
+The count and prediction of each image are in the top left and the top right respectively.  Best viewed in colour and by zooming in.
+    }
+    \label{figure_visualisation}
+\end{figure*}
+\subsection{Feature Visualisation}
+\label{results_visualisation}
+\looseness-1
+In order to validate that our network is learning meaningful information, we visualised the most significant value from a singular value decomposition of the counting features weighted by the linear projection weights, see Figure \ref{figure_visualisation}.
+As our patch-wise counting features are relatively low resolution and there may be utility in more accurately localising instances in an image, we trained a localisation head. This head, comprised of 3 Conv-ReLU-Upsample blocks, increases the  patch-wise resolution of the trained counting features (28$\times$28) to a  pixel-wise density map prediction (224$\times$224), see Figure \ref{figure_visualisation}. This is trained using the pixel-wise mean squared error of the predicted density map and a ground truth Gaussian density map as is standard in the field \cite{ranjan2021Famnet}. Since this training is not weakly-supervised, we freeze the feature backbone. This training takes 10 epochs and has significantly better results than the same training on a self-supervised backbone, validating our network's ability to count rather than just detect objects. We also show that the backbone and localisation head trained on FSC-133 are generalisable to other domains by testing on the CARPK and ShanghaiTech \cite{zhang2016single} datasets, see Figure \ref{figure_visualisation}.
+\subsection{Failure Cases and Limitations}
+\label{failure_cases}
+A clear failure case of RCC is its difficulty with high-density images.
+As shown in Table \ref{FSC147_exclusions_table}, the metrics on FSC-133 improve dramatically when the few images with over 1000 objects are removed.
+These images, presented in Figure \ref{FSC147_exclusions_figure}, constitute 0.31\% of the validation set and 0.09\% of the test set.
+This failure case is likely because our patch-based approach limits the functional resolution to a $(28\times28)$ feature map.
+With many of these high-density images, the same object is found in all patches and across all patch boundaries equally, making individual instances indistinguishable. 
+Ideally, we would use a smaller patch size, but due to computational constraints, we could not test this.
+As a proxy for this test, we split the high-density images into multiple sub-images that were processed independently, and combined their counts.
+This improved the  MAE and RMSE by 45.6\% and 64.9\% respectively. 
+However, as this does not generalise in a principled manner to all cases, especially very low density cases, we did not include this as a contribution.
+
+This failure case could also be attributed to the underrepresentation of very high-density images in the training data; only 9 (0.23\%) of 3877 training counts are over 1000. 
+This is supported by the fact that these effects appear more dramatically in FSC-147 where high-density images have even lower representation.
+This is also supported by the improvements found from applying the tiled image augmentation, which artificially inflates the count of some training iterations.
+\begin{table}
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{tables/FSC133_exclusions}
+    \caption{
+    \textbf{The effect of removing high-density images from FSC-133.}
+    Excluding the small number of very dense images significantly improves our results, showing that these are a weakness of our method.
+    \# and \% denote the total number and percentage of images excluded respectively.
+    }
+    \label{FSC147_exclusions_table}
+\end{table}
+\begin{figure}
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{images/over_1000}
+    \caption{\textbf{High-density images from FSC-133.} The three images from the validation set (left) and the single test image (right) with associated counts of over 1000. 
+    }
+    \label{FSC147_exclusions_figure}
+\end{figure}
+
+The main and most obvious limitation of RCC, and indeed any reference-less method, is that it is single-count. It finds the class most likely to be of interest and enumerates it, see Figure \ref{figure_multiclass}. Given the distribution of objects in FSC-147, this does not pose a problem during our evaluation.
+Furthermore, the core achievement of this work is negating the requirement for test-time reference images and point-level annotations. There are also a wide range of applications to singular classes of novel objects, e.g.\ medical imaging \cite{xie2018microscopy}.
+Nevertheless, adapting this method to generate multiple counts or a hierarchical class-count structure is scope for future work.
+\begin{figure}
+    \centering
+       \input{images/vis_multi}
+    \caption{\textbf{Localisation of counting features with multiple classes present.} 
+    The network either ignores all but one class (left and center) or it groups very similar classes and counts the superset (right). The left and center images have high levels of occlusion leading to low predictions.
+    }
+    \label{figure_multiclass}
+\end{figure}
+
+\vspace{5mm}
+\subsection{Ablation Studies}
+\label{results_ablationstudies}
+
+\textbf{Attention-less features.}
+To demonstrate that the global context provided by the attention mechanism present in vision transformers is a critical component to reference-less class-agnostic counting, we evaluate RCC with ResNet-50 \cite{he2016resnet} and ConvNeXt \cite{liu2022convnext} backbones in place of our transformer. 
+We initialised both architectures with standard weights pre-trained on ImageNet \cite{deng2009imagenet}. 
+While using weights generated by a supervised task that overlaps classes with our test and validation sets means that the results are not directly comparable to our self-supervised method, we believe that this comparison provides a best-case for these architectures.
+Resnet-50 has a comparable accuracy to our vision transformer and ConvNeXt has a higher classification accuracy than our architecture when trained comparably \cite{liu2022convnext}.
+To enable comparison across backbones, we use the same input feature size (224$\times$224) and take latent features at the same (28$\times$28) resolution as the patched features used in our backbone. 
+As seen in Table \ref{ablation_arch}, even with the advantageous supervised pre-training, the attention-less features perform significantly worse than the self-supervised vision transformer.
+
+\vspace{5mm}
+
+\textbf{Count regression complexity.}
+We assert that given sufficiently general and globally aware features, regressing an accurate count should be straightforward. To validate this, we compare our linear projection against two count regression heads. We found that more complex counting heads achieved equivalent or worse results. In Table \ref{ablation_arch}, we present results for a simple architecture, Conv(3$\times$3)-ReLU-Linear-Relu-Linear, and a more complex architecture comprised of four (3$\times$3) convolutional layers followed by three linear layers with ReLU activations. The convolutional heads perform worse than our projection on all three backbones. It appears that the extra computational capacity of the complex architecture is not only unnecessary for the task of counting but is in fact detrimental because it overfits to the training classes.
+\begin{table}
+    \centering
+    \fontsize{9}{9}\selectfont
+    \input{tables/ablation_table_architecture}
+    \caption{\textbf{Performance of different feature backbones, and two more complex count regression head architectures on FSC-133.}
+    }
+    \label{ablation_arch}
+\end{table}
+
+\section{Conclusion}
+\label{conclusion}
+In this work, we present RCC, one of the first reference-less class-agnostic counting methods,
+and show that it can be trained without point-level annotations.
+This is based on the confirmed intuition that well-trained vision transformer features are both general enough and contextually aware enough to implicitly understand the underlying basis of counting, namely object detection and repetition identification. 
+To evaluate and compare RCC against other methods, we use FSC-147, a standard counting dataset, and our proposed improved dataset FSC-133.
+We demonstrate on both datasets that RCC is superior to the only other reference-less method and is competitive with current reference-based class-agnostic counting approaches that use full point-level supervision. We also show its cross-domain gerenalisability on CARPK and that it can localise appropriate object instances without any location-based intervention during training.
+We believe that due to our lack of reliance on object class priors, reference images, and positional annotations, our method has significantly greater utility than other counting methods, especially when the composition or appearance of objects is uncertain.
+
+
+Several extensions are possible for future research: \textit{first}, a multi-class output would be of clear utility as many real world applications will have a diverse range of objects; \textit{second}, a hierarchical system that is able to organise a multi-count output into likely groupings of objects could be useful to better understand the distribution of present types; \textit{third}, regressing an image of the type of object being counted could also aid in understanding the generated count.
+\clearpage
+\bibliographystyle{abbrvnat}
+\bibliography{bib}
+\clearpage
+\input{appendix}
+\end{document}

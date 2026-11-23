@@ -1,0 +1,78 @@
+\documentclass[nobind]{ociamthesis}
+
+
+\title{Counting with Limited \\[1ex]
+Supervision}   %
+\author{Michael A. Hobley}            
+\college{Keble College}
+\degree{Doctor of Philosophy}     %
+\degreedate{Michaelmas Term 2023}         %
+
+\input{preamble}
+\begin{document}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2} 
+
+\pagenumbering{gobble}
+
+\maketitle   
+\subfile{zections/abstract.tex}
+\subfile{zections/start_stuff/declaration_of_authorship.tex}
+\subfile{zections/start_stuff/dedication.tex}
+\subfile{zections/start_stuff/acknowledgments.tex}
+
+
+
+
+\pagenumbering{roman}
+
+\singlespacing
+\tableofcontents
+\doublespacing
+\restoregeometry
+
+
+
+\newpage
+\pagenumbering{arabic}
+
+\chapter{Introduction} 
+\label{sec__intro}
+\subfile{zections/intro.tex}
+
+\chapter{Background}
+\label{sec__literature_review} 
+\subfile{zections/litreview.tex}
+
+\chapter{Our Datasets}
+\label{sec__Datasets}
+\subfile{zections/Datasets.tex}
+
+\chapter{Dataset-Agnostic Task-Specific Clustering Using Side-Information}
+\label{sec__DMS}
+\subfile{zections/DMS.tex}
+
+\chapter{Exemplar-Free Weakly-Supervised Single-Class Class-Agnostic Counting}
+\label{sec__LTCA}
+\subfile{zections/LTCA.tex}
+
+
+\chapter{Exemplar-Free Multi-Class Class-Agnostic Counting}
+\label{sec__ABC123}
+\subfile{zections/ABC123.tex}
+
+\chapter{Conclusion}
+\label{sec__conclusion}
+\subfile{zections/conclusion.tex}
+\newpage
+
+{
+    \small
+    \singlespacing
+    \bibliography{bib_tidied.bib}
+    \bibliographystyle{unsrtnat}
+   
+}  
+
+\end{document}

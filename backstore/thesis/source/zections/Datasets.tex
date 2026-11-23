@@ -1,0 +1,13 @@
+FSC-147  \cite{ranjan2021Famnet} is the most popular dataset in the field of class-agnostic counting and has been crucial for the development of the field.
+However, it does have its limitations, and includes some errors.
+In this chapter, we outline these errors and limitations. We then propose solutions in the form of FSC-133 and MCAC.
+FSC-133 is an updated version of FSC-147 that removes the errors and ambiguities we found. We utilise this in \Cref{sec__LTCA,,sec__ABC123} to train and fairly evaluate our methods' performances in single-class settings.
+
+MCAC is a new dataset that overcomes the most significant limitation of FSC-147, that each image only contains a single labelled class.
+It is the first multi-class class-agnostic counting dataset.
+In \Cref{sec__ABC123}, we use MCAC to train a multi-class method as well as to demonstrate that previous class-agnostic counting methods do not function in these settings as previously assumed.
+
+\subfile{../zections/FSC133.tex}
+\section{Multi-Class Class-Agnostic Counting Dataset}
+\label{sec__MCAC}
+\subfile{../zections/MCAC.tex}

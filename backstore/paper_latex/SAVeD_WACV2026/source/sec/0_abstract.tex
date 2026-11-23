@@ -1,0 +1,37 @@
+\begin{abstract}
+    % Large vision models are increasingly strong at vision tasks in natural images, however they still struggle in low signal-to-noise ratio (SNR) videos, such as underwater sonar, ultrasound, and microscopy videos.
+    Low signal-to-noise ratio (SNR) videos—such as those from underwater sonar, ultrasound, and microscopy—pose significant challenges for computer vision models, particularly when paired clean imagery for denoising is unavailable.
+    We present Spatiotemporal Augmentations and denoising in Video for Downstream Tasks (\NAME{}), a novel self-supervised method that denoises low-SNR sensor videos using only raw noisy data. By leveraging distinctions between foreground and background motion and exaggerating objects with stronger motion signal, \NAME{} enhances foreground object visibility and reduces background and camera noise without requiring clean video. \NAME{} has a set of architectural optimizations that lead to faster throughput, training, and inference than existing deep learning methods. We also introduce a new denoising metric, FBD, which indicates foreground-background divergence for detection datasets without requiring clean imagery. Our approach achieves state-of-the-art results for classification, detection, tracking, and counting tasks and it does so with fewer training resource requirements than existing deep-learning-based denoising methods. Project page \href{https://suzanne-stathatos.github.io/SAVeD}{here}, Code: \href{https://github.com/suzanne-stathatos/SAVeD}{https://github.com/suzanne-stathatos/SAVeD}.
+\end{abstract}
+
+\iffalse
+\begin{abstract}
+    Foundation models excel at vision tasks in natural images but fail in low signal-to-noise ratio (SNR) videos, such as underwater sonar, ultrasound, and microscopy. We introduce Spatiotemporal Augmentations and denoising in Video for Downstream Tasks (\NAME{}), a self-supervised method that denoises low-SNR sensor videos and is trained using only the raw noisy data. By leveraging differences in foreground and background motion, \NAME{} enhances object visibility using an encoder-decoder with a temporal bottleneck. \NAME{} also has a set of architectural optimizations that lead to much faster training than existing deep learning methods. We also introduce a new denoising metric, FBD, which requires no clean ground-truth imagery. Our approach achieves SOTA results for classification, detection, tracking, and counting performance and it does so with fewer resource requirements than existing deep-learning-based denoising methods.
+\end{abstract}
+
+\begin{abstract}
+With the rise of foundational models in vision, tasks like classification, detection, and object tracking in natural images increasingly work out of the box.
+These foundation models do not work for sensory videos with low signal-to-noise ratios, such as underwater sonar of swimming fish, ultrasonic scans of breast tissue, or microscopy videos of moving cells.
+We present Spatiotemporal Video Denoising for Downstream Tasks (\NAME{}), a novel method that uses self-supervised learning to denoise sensor videos without requiring noise-free video.
+We show how \NAME{} improves performance on downstream tasks such as classification, detection, tracking, and counting.
+Sensor data, such as underwater sonar or medical ultrasound, presents a few additional challenges from above-ground RGB video. 
+First, there's not as much training data available as for RGB. 
+%Second, in underwater sonar videos, the background -- including water flow, shadowing, and environmental factors -- does not stay stationary, objects of interest range in scale within the frame, making small objects difficult to identify without their motion. 
+% Second, in underwater sonar videos, the dynamic background and varying object scales make small objects hard to identify without motion.
+% In a stationary frame, the moving objects do not have identifiable features, but we observe that foreground objects have a motion signature that is very different from the background motion. In ultrasound videos, the camera is also capturing a liquid environment, however, there is camera motion. In these videos, we aim to enhance the characteristics of the lesions and diseases and denoising the speckle from the video.
+In underwater sonar and ultrasound videos, dynamic backgrounds, scale variations, and camera motion obscure small objects and features. However, foreground motion differs from background motion, which we leverage to denoise.
+ \NAME{} uses an encoder-decoder architecture with a temporal bottleneck to reconstruct the spatiotemporal difference between video frames, capturing motion signatures and exaggerating objects of interest. 
+ By focusing on regions of movement and filtering out movement with minimal signal, our approach works directly on noisy video without requiring any form of annotation. 
+% Our approach works directly on noisy video without requiring any form of annotation. 
+We show that denoising the video frames improves downstream object detection, tracking, counting, and classification performance. 
+Finally, we show that our method beats other state-of-the-art denoising methods while requiring less resources.
+
+\end{abstract}
+\fi
+
+
+% For the denoiser, put noisy vs. denoised to see qualitatively what's happening -- in 2 rows, explicitly separate the top (setup) and bottom (applications) and put small titles over each \ie detecting fish, categorizing lung disease, categorizing breast cancer
+
+% For all the fish ones, make them match \ie frame from denoiser and frame to downstream 
+
+    

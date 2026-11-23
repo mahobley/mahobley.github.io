@@ -1,0 +1,21 @@
+\begin{tabular}{lccrrrrrrrr}
+ \toprule
+ & & \multirow{2}{*}{\shortstack{\vspace{0.6mm}\\Sub-Class \hspace{1mm}\\ Combine}} & \multicolumn{4}{c}{Val Set} & \multicolumn{4}{c}{Test Set} \\
+ \cmidrule(r){4-7} \cmidrule(r){8-11}
+
+\multicolumn{1}{c}{Method} & \multicolumn{1}{c}{Shots} &  & \multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} & \multicolumn{1}{c}{NAE} & \multicolumn{1}{c}{SRE} & \multicolumn{1}{c}{MAE} & \multicolumn{1}{c}{RMSE} & \multicolumn{1}{c}{NAE} & \multicolumn{1}{c}{SRE} \\
+\midrule
+\multicolumn{5}{l}{\textit{Exemplar-based}}\\ 
+FamNet+ & 3 & N/A & 25.83 & 46.31  & 0.50 & 4.29 & 28.05 & 45.59  & 0.48 & 4.33 \\
+BMNet+ & 3 & N/A  & 29.47 & 53.15  & 0.51 & 4.72 & 30.74 & 52.00  & 0.47 & 4.68 \\
+CounTR  & 3 & N/A  & 21.22 & 40.28  & 0.47 & 3.85 & 21.09 & 40.79  & 0.38 & 3.66 \\
+LOCA  & 3 & N/A &  25.70  & 48.64  & 0.45  & 4.30 & 29.93  & 49.89  & 0.48  & 4.62
+\\
+\midrule
+\multicolumn{5}{l}{\textit{Exemplar-free}} \\
+CounTR \dag  & 0 & N/A & 23.50 & 45.83 & 0.42 & 4.06 & 23.57 & 42.00 & 0.39 & 3.85 \\
+LOCA  & 0 & N/A & 29.37  & 54.01  & 0.51  & 4.84 & 33.96  & 56.66  & 0.53  & 5.17\\
+ABC123  & 0 & Max & \textit{19.56} & 46.71 & \textit{0.20} & \textit{3.54} & \textit{22.43} & 47.35 & \textit{0.22} & \textit{3.70}\\
+ABC123  & 0 & Sum & \textbf{11.13} & \textbf{34.47} & \textbf{0.12} & \textbf{2.44} & \textbf{11.75} & \textbf{33.41} & \textbf{0.11} & \textbf{2.38}\\
+\bottomrule
+\end{tabular}

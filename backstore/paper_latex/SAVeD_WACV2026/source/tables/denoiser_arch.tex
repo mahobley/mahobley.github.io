@@ -1,0 +1,50 @@
+\vspace{0pt} % Ensures top alignment
+\begin{tabular}{l c c}
+\toprule
+\multicolumn{3}{c}{\textit{Encoder}}\\
+    Type & Input shape & Output shape\\
+    \hline\\
+    \text{Conv\_block} & (1,1024,512) & (16, 1024, 512)\\
+    Pooling & (16, 1024, 512) & (16, 512, 256) \\
+    Skip & (16, 1024, 512) & (16, 512, 256) \\
+    \text{Conv\_block} & (16, 512, 256) & (32, 512, 256) \\
+    Pooling & (32, 512, 256) & (32, 256, 128) \\
+    Skip & (32, 512, 256) & (32, 256, 128) \\
+    \text{Conv\_block} & (32, 256, 128) & (64, 156, 128)\\
+    Pooling & (64, 156, 128) & (64, 128, 64) \\
+    Skip & (64, 156, 128) & (64, 128, 64) \\
+    \text{Conv\_block} & (64, 128, 64) & (128, 128, 64)\\
+    Pooling & (128, 128, 64) & (128, 64, 32)\\
+    Skip & (128, 128, 64) & (128, 64, 32)\\
+    \text{Conv\_block} & (128, 64, 32) & (256, 64, 32) \\
+    Pooling & (256, 64, 32) & (256, 32, 16) \\
+    Skip & (256, 64, 32) & (256, 32, 16) \\
+    \text{Conv\_block} & (256, 32, 16) & (512, 32, 16) \\
+    Pooling & (512, 32, 16) & (512, 16, 8) \\
+    Skip & (512, 32, 16) & (512, 16, 8) \\    
+\bottomrule
+% \toprule
+% \multicolumn{3}{c}{\textit{Bottleneck}}\\
+% \bottomrule
+\toprule
+\multicolumn{3}{c}{\textit{Decoder}}\\
+    Type & Input shape & Output shape\\
+    \hline\\
+    Upsample\_block & (512, 16, 8) & (256, 32, 16) \\
+    Skip\_connect & (256, 32, 16) & (768, 32, 16) \\
+    Conv\_block & (768, 32, 16) & (512, 32, 16)\\
+    Upsample\_block & (512, 32, 16) & (256, 64, 32) \\
+    Skip\_connect & (256, 64, 32) & (512, 64, 32)\\
+    Conv\_block & (512, 64, 32) & (256, 64, 32) \\
+    Upsample\_block & (256, 64, 32) & (128, 128, 64) \\
+    Skip\_connect & (128, 128, 64) & (256, 128, 64) \\
+    Conv\_block & (256, 128, 64) & (128, 128, 64) \\
+    Upsample\_block & (128, 128, 64) & (64, 256, 128) \\
+    Skip\_connect & (64, 256, 128) & (128, 256, 128) \\
+    Conv\_block & (128, 256, 128) & (64, 256, 128) \\
+    Upsample\_block & (64, 256, 128) & (32, 512, 256) \\
+    Skip\_connect & (32, 512, 256) & (64, 512, 256) \\
+    Conv\_block & (64, 512, 256) & (32, 512, 256) \\
+    Upsample\_block & (32, 512, 256) & (1, 1025, 512) \\
+\bottomrule
+\end{tabular}

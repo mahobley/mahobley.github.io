@@ -1,0 +1,85 @@
+\documentclass[../thesis.tex]{subfiles}
+\begin{document}
+Counting is a fundamental and powerful task.
+We learn to count early in our childhood and utilise the skill on a daily basis in an unlimited number of settings. 
+While people have the capacity to perform this task manually, in many contexts it is time-consuming and laborious.
+Simple though it is for people to generalise the idea of counting to objects of unknown types, this ability has proven difficult to automate.
+
+Prior to the work presented in this thesis, automated counting in computer vision relied on either having a known set of classes to count or a large set of information, often in the form of exemplar images and instance-wise labelling, to aid a counter in understanding the task at hand.  
+
+In this thesis, we present methods which significantly lower the  supervision burden during training, significantly lower the amount of user input required during the deployment of a counter, and significantly increase the abilities of counters to function in multi-class settings.
+This is achieved by first establishing a set of paradigms and then proving those paradigms as possible.
+In this chapter, we summarise the paradigms we proposed and the methods we created which verified them before discussing the scope for future work which expands upon our work and, finally, summarising the overall thesis.
+
+
+
+
+\section{Contributions}\label{conclusion:contributions}
+
+\subsubsection{Establishing and Exploring Paradigms}
+In this work, we establish and formalise some ideas about possible counting abilities as well as rethinking the way counting and clustering problems are usually presented and how this could be improved.
+
+
+Inspired by human counting abilities, we propose the idea of exemplar-free class-agnostic counting. This concept, which has since been used by other works in the field \cite{ranjan2022exemplar, liu2022countr, xu2023zsc}, aims to remove the laborious user input at deployment time. Not only are we able to show that these exemplars of type are not needed during deployment, but we also do away with them during training.
+
+Following the successes of weakly-supervised crowd counting methods, we introduce weak-supervision to class-agnostic counting.
+The ability to effectively supervise a method with only a count value would significantly reduce the burden on the training-set generation.
+
+We introduce the idea of multi-class class-agnostic counting and exemplar-free multi-class class-agnostic counting.
+While previously it had been postulated that exemplar-based single-class class-agnostic counting methods could function in settings where multiple classes of objects would be present, it had not been demonstrated. 
+These methods were also all single-class, identifying only one kind of object at a time, scaling as $\mathcal{O}(n)$.
+
+Multi-class counting, as we propose it, is the idea that all of the counts are generated simultaneously, scaling as $\mathcal{O}(1)$.
+Exemplar-free multi-class class-agnostic counting is the goal of achieving this with no prior on type or exemplars of type during deployment.
+We recognise that in multi-class settings the utility of a method correlates with the interpretability of the produced result. A count without context of what has been counted is not very useful. As such, we introduce the concept of example-finding, a reversal of exemplar-based methods. Instead of specifying exemplar instances to define the type to be counted, we propose finding examples of instances that have been counted, allowing a user to quickly and easily interpret the counts.
+
+
+It became clear during our work that there were certain abstract ambiguities in counting which we have not seen discussed or even noted in other works.
+We propose the ideas of valid-but-unknown counts and intrinsic vs non-intrinsic clusterings.
+Both of these concepts acknowledge the ambiguity inherent to class-agnostic methods.
+If a method is developed to work on grouping instances of objects of classes it has not been specifically trained to identify, there will always be a level of uncertainty about the `inliership' of these instances.
+In both clustering and class-agnostic counting, the specific interpretation of intra- and inter-class boundaries significantly changes the outcomes.
+
+
+
+
+
+
+\subsubsection{Demonstrating the Paradigms}
+Beyond proposing various paradigms, we create methods which utilise them and achieve robust and accurate performances.
+
+In \Cref{sec__DMS}, we introduce DMS, a fully differentiable clustering method inspired by the classical mean shift algorithm.
+We demonstrate that training DMS with pairwise side-information achieved state-of-the-art performance over other machine learning-based clustering methods. 
+We also show that the use of side-information as supervision allowed DMS to be flexible, learning task-specific representations of similarity.
+In \Cref{sec__DMS}, we also validate the idea of non-intrinsic clustering, demonstrating the existence of other ways to divide datasets than the distributed labels and showing how these divisions are learnable using only side-information.
+
+In \Cref{sec__LTCA}, we introduce RCC which demonstrates that given the constraint that images include a single, or clear `main', class, state-of-the-art class-agnostic counting can be achieved without exemplars during both training or deployment.  
+We then show that not only can single-class exemplar-free class-agnostic counting methods be trained using this single scalar value supervision, but it is in fact beneficial, allowing a network to learn its own ideas of positional salience.
+The ability to effectively supervise a method with only a count value significantly reduces the burden on the training-set generation.
+RCC validates that exemplar-free counting is possible as well as that weak-supervision has a place in the field of class-agnostic counting.
+
+
+
+
+In \Cref{sec__ABC123}, we expand upon the capabilities of RCC with ABC123.
+ABC123 proves that exemplar-free counting is possible in multi-class class-agnostic settings.
+ABC123 generates state-of-the-art results in these settings, outperforming exemplar-based methods previously assumed to work on multi-class images. 
+The work in \Cref{sec__ABC123} also shows the benefit of allowing a network to consider valid-but-unknown counts.  
+In this chapter, we also demonstrate example finding, showing not only that it is possible but that it has utility.
+
+
+\section{Future Work}
+
+
+
+This thesis lays the groundwork for creating effective counting methods which function in situations with less information than previously posited, though the exploration of this area has only just begun.
+There is of course scope for methods which generate more accurate results, use even less information during training, or increase the usability and interpretability of the systems in deployment situations.
+
+We believe that the weak-supervision proven to work in \Cref{sec__LTCA} could be utilised in multi-class settings.
+We also think that introducing the ideas presented in \Cref{sec__DMS} of hierarchical and orthogonal class relationships to class-agnostic counting could lead to methods which are more accurate and can provide much more interesting and nuanced insights into the distribution of objects found in a single image or across a dataset. 
+
+\section{Closing Remarks}
+This thesis present a set of works which demonstrate that counting methods can achieve accurate counting results on previously unseen classes with less input than has previously been demonstrated.
+This takes the form of pair-wise side-information taking the place of class labels in clustering, the removal of both priors on class and exemplars from counting, and, in single-class counting settings, the removal of labelling beyond a single scalar value.
+We trust that the work presented has contributed to the important area of exemplar-free counting and has demonstrated empirically that this now widely adopted paradigm will have a substantial impact on automated counting systems in real-world applications.
+\end{document}

@@ -1,0 +1,11 @@
+\vspace{0pt} % Ensures top alignment
+\begin{tabular}{l c c c c c c c c}
+\toprule
+Dataset & Resolution & Target & Epochs & Batch size & Learning Rate & Optimizer & Scheduler \\
+\hline
+CFC22 & (1024,512) & $S_{t,T=1}$ & 20 & 16 & 0.0005 & AdamW & Plateau f=0.1 pat=2 \\
+POCUS & (1024,512) & $S_{t,T=1}$ & 120 & 8 & 0.0005 & AdamW & Step ss=2, $\gamma=0.05$\\
+BUV & (1024,1024) & ${\text{inverse}(S_{t,T=1})}$ & 40 & 8 & 0.0005 & AdamW & Step ss=2, $\gamma=0.05$\\
+Fluo & (1024,1024) & $I_t$ & 1000 & 8 & 0.0005 & AdamW & Step ss=2, $\gamma=0.05$\\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,218 @@
+\documentclass[../thesis.tex]{subfiles}
+\begin{document}
+
+\section{FSC-147}
+FSC-147 \cite{ranjan2021Famnet} is a recent few-shot counting (FSC) dataset. It was introduced in 2021 and has since become the most widely used dataset in the field of class-agnostic counting.
+This is due to its diverse range of images, which contain varied classes, compositions, and cameras.
+The two most significant features of a class-agnostic counting dataset are (i) its ability to measure the accuracy of a method at finding the correct count and (ii) its ability to test how well a method generalises to previously unseen classes. 
+The former requires an accurate knowledge of the number of objects in each image.
+The latter is achieved by having complete mutual exclusivity between the classes seen during training, validation, and testing. 
+FSC-147 includes 6135 images.
+Each image has point annotations for each object instance and three random instance bounding box annotations, all of which were manually gathered. 
+FSC-147 is a single-class dataset;  only one labelled type of object is present per image. 
+While there are some examples which contain more than one kind of object, these are rare and only one class is labelled.
+
+\subsection{Limitations}\label{sec__FSC133__limitations}
+While FSC-147 has proven invaluable as a dataset for counting, the limited annotations do not allow for methods to develop a complex understanding of the task.
+These limitations include the small number of bounding box annotations per image, the lack of pixel-wise segmentations of any objects, and no information on the occlusion of objects in an image.
+The lack of information about instance occlusion can lead to methods struggling to gain a coherent understanding of counting in high-occlusion scenarios.
+Most methods that use FSC-147 utilise a loss function based on a regressed density map prediction. 
+Instead of their loss comparing the generated density map to a ground truth density map, they must compare to a pseudo-ground-truth density map which features a Gaussian kernel centred at each instance annotation. 
+These Gaussian kernels lose a lot of the salient information about the objects they represent, like shape and scale, which is then lost to the method.
+Methods also develop an inconsistent view of which objects should be counted when there is occlusion involved. 
+This is due to the fact it is not possible to construct a set of rigorous rules about which objects are too occluded to be counted, meaning these decisions are made subjectively and therefore inconsistently.
+This is made clear with the examples we present in \Cref{sec__FSC133__errors__countdiscrepancy}.
+
+The single-class nature of this dataset means that methods trained on it are not incentivised to learn discriminative features. 
+The tasks can often be solved by counting all objects present rather than focusing on whether the objects in the image are similar to each other or the exemplar. 
+This leads to the methods becoming `generic object detectors' rather than counters which locate repeated instances of the same type.
+The images are also relatively simple, with a clear class to count. This is made clear by our work in \Cref{sec__LTCA} which achieves state-of-the-art results on this dataset with no user input. 
+The lack of multi-class and highly complex images 
+limits the capacity of methods using this dataset to be developed or tested in many realistic settings where more than one kind of countable object could be present.
+
+
+\subsection{Errors}
+There are errors in FSC-147, including incorrect annotations and, more significantly, the repetition of images and the overlap between training, validation, and test sets. Some of these errors are presented in \Cref{fig__FSC133__subset_dupes}.
+These errors undermine the judgements that can be made about the accuracy of a given method as well as a method's ability to generalise to unseen classes.
+
+
+\begin{figure}
+    \centering
+    \input{../files/appendicies/FSC133/figures/FSC-133_teaser}
+    \caption{Examples of some of the 448 identical or close to identical images that appear in FSC-147 with different image IDs and their associated `ground truth' counts. Duplicates can occur with different count labels and/or in different splits.}
+    \label{fig__FSC133__subset_dupes}
+\end{figure}
+
+
+\subsubsection{Annotation Errors}
+
+\begin{figure}    
+    \centering
+    \fontsize{8}{8}\selectfont
+    \input{../files/appendicies/FSC133/figures/annotation_errors_missing}
+    \caption{Examples of cases in the FSC-147  with missing annotations. There are object instances in these images that we believe are semantically similar enough to be included in the count.}
+    \label{fig__FSC133__Fig_annotation_errors_missing}
+\end{figure}
+
+
+\begin{figure}     
+    \centering
+    \fontsize{8}{8}\selectfont
+    \input{../files/appendicies/FSC133/figures/annotation_errors_additional}
+    \caption{Examples of cases in FSC-147 with additional instance annotations. These either include highly occluded instances, include annotations for objects of different classes (\eg chilli pepper vs chicken wing), or have erroneous annotations.}
+    \label{fig__FSC133__Fig_annotation_errors_additional}
+\end{figure}
+
+\begin{figure}     
+    \centering
+    \fontsize{8}{8}\selectfont
+    \input{../files/appendicies/FSC133/figures/annotation_errors_ambiguous}
+    \caption{Examples of ambiguous annotations  in FSC-147. 
+    These include bounding box annotations that include more than one point annotation, point annotations and bounding box annotations defining different classes, arbitrarily selected classes to count, or arbitrarily placed point annotations.
+     }
+    \label{fig__FSC133__Fig_annotation_errors_ambiguous}
+\end{figure}
+Annotation errors can be grouped into various categories. We will focus on (i) Missing counts, (ii) Additional counts, and (iii) Ambiguous annotations.
+Missing counts are cases where the labels do not include an object that is very similar to those that have been labelled; see 
+\Cref{fig__FSC133__Fig_annotation_errors_missing} for examples.
+Additional counts are cases where instance annotations are added either to objects that are not semantically similar, to objects that are so occluded as to be not significantly visible in the picture, or to erroneous points; see \Cref{fig__FSC133__Fig_annotation_errors_additional} for examples of each.
+There are various cases of ambiguous labels where instance annotations or bounding boxes do not align with each other.
+Examples of this include bounding boxes that include more than one instance in situations where this was avoidable, instance annotations associated with highly occluded objects, or bounding box annotations for repeated component parts of objects with instance annotations corresponding to the whole objects; see \Cref{fig__FSC133__Fig_annotation_errors_ambiguous} for examples of each.
+
+Many of the missing or additional annotation cases are due to either a lack of semantic understanding, which causes people to group non-similar objects or ignore similar objects, or difficulties with judging occlusion. 
+One of the criteria of the dataset is that images have ``no severe occlusion'' such that it would ``prevent humans from accurately counting the objects'' \cite{ranjan2021Famnet}. 
+However, this is subjective, leading to annotation errors. 
+The lack of consistency associated with manual counting, especially concerning occluded instances, is especially clear when the same image appears multiple times in the dataset with different associated counts. This phenomenon is further discussed in \Cref{sec__FSC133__errors__countdiscrepancy}.
+
+
+\subsubsection{Repetition Recognition}
+Repeated images in a dataset are problematic for multiple reasons.
+The least significant effect is that unbalanced datasets reduce the performance of methods as they are often less generalisable. The most impactful effect occurs when the same image is present during training and evaluation. This undermines the test of a method's generalisability.
+
+We identified repeated images using the L1 pixel-wise difference of the two 8-bit images at a resolution of 224 $\times$ 224 pixels. We manually examined each pairing with a difference of less than 10,000 to assess the similarity. 
+This manual stage was needed as many images with low pixel-wise difference were clearly different and many with high difference were clearly the same; see \Cref{fig__FSC133ure__no_similar} and \Cref{fig__FSC133__similar} for examples of each phenomenon. 
+The cases where the same image has a high pixel-wise difference generally occurred when the image had been compressed, cropped, translated small amounts, or had a colour filter or watermark added.
+
+
+\begin{figure}   
+    \centering
+    \input{../files/appendicies/FSC133/figures/not_the_same}
+    \caption{Images that have a low pixel-wise difference that we deemed to be different.}
+    \label{fig__FSC133ure__no_similar}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{../files/appendicies/FSC133/figures/the_same}
+    \caption{Examples of images at the upper bound of pixel-wise difference we considered that we deemed to be the same image. The pixel-wise differences of the images in each column when resized to 224$\times$224 are 5207, 5403, 7551, 8224, and 9396 respectively.}
+    \label{fig__FSC133__similar}
+\end{figure}
+
+
+FSC-147 is said to contain 6135 unique images from 147 distinct classes. 
+We found that 159 images occur more than once with a pixel-wise difference of 0, for a total of 334 images in the dataset.
+If we include images that are close to identical but do not have a zero pixel-wise difference, these numbers increase to 211 images that appear 448 times.
+See \Cref{fig__FSC133__subset_dupes} for illustration 
+of some of the duplicates.
+
+
+Not only do some images appear multiple times in the dataset, but 11 images appear in the training set and either the validation set or the testing set; see Table \ref{table__FSC133__FSC_SPLIT_LEAK} for all of the cases. This situation should not be possible as the dataset divisions are made along class boundaries.
+Since the purpose of having these splits is to test the ability of a method to generalise to previously unseen classes, this issue is especially significant.
+
+\begin{table}
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \input{../files/appendicies/FSC133/tables/FSC_SPLIT_LEAK}
+    }
+        \caption{The 17 cases where the same image appears in more than one of the training, validation, or test sets. The right column denotes which of these images (or if a third image) appears in FSC-133.}
+    \label{table__FSC133__FSC_SPLIT_LEAK}
+\end{table}
+
+
+
+Another issue is that there are 71 cases where the same image appears more than once with a different count.
+The count discrepancies are up to 25\%, including 5 which appear in both the training set and the validation set with 9\%-21\% discrepancy.
+\Cref{fig__FSC133__subset_dupes} presents examples of these errors, and \Cref{table__FSC133__FSC_COUNT_DIFF} contains the complete breakdown of all the cases we found.
+
+
+\begin{table}
+    \centering
+    \fontsize{9}{9}\selectfont   
+    \resizebox{0.9\textwidth}{!}{%
+    \input{../files/appendicies/FSC133/tables/FSC_COUNT_DIFF}
+    }
+     \caption{The 71 cases where the same image appears more than once in FSC-147 with different associated counts. The right column denotes which of these images (or, in some cases a third image) appears in FSC-133.}
+    \label{table__FSC133__FSC_COUNT_DIFF}
+\end{table}
+
+
+We believe these errors stem from the fact the images in FSC-147 were scraped from Flickr, Google, and Bing search engines and then manually annotated \cite{ranjan2021Famnet}. 
+We assume the images appeared on either multiple sources or were duplicated from the same source. 
+
+
+\subsubsection{Split overlap}
+While images appearing in both the training and evaluation sets would be a problem for any machine learning application, it is especially impactful to the evaluation of class-agnostic counting methods.
+To facilitate testing a method's generalisability, the data splits are along class boundaries.
+Images that are incorrectly classified can end up in the wrong data split and harm the reliability of this evaluation. 
+
+
+\begin{figure}    
+    \centering
+    \fontsize{8}{8}\selectfont
+    \input{../files/appendicies/FSC133/figures/the_same_classes}
+    \caption{Examples of clear overlap or similarity between classes. Each row has a different class label in FSC-147. In FSC-133, these are simplified to Bread Rolls (Train), Kidney Beans (Train), and Birds (Train).}
+    \label{fig__FSC133__arethesame}
+\end{figure}
+
+There are a few instances in FSC-147  where images are clearly incorrectly classified. 
+Some of these errors are obvious and stem from a misapplication of the class labels.
+For example, `bottle caps' being classified as `caps', a category designed for baseball caps. 
+However, the majority of incorrect classifications stem from ambiguities in the class labels.
+FSC-147 has sets of classes which are visually very similar such as `red beans (test)' and `kidney beans (train)' or many of the bird classes.
+Identifying the bird classes is particularly challenging as it is difficult to recognise which of the categories is present when the instances are small or in silhouette.
+There are also hierarchical arrangements of classes. 
+For example, `cranes (train)', `seagulls (val)', and `geese (train)' could all also be classified as `birds (val)', and `buns (train)' and `baguette rolls (train)' could also be classified as `bread rolls (train)'. 
+See \Cref{fig__FSC133__arethesame} for visual examples of these similarities.
+
+These errors could occur when there is a language, expertise, or cultural difference in the labelling population. For example, `Cranes' and `geese' look very similar. Presented with an image and a set of ambiguous class labels, a human annotator may well assume the image is of the type with which they are more familiar. 
+Similarly, the `bread rolls', `buns', and `baguette rolls' categories depend on a linguistic and cultural understanding of the difference between these categories. 
+We suggest combining categories that are similar enough that they could be easily mistaken for each other. This is both to disambiguate the dataset but also because we believe they do not fit the `few-shot counting' description, \eg training on images of geese in silhouette against a blue sky and then evaluating on cranes in silhouette against a blue sky is not a good test of the generalisability of a method.
+
+\subsubsection{Count discrepancy}\label{sec__FSC133__errors__countdiscrepancy}
+As there is no rigorous way to determine the occlusion of objects from scraped images,  there is no rigorous way of deciding if an instance should be included in the count or not.
+When an object is occluded by either another object or the boundary of the image, it is subjective whether that object is `worth counting', which can lead to inconsistent labelling.
+This subjectivity is particularly highlighted when the same image appears more than once with a difference in the associated count value.
+Figure \ref{fig__FSC133__subset_dupes} shows examples of some of the cases where the same image appears with a discrepancy in the count and \Cref{table__FSC133__FSC_COUNT_DIFF} details all of the cases. 
+These cases are clearly errors, and we were able to identify them due to the image repetition. However, there are likely other images with incorrect annotations in the dataset that we were not able to identify.
+
+While \citet{ranjan2021Famnet} note that they remove most images where `severe occlusion prevents humans from accurately counting the objects', it is clear that some of these images remained. We do not suggest removing these images completely because we believe that while it is difficult to get an accurate human count for them, they are of value to the dataset. Instead, we evaluated which count we believed to be most accurate and removed the duplicates.
+
+
+
+\section{Proposed Solution (FSC-133)}\label{sec__fsc133}
+We propose a revised version of this dataset, FSC-133, which corrects the issues outlined above.
+To disambiguate the dataset and help it more reliably measure a method's generalisability, FSC-133 combines categories that are similar enough to be easily confused; see \Cref{table__FSC133__classes_old_table} for the details on which classes were moved or combined.
+
+
+\begin{table}
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \input{../files/appendicies/FSC133/tables/classes_old_table}
+    }
+    \caption{The breakdown of classes in FSC-147. 
+    Note there are identical categories, \eg `red beans' and `kidney beans' are semantically the same as are `baguette rolls', `buns', and `bread rolls'. There are also hierarchical categories, \eg `cranes', `geese', `pigeons', `seagulls', `crows', `swans', and `flamingos' could be classified as also `birds'. 
+    We show the classes that are combined in FSC-133 in \textbf{bold} and show the classes that are moved to the training set in FSC-133 in \textcolor{blue}{blue}.}
+    \label{table__FSC133__classes_old_table}
+\end{table}
+
+
+
+FSC-133 has 5898 images in 133 classes. The training, validation, and testing sets have 3877, 954, and 1067 images from 82, 26, and 25 classes respectively.
+When combining classes that overlapped data splits, we merged them into the training split. This allows methods trained on FSC-147 to still be tested on FCS-133. While these methods would be disadvantaged, the tests still fairly evaluate their ability to count completely unseen classes.
+
+As FSC-133 is a subset of FSC-147, it still has many of the same limitations. The most significant is the lack of thorough instance labels. There is only a small set of bounding boxes per image, there is no information about occlusion, and each image only has one kind of object labelled. 
+All of these limitations restrict methods trained with it from learning a meaningful understanding of counting in complex single-class settings, and there is no reason to believe that methods trained on this dataset will function robustly in multi-class settings.
+These limitations are addressed in MCAC, our dataset, presented in \Cref{sec__MCAC}.
+
+
+\end{document}

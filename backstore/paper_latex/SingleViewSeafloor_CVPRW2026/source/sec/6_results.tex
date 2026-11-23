@@ -1,0 +1,128 @@
+\begin{table}[t]
+  \centering
+  \caption{
+    \centering
+        HoloOcean Results.\\
+      HT = High Tilt, KP = Known Plane, GV = Generic Views.\\
+      MCD, RMSE, \& MAE are in cm, and MSE is cm$^2$.\\
+      CNN results are averaged over five runs.}
+  \label{tab:holoocean}
+  \begin{tabular}{lcccc}
+    \toprule
+    Method & MCD ↓ & RMSE ↓ & MAE ↓ & MSE ↓ \\
+    \midrule
+    CNN & 0.802 & 1.066 & 0.851 & 1.212 \\
+    Ours (HT) & 0.694 & 0.928 & 0.750 & 0.969 \\
+    Ours (KP) & 0.690 & 0.921 & 0.745 & 0.956 \\
+    Ours (GV) & \textbf{0.671} & \textbf{0.830} & \textbf{0.717} & \textbf{0.900} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\begin{table}[t]
+  \centering
+  \caption{HoloOcean Rough Terrain Results.}
+  \label{tab:holoocean_rough}
+  \begin{tabular}{lcccc}
+    \toprule
+    Method & MCD ↓ & RMSE ↓ & MAE ↓ & MSE ↓ \\
+    \midrule
+    CNN & 1.340 & \textbf{1.988} & \textbf{1.606} & \textbf{4.075} \\
+    Ours (HT) & 1.363  & 2.099 & 1.685 & 4.499 \\
+    Ours (KP) & 1.347 & 2.067 & 1.662 & 4.358 \\
+    Ours (GV) & \textbf{1.333} & 2.032 & 1.636 & 4.220 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\begin{table}[t]
+  \centering
+  \caption{
+    \centering
+      In-Distribution Synthetic Results.}
+  \label{tab:in_dist}
+  \begin{tabular}{lcccc}
+    \toprule
+    Method & MCD ↓ & RMSE ↓ & MAE ↓ & MSE ↓ \\
+    \midrule
+    CNN & \textbf{0.330} & \textbf{0.439} & \textbf{0.337} & \textbf{0.229} \\
+    Ours (HT) & 0.504 & 0.677 & 0.528 & 0.586 \\
+    Ours (KP) & 0.517 & 0.692 & 0.541  & 0.598 \\
+    Ours (GV) & 0.504 & 0.674 & 0.527 & 0.577 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{-3mm}
+\end{table}
+
+\section{Results and Discussion}
+\label{sec:results}
+
+Our model achieves {competitive} performance without any training, {particularly under distribution shift}, and can fit sonar images across varying real-world setups. We evaluate our method quantitatively as well as qualitatively by plotting heights across single azimuth beams.
+
+\subsection{Quantitative Results}
+\label{sec:quantitative}
+On the in-distribution synthetic dataset, the CNN achieves lower error than our method (Table~\ref{tab:in_dist}), reflecting the strength of supervised priors when training and test conditions align. In this setting, a network trained on abundant labeled data can leverage domain-specific statistics that our single-view inverse method does not model.
+
+Out of distribution, the CNN’s advantage shrinks considerably. On the standard HoloOcean benchmark, our method outperforms the CNN across all metrics (Table~\ref{tab:holoocean}), with GV best and the others close behind. On rough terrain, the results are essentially tied. We match or beat on MCD, while the CNN is slightly better on RMSE/MAE/MSE, with ours close behind (Table~\ref{tab:holoocean_rough}). Overall, explicitly modeling the sonar forward process improves robustness under changes in setup and seafloor statistics, while learned priors remain strongest in-distribution.
+    
+To examine the tradeoff between supervision and forward modeling, we vary the CNN training set size in \cref{fig:cnn_logplot}. CNN performance generally degrades as labels become scarce, while our method is unchanged. In distribution the CNN approaches our error between \(10^2\) and \(10^3\) samples, and at smaller dataset sizes our method is consistently better. CNN training uses only in-distribution train/val splits with early stopping (no OOD access).
+
+\begin{figure}
+  \centering
+  \resizebox{1.0\columnwidth}{!}{
+    \input{figs/cnn_logplot.tex}
+  }
+  \vspace{-0.2in}
+  \caption{{\bf CNN accuracy on the three test sets vs. training set size.} Solid lines show the mean over 5 independent training runs per sample size, and shaded regions show the 95\% CI. Our training-free method is shown as a constant dashed line.\vspace{-0.15in}}
+  \label{fig:cnn_logplot}
+\end{figure}
+
+\subsection{Qualitative Results}
+\label{sec:qualitative}
+Our model recovers the overall seafloor structure across domains without any training. We visualize predicted heights down a single azimuth beam for several reconstructions across our datasets in Fig.~\ref{fig:azimuth_preds}. {Our method regularly produces heights close to the ground truth, and generally demonstrates greater adaptability than the CNN when we stack frequencies to generate more complex geometry.}
+
+To highlight the applicability of our approach, we demonstrate image reconstructions for sensor targets taken from real riverbeds across the U.S. West Coast in Fig.~\ref{fig:river_fits}. The model recovers detailed image structure along with low-frequency texture and occlusions, suggesting that the inferred height fields capture plausible 3D geometry.
+\begin{figure}
+  \centering
+  \includegraphics[width=1.0\columnwidth]{figs/river_fits.pdf}
+  \caption{{\bf Sensor readings and reconstructed images using sonar images from real rivers} (\textit{cf.} Sec.~\ref{sec:qualitative}). From top-left to bottom are the Nushagak, Eel, and Kenai rivers. Additional 3D reconstructions are displayed in the supp. materials.}
+  \label{fig:river_fits}
+\end{figure}
+\subsection{Failure Cases and Limitations}
+\label{sec:limitations}
+
+The primary limitation of our model lies in the inherent ambiguity present in single-view sonar imagery: many different geometries can explain the same observed sensor reading. In particular, our inverse renderer can achieve accurate recovery of geometric patterns, but tends to predict the minimum heights necessary to explain the observed data. Compared to a CNN, which can learn that occluded regions tend to have a certain depth, the height field gradients in our approach go to zero as the 2D image reconstruction approaches the target. This is both a strength and a limitation in our approach, since the differentiable renderer makes only the necessary geometric changes to explain observed data rather than relying on learned assumptions. We show this limitation explicitly in Fig.~\ref{fig:fail_case}, where we demonstrate a failure to recover the underlying heights even though the sensor reading is recovered accurately.
+
+An additional limitation present in our differentiable renderer is that noise and artifacts in a target are explained by changes to the predicted geometry since we are optimizing for minimal reconstruction loss. This appears as high-frequency jumps in our predicted heights, which our TV regularization helps to reduce but doesn't fully eliminate.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.85\columnwidth]{figs/fail_case.pdf}
+  \vspace{-0.05in}
+  \caption{{\bf Severe single-view ambiguities in imaging sonar}. Despite accurately reconstructing the sensor readings, this in-dist. sample's recovered heights are substantially shorter than the ground truth, as discussed in \cref{sec:limitations}. The CNN resolves this by learning the statistics of seafloor depth, and performs well.}
+  \label{fig:fail_case}
+  \vspace{-2mm}
+\end{figure}
+
+\subsection{TV Ablation}
+
+We perform an ablation over \(\lambda_\text{TV}\) under the generic-view (GV) setting (Table~\ref{tab:tv_ablation}). Our method remains competitive across small values, but the results clearly benefit from a moderate smoothness prior that suppresses high-frequency artifacts. For our tasks, the best performance occurs with \(\lambda_\text{TV}\!=\!0.01\) on the in-distribution dataset, and around \(1.0\) on the standard HoloOcean and rough-terrain benchmarks.
+
+\begin{table}[t]
+  \centering
+  \caption{
+    \centering
+    Increasing the TV regularization increases the accuracy of our method on HoloOcean. Evaluated using the generic viewpoint method and 3D MSE (cm, ↓).}
+  \label{tab:tv_ablation}
+  \begin{tabular}{lcccc}
+    \toprule
+    \(\lambda_\text{TV}\) & In Dist. & HoloOcean & HO Rough \\
+    \midrule
+    0 & {0.577} & 0.930 & 4.246 \\
+    1e-2 & \textbf{0.575} & 0.923 & 4.244 \\
+    1e-1 & {0.578} & {0.902} & {4.200} \\
+    1.0 & 0.633 & \textbf{0.880} & \textbf{4.170} \\
+    1e1 & 0.913 & 1.172 & 5.175 \\
+    1e2 & 1.280 & 1.657 & 7.245 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{-3mm}
+\end{table}

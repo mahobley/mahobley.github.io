@@ -1,0 +1,17 @@
+    \begin{tikzpicture}
+        \begin{axis}[
+            symbolic x coords={1,2,3,4},
+            xtick=data,
+            ymin=0,
+        bar width=1cm,
+          ]
+            \addplot[ybar,fill=cyan, color=cyan] coordinates {
+                (1, 4230)
+                (2, 3521)
+                (3, 1172)
+                (4, 359)
+            };
+        \end{axis}
+    \end{tikzpicture}
+
+

@@ -1,0 +1,51 @@
+\documentclass[../confirmation.tex]{subfiles}
+\begin{document}
+
+\begin{table}
+	\centering
+ \begin{tabular}{lccccccc}
+ \toprule
+
+ 
+ & & \multicolumn{2}{c}{No Norm} & \multicolumn{2}{c}{2-Norm} & \multicolumn{2}{c}{0-1 Norm} \\ 
+ Label Used & Num BBoxes & MAE & RMSE & MAE & RMSE & MAE & RMSE \\ 
+ \midrule
+ Bounding Boxes & 1 & \textbf{6.85} & \textbf{9.20} & 7.19 & 9.68 & 7.06 & 9.41\\
+ Bounding Boxes & 3 & \textbf{6.17} & \textbf{8.40} & 6.96 & 9.59 & 6.30 & 8.48\\
+ Bounding Boxes & 6 & \textbf{6.34} & \textbf{8.56} & 6.43 & 8.96 & 6.44 & 8.68 \\
+ Bounding Boxes & 12 & 6.19 & 8.34 & \textbf{6.14} & \textbf{8.28} & 6.28 & 8.50\\
+ Bounding Boxes & All & 6.22 & 8.36 & \textbf{6.00} & \textbf{8.04} & 6.27 & 8.48\\
+ \midrule
+ Density Map & N/A & 9.18 & 12.38 
+ & 5.45 & 7.28 & \textbf{5.39} & \textbf{7.27}\\
+ \bottomrule
+ \end{tabular}
+	\caption{Comparison of using a bounding box matching to density map matching. In the \textbf{Bounding Box matching} a set of ground truth bounding boxes for each type of object are selected, the average value of these bounding boxes for each predicted density map is taken, 1-average value is the cost. 
+ \textbf{Density matching} compares the generated density map to the ground truth density map, the cost is the pixel-wise difference, this acts as a theoretical limit as it requires knowledge of the locations of all the objects in the scene to be known}
+	\label{tab:bbox_matching}
+\end{table}
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+\end{document}
